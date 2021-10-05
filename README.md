@@ -1,2 +1,2 @@
-# POS
+# POS Flutter
 Point of Sale
