@@ -1,0 +1,10 @@
+{
+    "debug.console.fontSize": 10,
+    // "dart.flutterSdkPath": "C:\\Users\\bnmk\\Documents\\git\\famcare_mobile\\.fvm\\flutter_sdk"
+    "dart.flutterSdkPath": ".fvm/flutter_sdk",
+    "search.exclude": {
+        "**/.fvm": true
+      }
+
+
+}

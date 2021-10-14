@@ -1,0 +1,126 @@
+{
+    // Use IntelliSense to learn about possible attributes.
+    // Hover to view descriptions of existing attributes.
+    // For more information, visit: https://go.microsoft.com/fwlink/?linkid=830387
+    "version": "0.2.0",
+    "configurations": [
+
+        {
+            "name": "StagingWP",
+            "program": "${workspaceFolder}/lib/mainwp.dart",
+            "request": "launch",
+            "type": "dart",
+            "args": [
+                "--flavor",
+                "staging"
+            ]
+        },
+
+        {
+            "name": "Staging",
+            "program": "${workspaceFolder}/lib/main.dart",
+            "request": "launch",
+            "type": "dart",
+            "args": [
+                "--flavor",
+                "staging"
+            ]
+        },
+        {
+            "name": "Production",
+            "program": "${workspaceFolder}/lib/main.dart",
+            "request": "launch",
+            "type": "dart",
+            "args": [
+                "--flavor",
+                "production"
+            ]
+        },
+        {
+            "name": "Production Release",
+            "program": "${workspaceFolder}/lib/main.dart",
+            "request": "launch",
+            "type": "dart",
+            "args": [
+                "--release",
+                "--flavor",
+                "production"
+            ]
+        },
+        {
+            "name": "specialist Staging",
+            "program": "${workspaceFolder}/lib/main.dart",
+            "request": "launch",
+            "type": "dart",
+            "args": [
+                "--flavor",
+                "specialist_staging"
+            ]
+        },
+       
+        {
+            "name": "specialist production",
+            "program": "${workspaceFolder}/lib/main.dart",
+            "request": "launch",
+            "type": "dart",
+            "args": [
+                "--flavor",
+                "specialist_production"
+            ]
+        },
+        
+        {
+            "name": "Staging Release",
+            "program": "${workspaceFolder}/lib/main.dart",
+            "request": "launch",
+            "type": "dart",
+            "args": [
+                "--release",
+                "--flavor",
+                "staging"
+            ]
+        },
+    
+        {
+            "name": "Run Ios",
+            "program": "${workspaceFolder}/lib/main.dart",
+            "request": "launch",
+            "type": "dart",
+            "args": [
+                "--flavor",
+                "staging"
+            ]
+        },
+
+        {
+            "name": "Run Ios specialist_staging",
+            "program": "${workspaceFolder}/lib/main.dart",
+            "request": "launch",
+            "type": "dart",
+            "args": [
+                "--release",
+                "--flavor",
+                "specialist_staging"
+            ]
+        },
+
+        // {
+        //     "name": "Run Ios specialist_staging",
+        //     "program": "${workspaceFolder}/lib/specialist_staging.dart",
+        //     "request": "launch",
+        //     "type": "dart",
+        //     "args": [
+        //         "--flavor",
+        //         "specialist_staging"
+        //     ]
+        // },
+        
+        // {
+        //     "name": "Flutter: Attach to Device",
+        //     "type": "dart",
+        //     "request": "attach"
+        // },
+
+      
+    ]
+}
