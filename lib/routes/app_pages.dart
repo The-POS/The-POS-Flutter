@@ -8,12 +8,12 @@ class AppPages {
   static const INITIAL = Routes.SPLASH;
 
   static final routes = [
-    GetPage(
+    GetPage<void>(
         name: Routes.SPLASH,
         page: () => SplashView(),
 
           ),
-    GetPage(
+    GetPage<void>(
         name: Routes.HOME,
         page: () => HomeView(),
           ),
