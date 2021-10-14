@@ -1,3 +1,15 @@
+
+[![GitHub issues](https://img.shields.io/github/issues-closed/The-POS/The-POS-flutter)](https://github.com/The-POS/The-POS-flutter)
+[![GitHub PR](https://img.shields.io/github/issues-pr/The-POS/The-POS-flutter)](https://github.com/The-POS/The-POS-flutter)
+[![GitHub Forks](https://img.shields.io/github/forks/The-POS/The-POS-flutter?style=social)](https://github.com/The-POS/The-POS-flutter)
+
+
+
+## Contributors
+[![GitHub Contributors](https://img.shields.io/github/contributors/The-POS/The-POS-flutter)](https://github.com/The-POS/The-POS-flutter)
+
+![Your Repository's Stats](https://contrib.rocks/image?repo=The-POS/The-POS-flutter)
+
 ## About ThePOS
 
 An open-source initiative that belongs to [Gaza Tech Community](https://www.facebook.com/groups/142204986283498) to encourage the Gazans developer to share their knowledge with each other and contribute to the open-source world.
