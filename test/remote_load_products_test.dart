@@ -4,7 +4,7 @@ import 'package:http/http.dart';
 import 'package:http/testing.dart';
 
 void main() {
-  Response _anyResponse() => Response('', 0);
+  Response _anyResponse() => Response('', 200);
   var urls = [];
 
   Future<Response> _mockClientHandler(http.Request request) {
