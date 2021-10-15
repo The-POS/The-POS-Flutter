@@ -55,16 +55,17 @@ void main() {
     final loader = RemoteProductsLoader(client);
     final anyException = Exception();
     client.completeWith(anyException);
-    Exception? expectedException;
+    var expectedError;
     try {
       await loader.loadProducts();
     } catch (error) {
-      expectedException = error as Exception?;
-    } finally {
-      expect(anyException, expectedException);
+      expectedError = error;
     }
+    expect(expectedError, RemoteProductsLoaderErrors.connectivity);
   });
 }
+
+enum RemoteProductsLoaderErrors { connectivity }
 
 class RemoteProductsLoader {
   final http.Client _client;
@@ -75,7 +76,7 @@ class RemoteProductsLoader {
     try {
       await _client.get(Uri.http('domain', 'path'));
     } catch (error) {
-      throw error;
+      return Future.error(RemoteProductsLoaderErrors.connectivity);
     }
   }
 }
