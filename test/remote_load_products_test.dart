@@ -2,8 +2,8 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:http/http.dart' as http;
 import 'package:http/http.dart';
 import 'package:http/testing.dart';
-import 'package:thepos/products_feature/remote_products_loader.dart';
-import 'package:thepos/products_feature/remote_products_loader_errors.dart';
+import 'package:thepos/products_feature/products_api/remote_products_loader.dart';
+import 'package:thepos/products_feature/products_api/remote_products_loader_errors.dart';
 
 class MockClientStub extends MockClient {
   MockClientStub() : super(_mockClientHandler);
@@ -121,7 +121,7 @@ void main() {
     final emptyResponse = MockClientStub.validResponse("{\"data\": []}");
     sut.client.completeWithResponse(emptyResponse);
     var expectedResult = await sut.loader.loadProducts();
-    expect(expectedResult.data.isEmpty, true);
+    expect(expectedResult.isEmpty, true);
   });
 
   test('load delivers products on 200 HTTP Response json items', () async {
@@ -130,11 +130,11 @@ void main() {
         "{\"data\": [{\"sku\": \"978020137962\",\"name\": \"ean13 product\",\"price\": 10,\"tax_rate\": 15,\"taxed_price\": 11.5}]}");
     sut.client.completeWithResponse(response);
     var expectedResult = await sut.loader.loadProducts();
-    expect(expectedResult.data.length, 1);
-    expect(expectedResult.data.first.sku, '978020137962');
-    expect(expectedResult.data.first.name, 'ean13 product');
-    expect(expectedResult.data.first.price, 10);
-    expect(expectedResult.data.first.taxRate, 15);
-    expect(expectedResult.data.first.taxedPrice, 11.5);
+    expect(expectedResult.length, 1);
+    expect(expectedResult.first.sku, '978020137962');
+    expect(expectedResult.first.name, 'ean13 product');
+    expect(expectedResult.first.price, 10);
+    expect(expectedResult.first.taxRate, 15);
+    expect(expectedResult.first.taxedPrice, 11.5);
   });
 }

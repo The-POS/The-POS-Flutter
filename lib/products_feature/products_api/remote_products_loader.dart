@@ -1,15 +1,19 @@
 import 'dart:convert';
 
 import 'package:http/http.dart' as http;
-import 'package:thepos/products_feature/products_model.dart';
-import 'package:thepos/products_feature/remote_products_loader_errors.dart';
+import 'package:thepos/products_feature/products_api/remote_products_loader_errors.dart';
 
-class RemoteProductsLoader {
+import '../product.dart';
+import '../products_loader.dart';
+import 'api_products_model.dart';
+
+class RemoteProductsLoader extends ProductsLoader {
   final http.Client _client;
 
   RemoteProductsLoader(this._client);
 
-  Future<Products> loadProducts() async {
+  @override
+  Future<List<Product>> loadProducts() async {
     try {
       final response = await _client.get(Uri.http('domain', 'path'));
       if (response.statusCode == 200) {
@@ -22,9 +26,9 @@ class RemoteProductsLoader {
     }
   }
 
-  Future<Products> _tryParse(String body) {
+  Future<List<Product>> _tryParse(String body) {
     try {
-      return Future.value(Products.fromJson(jsonDecode(body)));
+      return Future.value(Products.fromJson(jsonDecode(body)).data);
     } catch (error) {
       return Future.error(RemoteProductsLoaderErrors.invalidData);
     }
