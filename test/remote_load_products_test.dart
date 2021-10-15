@@ -24,7 +24,7 @@ class RemoteProductsLoader {
 
   RemoteProductsLoader(this._client);
 
-  loadProducts() async {
-    final response = await _client.get(Uri.http('domain', 'path'));
+  Future loadProducts() {
+    return _client.get(Uri.http('domain', 'path'));
   }
 }
