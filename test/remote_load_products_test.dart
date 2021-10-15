@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:flutter_test/flutter_test.dart';
 import 'package:http/http.dart' as http;
 import 'package:http/http.dart';
@@ -54,15 +56,21 @@ void main() {
   test('load requests data from end point', () async {
     final client = MockClientStub();
     final loader = RemoteProductsLoader(client);
-    await loader.loadProducts();
+    try {
+      await loader.loadProducts();
+    } catch (error) {}
     expect(MockClientStub.urls.length, 1);
   });
 
   test('load twice requests data from end point', () async {
     final client = MockClientStub();
     final loader = RemoteProductsLoader(client);
-    await loader.loadProducts();
-    await loader.loadProducts();
+    try {
+      await loader.loadProducts();
+    } catch (error) {}
+    try {
+      await loader.loadProducts();
+    } catch (error) {}
     expect(MockClientStub.urls.length, 2);
   });
 
@@ -95,6 +103,19 @@ void main() {
       expect(expectedError, RemoteProductsLoaderErrors.invalidData);
     }
   });
+
+  test('load delivers error on 200 HTTP Response with invalid json', () async {
+    final client = MockClientStub();
+    final loader = RemoteProductsLoader(client);
+    client.completeWithResponse(MockClientStub.invalidResponse(200));
+    var expectedError;
+    try {
+      await loader.loadProducts();
+    } catch (error) {
+      expectedError = error;
+    }
+    expect(expectedError, RemoteProductsLoaderErrors.invalidData);
+  });
 }
 
 enum RemoteProductsLoaderErrors { connectivity, invalidData }
@@ -107,11 +128,21 @@ class RemoteProductsLoader {
   Future loadProducts() async {
     try {
       final response = await _client.get(Uri.http('domain', 'path'));
-      if (response.statusCode != 200) {
+      if (response.statusCode == 200) {
+        return _tryParse(response.body);
+      } else {
         return Future.error(RemoteProductsLoaderErrors.invalidData);
       }
     } catch (error) {
       return Future.error(RemoteProductsLoaderErrors.connectivity);
+    }
+  }
+
+  _tryParse(String body) {
+    try {
+      return jsonDecode(body);
+    } catch (error) {
+      return Future.error(RemoteProductsLoaderErrors.invalidData);
     }
   }
 }
