@@ -8,12 +8,6 @@ import 'package:thepos/products_feature/products_api/remote_products_loader_erro
 class MockClientStub extends MockClient {
   MockClientStub() : super(_mockClientHandler);
 
-  static Response _anyResponse({int statusCode = 200}) =>
-      Response('', statusCode);
-  static Response invalidResponse(int statusCode) =>
-      _anyResponse(statusCode: statusCode);
-  static Response validResponse(String body) => Response(body, 200);
-
   static var urls = [];
   static Exception? clientException;
   static Response? clientResponse;
@@ -25,7 +19,7 @@ class MockClientStub extends MockClient {
     } else if (clientResponse != null) {
       return Future.value(clientResponse);
     }
-    return Future.value(_anyResponse());
+    return Future.value(createResponse(200, ''));
   }
 
   completeWith(Exception exception) {
@@ -35,6 +29,9 @@ class MockClientStub extends MockClient {
   completeWithResponse(Response response) {
     clientResponse = response;
   }
+
+  static Response createResponse(int statusCode, String body) =>
+      Response(body, statusCode);
 
   static void clear() {
     urls.clear();
@@ -101,8 +98,8 @@ void main() {
     final sut = _makeSUT();
     final samples = [199, 201, 300, 400, 500];
     for (int statusCode in samples) {
-      sut.client
-          .completeWithResponse(MockClientStub.invalidResponse(statusCode));
+      sut.client.completeWithResponse(
+          MockClientStub.createResponse(statusCode, 'response'));
       var expectedError = await tryLoadProducts(sut.loader);
       expect(expectedError, RemoteProductsLoaderErrors.invalidData);
     }
@@ -110,7 +107,8 @@ void main() {
 
   test('load delivers error on 200 HTTP Response with invalid json', () async {
     final sut = _makeSUT();
-    sut.client.completeWithResponse(MockClientStub.invalidResponse(200));
+    sut.client.completeWithResponse(
+        MockClientStub.createResponse(200, 'invalid json'));
     var expectedError = await tryLoadProducts(sut.loader);
     expect(expectedError, RemoteProductsLoaderErrors.invalidData);
   });
@@ -118,7 +116,7 @@ void main() {
   test('load delivers no products on 200 HTTP Response with empty json',
       () async {
     final sut = _makeSUT();
-    final emptyResponse = MockClientStub.validResponse("{\"data\": []}");
+    final emptyResponse = MockClientStub.createResponse(200, '{\"data\": []}');
     sut.client.completeWithResponse(emptyResponse);
     var expectedResult = await sut.loader.loadProducts();
     expect(expectedResult.isEmpty, true);
@@ -126,7 +124,7 @@ void main() {
 
   test('load delivers products on 200 HTTP Response json items', () async {
     final sut = _makeSUT();
-    final response = MockClientStub.validResponse(
+    final response = MockClientStub.createResponse(200,
         "{\"data\": [{\"sku\": \"978020137962\",\"name\": \"ean13 product\",\"price\": 10,\"tax_rate\": 15,\"taxed_price\": 11.5}]}");
     sut.client.completeWithResponse(response);
     var expectedResult = await sut.loader.loadProducts();
