@@ -1,9 +1,9 @@
-import 'dart:convert';
-
 import 'package:flutter_test/flutter_test.dart';
 import 'package:http/http.dart' as http;
 import 'package:http/http.dart';
 import 'package:http/testing.dart';
+import 'package:thepos/products_feature/remote_products_loader.dart';
+import 'package:thepos/products_feature/remote_products_loader_errors.dart';
 
 class MockClientStub extends MockClient {
   MockClientStub() : super(_mockClientHandler);
@@ -137,70 +137,4 @@ void main() {
     expect(expectedResult.data.first.taxRate, 15);
     expect(expectedResult.data.first.taxedPrice, 11.5);
   });
-}
-
-enum RemoteProductsLoaderErrors { connectivity, invalidData }
-
-class RemoteProductsLoader {
-  final http.Client _client;
-
-  RemoteProductsLoader(this._client);
-
-  Future<Products> loadProducts() async {
-    try {
-      final response = await _client.get(Uri.http('domain', 'path'));
-      if (response.statusCode == 200) {
-        return _tryParse(response.body);
-      } else {
-        return Future.error(RemoteProductsLoaderErrors.invalidData);
-      }
-    } catch (error) {
-      return Future.error(RemoteProductsLoaderErrors.connectivity);
-    }
-  }
-
-  Future<Products> _tryParse(String body) {
-    try {
-      return Future.value(Products.fromJson(jsonDecode(body)));
-    } catch (error) {
-      return Future.error(RemoteProductsLoaderErrors.invalidData);
-    }
-  }
-}
-
-class Products {
-  List<Product> data;
-
-  Products({required this.data});
-
-  factory Products.fromJson(Map<String, dynamic> json) {
-    List<Product> products = [];
-    final data = json['data'];
-    data.forEach((value) {
-      products.add(Product.fromJson(value));
-    });
-    return Products(data: products);
-  }
-}
-
-class Product {
-  String sku;
-  String name;
-  int price;
-  int taxRate;
-  double taxedPrice;
-
-  Product(
-      {required this.sku,
-      required this.name,
-      required this.price,
-      required this.taxRate,
-      required this.taxedPrice});
-
-  factory Product.fromJson(Map<String, dynamic> json) => Product(
-      sku: json['sku'],
-      name: json['name'],
-      price: json['price'],
-      taxRate: json['tax_rate'],
-      taxedPrice: json['taxed_price']);
 }
