@@ -123,6 +123,20 @@ void main() {
     var expectedResult = await sut.loader.loadProducts();
     expect(expectedResult.data.isEmpty, true);
   });
+
+  test('load delivers products on 200 HTTP Response json items', () async {
+    final sut = _makeSUT();
+    final response = MockClientStub.validResponse(
+        "{\"data\": [{\"sku\": \"978020137962\",\"name\": \"ean13 product\",\"price\": 10,\"tax_rate\": 15,\"taxed_price\": 11.5}]}");
+    sut.client.completeWithResponse(response);
+    var expectedResult = await sut.loader.loadProducts();
+    expect(expectedResult.data.length, 1);
+    expect(expectedResult.data.first.sku, '978020137962');
+    expect(expectedResult.data.first.name, 'ean13 product');
+    expect(expectedResult.data.first.price, 10);
+    expect(expectedResult.data.first.taxRate, 15);
+    expect(expectedResult.data.first.taxedPrice, 11.5);
+  });
 }
 
 enum RemoteProductsLoaderErrors { connectivity, invalidData }
@@ -187,6 +201,6 @@ class Product {
       sku: json['sku'],
       name: json['name'],
       price: json['price'],
-      taxRate: json['taxRate'],
-      taxedPrice: json['taxedPrice']);
+      taxRate: json['tax_rate'],
+      taxedPrice: json['taxed_price']);
 }
