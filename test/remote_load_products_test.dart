@@ -6,15 +6,21 @@ import 'package:http/testing.dart';
 class MockClientStub extends MockClient {
   MockClientStub() : super(_mockClientHandler);
 
-  static Response _anyResponse() => Response('', 200);
+  static Response _anyResponse({int statusCode = 200}) =>
+      Response('', statusCode);
+  static Response invalidResponse(int statusCode) =>
+      _anyResponse(statusCode: statusCode);
 
   static var urls = [];
   static Exception? clientException;
+  static Response? clientResponse;
 
   static Future<Response> _mockClientHandler(http.Request request) {
     urls.add(request.url);
     if (clientException != null) {
       throw clientException!;
+    } else if (clientResponse != null) {
+      return Future.value(clientResponse);
     }
     return Future.value(_anyResponse());
   }
@@ -22,11 +28,21 @@ class MockClientStub extends MockClient {
   completeWith(Exception exception) {
     clientException = exception;
   }
+
+  completeWithResponse(Response response) {
+    clientResponse = response;
+  }
+
+  static void clear() {
+    urls.clear();
+    clientException = null;
+    clientResponse = null;
+  }
 }
 
 void main() {
   tearDown(() {
-    MockClientStub.urls.clear();
+    MockClientStub.clear();
   });
 
   test('init does not request data from end point', () async {
@@ -63,9 +79,25 @@ void main() {
     }
     expect(expectedError, RemoteProductsLoaderErrors.connectivity);
   });
+
+  test('load delivers error on non 200 HTTP Response', () async {
+    final client = MockClientStub();
+    final loader = RemoteProductsLoader(client);
+    final samples = [199, 201, 300, 400, 500];
+    for (int statusCode in samples) {
+      client.completeWithResponse(MockClientStub.invalidResponse(statusCode));
+      var expectedError;
+      try {
+        await loader.loadProducts();
+      } catch (error) {
+        expectedError = error;
+      }
+      expect(expectedError, RemoteProductsLoaderErrors.invalidData);
+    }
+  });
 }
 
-enum RemoteProductsLoaderErrors { connectivity }
+enum RemoteProductsLoaderErrors { connectivity, invalidData }
 
 class RemoteProductsLoader {
   final http.Client _client;
@@ -74,7 +106,10 @@ class RemoteProductsLoader {
 
   Future loadProducts() async {
     try {
-      await _client.get(Uri.http('domain', 'path'));
+      final response = await _client.get(Uri.http('domain', 'path'));
+      if (response.statusCode != 200) {
+        return Future.error(RemoteProductsLoaderErrors.invalidData);
+      }
     } catch (error) {
       return Future.error(RemoteProductsLoaderErrors.connectivity);
     }
