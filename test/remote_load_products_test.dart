@@ -3,47 +3,43 @@ import 'package:http/http.dart' as http;
 import 'package:http/http.dart';
 import 'package:http/testing.dart';
 
-class MockClientHelper {
-  Response _anyResponse() => Response('', 200);
+class MockClientStub extends MockClient {
+  MockClientStub() : super(_mockClientHandler);
 
-  var urls = [];
+  static Response _anyResponse() => Response('', 200);
 
-  Future<Response> _mockClientHandler(http.Request request) {
+  static var urls = [];
+
+  static Future<Response> _mockClientHandler(http.Request request) {
     urls.add(request.url);
     return Future.value(_anyResponse());
   }
 }
 
 void main() {
-  MockClientHelper? mockClientHelper;
-
-  setUp(() {
-    mockClientHelper = MockClientHelper();
-  });
-
   tearDown(() {
-    mockClientHelper = null;
+    MockClientStub.urls.clear();
   });
 
   test('init does not request data from end point', () async {
-    final client = MockClient(mockClientHelper!._mockClientHandler);
+    final client = MockClientStub();
     RemoteProductsLoader(client);
-    expect(mockClientHelper?.urls.isEmpty, true);
+    expect(MockClientStub.urls.isEmpty, true);
   });
 
   test('load requests data from end point', () async {
-    final client = MockClient(mockClientHelper!._mockClientHandler);
+    final client = MockClientStub();
     final loader = RemoteProductsLoader(client);
     await loader.loadProducts();
-    expect(mockClientHelper?.urls.length, 1);
+    expect(MockClientStub.urls.length, 1);
   });
 
   test('load twice requests data from end point', () async {
-    final client = MockClient(mockClientHelper!._mockClientHandler);
+    final client = MockClientStub();
     final loader = RemoteProductsLoader(client);
     await loader.loadProducts();
     await loader.loadProducts();
-    expect(mockClientHelper?.urls.length, 2);
+    expect(MockClientStub.urls.length, 2);
   });
 }
 
