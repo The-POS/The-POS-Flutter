@@ -28,6 +28,14 @@ void main() {
     await loader.loadProducts();
     expect(urls.length, 1);
   });
+
+  test('load twice requests data from end point', () async {
+    final client = MockClient(_mockClientHandler);
+    final loader = RemoteProductsLoader(client);
+    await loader.loadProducts();
+    await loader.loadProducts();
+    expect(urls.length, 2);
+  });
 }
 
 class RemoteProductsLoader {
