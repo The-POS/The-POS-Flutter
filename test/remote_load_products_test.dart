@@ -42,46 +42,55 @@ class MockClientStub extends MockClient {
   }
 }
 
+class RemoteLoaderSUT {
+  final MockClientStub client;
+  final RemoteProductsLoader loader;
+
+  RemoteLoaderSUT(this.client, this.loader);
+}
+
 void main() {
+  RemoteLoaderSUT _makeSUT() {
+    final client = MockClientStub();
+    final loader = RemoteProductsLoader(client);
+    return RemoteLoaderSUT(client, loader);
+  }
+
   tearDown(() {
     MockClientStub.clear();
   });
 
   test('init does not request data from end point', () async {
-    final client = MockClientStub();
-    RemoteProductsLoader(client);
+    _makeSUT();
     expect(MockClientStub.urls.isEmpty, true);
   });
 
   test('load requests data from end point', () async {
-    final client = MockClientStub();
-    final loader = RemoteProductsLoader(client);
+    final sut = _makeSUT();
     try {
-      await loader.loadProducts();
+      await sut.loader.loadProducts();
     } catch (error) {}
     expect(MockClientStub.urls.length, 1);
   });
 
   test('load twice requests data from end point', () async {
-    final client = MockClientStub();
-    final loader = RemoteProductsLoader(client);
+    final sut = _makeSUT();
     try {
-      await loader.loadProducts();
+      await sut.loader.loadProducts();
     } catch (error) {}
     try {
-      await loader.loadProducts();
+      await sut.loader.loadProducts();
     } catch (error) {}
     expect(MockClientStub.urls.length, 2);
   });
 
   test('load delivers error on client error', () async {
-    final client = MockClientStub();
-    final loader = RemoteProductsLoader(client);
+    final sut = _makeSUT();
     final anyException = Exception();
-    client.completeWith(anyException);
+    sut.client.completeWith(anyException);
     var expectedError;
     try {
-      await loader.loadProducts();
+      await sut.loader.loadProducts();
     } catch (error) {
       expectedError = error;
     }
@@ -89,14 +98,14 @@ void main() {
   });
 
   test('load delivers error on non 200 HTTP Response', () async {
-    final client = MockClientStub();
-    final loader = RemoteProductsLoader(client);
+    final sut = _makeSUT();
     final samples = [199, 201, 300, 400, 500];
     for (int statusCode in samples) {
-      client.completeWithResponse(MockClientStub.invalidResponse(statusCode));
+      sut.client
+          .completeWithResponse(MockClientStub.invalidResponse(statusCode));
       var expectedError;
       try {
-        await loader.loadProducts();
+        await sut.loader.loadProducts();
       } catch (error) {
         expectedError = error;
       }
@@ -105,12 +114,11 @@ void main() {
   });
 
   test('load delivers error on 200 HTTP Response with invalid json', () async {
-    final client = MockClientStub();
-    final loader = RemoteProductsLoader(client);
-    client.completeWithResponse(MockClientStub.invalidResponse(200));
+    final sut = _makeSUT();
+    sut.client.completeWithResponse(MockClientStub.invalidResponse(200));
     var expectedError;
     try {
-      await loader.loadProducts();
+      await sut.loader.loadProducts();
     } catch (error) {
       expectedError = error;
     }
