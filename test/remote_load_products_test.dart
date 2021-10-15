@@ -56,6 +56,16 @@ void main() {
     return RemoteLoaderSUT(client, loader);
   }
 
+  dynamic tryLoadProducts(RemoteProductsLoader loader) async {
+    var expectedError;
+    try {
+      await loader.loadProducts();
+    } catch (error) {
+      expectedError = error;
+    }
+    return expectedError;
+  }
+
   tearDown(() {
     MockClientStub.clear();
   });
@@ -67,20 +77,14 @@ void main() {
 
   test('load requests data from end point', () async {
     final sut = _makeSUT();
-    try {
-      await sut.loader.loadProducts();
-    } catch (error) {}
+    await tryLoadProducts(sut.loader);
     expect(MockClientStub.urls.length, 1);
   });
 
   test('load twice requests data from end point', () async {
     final sut = _makeSUT();
-    try {
-      await sut.loader.loadProducts();
-    } catch (error) {}
-    try {
-      await sut.loader.loadProducts();
-    } catch (error) {}
+    await tryLoadProducts(sut.loader);
+    await tryLoadProducts(sut.loader);
     expect(MockClientStub.urls.length, 2);
   });
 
@@ -88,12 +92,7 @@ void main() {
     final sut = _makeSUT();
     final anyException = Exception();
     sut.client.completeWith(anyException);
-    var expectedError;
-    try {
-      await sut.loader.loadProducts();
-    } catch (error) {
-      expectedError = error;
-    }
+    var expectedError = await tryLoadProducts(sut.loader);
     expect(expectedError, RemoteProductsLoaderErrors.connectivity);
   });
 
@@ -103,12 +102,7 @@ void main() {
     for (int statusCode in samples) {
       sut.client
           .completeWithResponse(MockClientStub.invalidResponse(statusCode));
-      var expectedError;
-      try {
-        await sut.loader.loadProducts();
-      } catch (error) {
-        expectedError = error;
-      }
+      var expectedError = await tryLoadProducts(sut.loader);
       expect(expectedError, RemoteProductsLoaderErrors.invalidData);
     }
   });
@@ -116,12 +110,7 @@ void main() {
   test('load delivers error on 200 HTTP Response with invalid json', () async {
     final sut = _makeSUT();
     sut.client.completeWithResponse(MockClientStub.invalidResponse(200));
-    var expectedError;
-    try {
-      await sut.loader.loadProducts();
-    } catch (error) {
-      expectedError = error;
-    }
+    var expectedError = await tryLoadProducts(sut.loader);
     expect(expectedError, RemoteProductsLoaderErrors.invalidData);
   });
 }
