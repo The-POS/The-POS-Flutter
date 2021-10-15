@@ -12,6 +12,10 @@ void main() {
     return Future.value(_anyResponse());
   }
 
+  tearDown(() {
+    urls.clear();
+  });
+
   test('init does not request data from end point', () async {
     final client = MockClient(_mockClientHandler);
     RemoteProductsLoader(client);
