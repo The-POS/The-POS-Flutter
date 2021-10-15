@@ -12,6 +12,7 @@ class MockClientStub extends MockClient {
       Response('', statusCode);
   static Response invalidResponse(int statusCode) =>
       _anyResponse(statusCode: statusCode);
+  static Response validResponse(String body) => Response(body, 200);
 
   static var urls = [];
   static Exception? clientException;
@@ -113,6 +114,15 @@ void main() {
     var expectedError = await tryLoadProducts(sut.loader);
     expect(expectedError, RemoteProductsLoaderErrors.invalidData);
   });
+
+  test('load delivers no products on 200 HTTP Response with empty json',
+      () async {
+    final sut = _makeSUT();
+    final emptyResponse = MockClientStub.validResponse("{\"data\": []}");
+    sut.client.completeWithResponse(emptyResponse);
+    var expectedResult = await sut.loader.loadProducts();
+    expect(expectedResult.data.isEmpty, true);
+  });
 }
 
 enum RemoteProductsLoaderErrors { connectivity, invalidData }
@@ -122,7 +132,7 @@ class RemoteProductsLoader {
 
   RemoteProductsLoader(this._client);
 
-  Future loadProducts() async {
+  Future<Products> loadProducts() async {
     try {
       final response = await _client.get(Uri.http('domain', 'path'));
       if (response.statusCode == 200) {
@@ -135,11 +145,48 @@ class RemoteProductsLoader {
     }
   }
 
-  _tryParse(String body) {
+  Future<Products> _tryParse(String body) {
     try {
-      return jsonDecode(body);
+      return Future.value(Products.fromJson(jsonDecode(body)));
     } catch (error) {
       return Future.error(RemoteProductsLoaderErrors.invalidData);
     }
   }
+}
+
+class Products {
+  List<Product> data;
+
+  Products({required this.data});
+
+  factory Products.fromJson(Map<String, dynamic> json) {
+    List<Product> products = [];
+    final data = json['data'];
+    data.forEach((value) {
+      products.add(Product.fromJson(value));
+    });
+    return Products(data: products);
+  }
+}
+
+class Product {
+  String sku;
+  String name;
+  int price;
+  int taxRate;
+  double taxedPrice;
+
+  Product(
+      {required this.sku,
+      required this.name,
+      required this.price,
+      required this.taxRate,
+      required this.taxedPrice});
+
+  factory Product.fromJson(Map<String, dynamic> json) => Product(
+      sku: json['sku'],
+      name: json['name'],
+      price: json['price'],
+      taxRate: json['taxRate'],
+      taxedPrice: json['taxedPrice']);
 }
