@@ -17,6 +17,13 @@ void main() {
     RemoteProductsLoader(client);
     expect(urls.isEmpty, true);
   });
+
+  test('load requests data from end point', () async {
+    final client = MockClient(_mockClientHandler);
+    final loader = RemoteProductsLoader(client);
+    await loader.loadProducts();
+    expect(urls.length, 1);
+  });
 }
 
 class RemoteProductsLoader {
