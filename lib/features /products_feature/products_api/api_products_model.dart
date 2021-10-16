@@ -1,4 +1,4 @@
-import 'package:thepos/products_feature/product.dart';
+import '../product.dart';
 
 class Products {
   List<Product> data;
