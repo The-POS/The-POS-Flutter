@@ -8,7 +8,7 @@ import 'helpers/remote_loader_sut.dart';
 void main() {
   RemoteLoaderSUT _makeSUT() {
     final client = MockClientStub();
-    final loader = RemoteProductsLoader(client);
+    final loader = RemoteProductsLoader(Uri.http('domain', 'path'), client);
     return RemoteLoaderSUT(client, loader);
   }
 
