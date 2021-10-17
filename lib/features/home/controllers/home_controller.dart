@@ -7,10 +7,13 @@ class HomeController extends GetxController {
   List<Product> listHomeProduct = [];
   var loadingHome = false.obs;
 
+  final listCat = [
+    "الكل",
+    "الكلاب",
+    "القطط",
+    "الطيور"
+  ]; //TODO get value from controller
 
-  final listCat = ["الكل", "الكلاب", "القطط", "الطيور"];//get value from controller
-
-  
   Future getProduct() async {
     loadingHome.value = true;
     try {
