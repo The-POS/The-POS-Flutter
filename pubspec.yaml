@@ -37,6 +37,7 @@ dependencies:
   get: ^4.3.8
   flutter_svg: ^0.22.0
   google_fonts: ^2.1.0
+  http: ^0.13.3
 dev_dependencies:
   flutter_test:
     sdk: flutter

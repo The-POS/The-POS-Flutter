@@ -1,0 +1,1 @@
+enum RemoteProductsLoaderErrors { connectivity, invalidData }
