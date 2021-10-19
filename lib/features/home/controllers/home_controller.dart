@@ -20,7 +20,8 @@ class HomeController extends GetxController {
     getProduct();
   }
 
-  Category? selectedCat;
+  Category? selectedCategory;
+  String? selectedCart  = "1";
   List<Category> listCategory = [
     Category(id: "1", name: "الطيور"),
     Category(id: "2", name: "القطط"),
@@ -42,12 +43,12 @@ class HomeController extends GetxController {
   }
 
   Future getProductsByGroupId() async {
-    if (selectedCat != null) {
+    if (selectedCategory != null) {
       return;
     }
     try {
       listHomeProduct.value = await getIt<HomeRepository>()
-          .getProductsByGroupId(int.parse(selectedCat!.id));
+          .getProductsByGroupId(int.parse(selectedCategory!.id));
       update();
     } catch (e) {
       print("error getProduct $e");
@@ -56,7 +57,7 @@ class HomeController extends GetxController {
   }
 
   Future changeCategory(Category cat) async {
-    selectedCat = cat;
+    selectedCategory = cat;
     update();
     print("change");
     loadingHome.value = !loadingHome.value;
