@@ -1,6 +1,6 @@
 import 'dart:convert';
 import 'package:http/http.dart' as http;
-import 'package:thepos/features%20/products_feature/products_api/remote_products_loader_errors.dart';
+import 'package:thepos/features/products_feature/products_api/remote_products_loader_errors.dart';
 
 import '../product.dart';
 import '../products_loader.dart';
