@@ -1,10 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:get/get_navigation/src/root/get_material_app.dart';
+import 'package:responsive_framework/responsive_framework.dart';
+import 'package:thepos/core/init_app.dart';
 import 'package:thepos/routes/app_pages.dart';
 
 import 'localization/localization_service.dart';
 
-void main() {
+Future<void> main() async {
+  init();
   runApp(const MyApp());
 }
 
@@ -21,6 +24,16 @@ class MyApp extends StatelessWidget {
       initialRoute: AppPages.INITIAL,
       locale: LocalizationService.locale,
       translations: LocalizationService(),
+         builder: (context, widget) => ResponsiveWrapper.builder(
+          widget,
+          maxWidth: 1200,
+          minWidth: 480,
+          defaultScale: true,
+          breakpoints: [
+            ResponsiveBreakpoint.resize(480, name: MOBILE),
+            ResponsiveBreakpoint.autoScale(800, name: TABLET),
+            ResponsiveBreakpoint.resize(1000, name: DESKTOP),
+          ],),
       theme: ThemeData(
         primarySwatch: Colors.blue,
         visualDensity: VisualDensity.adaptivePlatformDensity,
@@ -29,5 +42,3 @@ class MyApp extends StatelessWidget {
     );
   }
 }
-
-
