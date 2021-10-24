@@ -6,12 +6,12 @@ part 'cart_item.g.dart';
 @HiveType(typeId: 4)
 class CartItem {
   CartItem({
-    required this.id,
+     this.id,
     required this.product,
     required this.quantity,
   });
   @HiveField(0)
-  String id;
+  String ?id;
   @HiveField(1)
   Product product;
   @HiveField(2)

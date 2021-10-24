@@ -26,8 +26,7 @@ class HomeView extends StatelessWidget {
                     Container(
                       width: 300,
                       color: Colors.white,
-                      child: CartView(
-                            ),
+                      child: CartView(),
                     ),
                   Expanded(
                     child: Container(
@@ -37,9 +36,7 @@ class HomeView extends StatelessWidget {
                         children: [
                           HeaderHomeWidget(controller: cont),
                           if (cont.showHideCarts.value && GetPlatform.isMobile)
-                            Expanded(
-                                child: CartView(
-                            )),
+                            Expanded(child: CartView()),
                           if (!(cont.showHideCarts.value &&
                               GetPlatform.isMobile))
                             Column(
@@ -60,10 +57,11 @@ class HomeView extends StatelessWidget {
                                             },
                                             child: CategoryWidget(
                                                 title: category.name,
-                                                isSelected:
-                                                    cont.selectedCategory != null &&
-                                                        cont.selectedCategory!.id ==
-                                                            category.id));
+                                                isSelected: cont
+                                                            .selectedCategory !=
+                                                        null &&
+                                                    cont.selectedCategory!.id ==
+                                                        category.id));
                                       }).toList(),
                                     ),
                                   ),
@@ -82,12 +80,17 @@ class HomeView extends StatelessWidget {
                                   // mainAxisAlignment: MainAxisAlignment.end,
                                   children:
                                       cont.listHomeProduct.value.map((product) {
-                                    return Container(
-                                        width: 224,
-                                        height: 239,
-                                        child: ProductWidget(
-                                          product: product,
-                                        ));
+                                    return InkWell(
+                                      onTap: () {
+                                        cartsController.addProduct(product);
+                                      },
+                                      child: Container(
+                                          width: 224,
+                                          height: 239,
+                                          child: ProductWidget(
+                                            product: product,
+                                          )),
+                                    );
                                   }).toList(),
                                 ),
                               ),
