@@ -1,16 +1,27 @@
+// ignore: prefer_const_constructors
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
+import 'package:flutter_svg/svg.dart';
+import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:thepos/features/home/controllers/home_controller.dart';
-import 'package:thepos/features/home/presentation/widgets/cart_item_widget.dart';
+import 'package:thepos/features/carts/controllers/carts_controller.dart';
+import 'package:thepos/features/carts/presentation/widgets/cart_item_widget.dart';
 
-class CartWidget extends StatelessWidget {
-  CartWidget({Key? key, required this.controller}) : super(key: key);
-  final HomeController controller;
+final cartsController = Get.put(CartsController());
+
+class CartView extends StatefulWidget {
+  const CartView({Key? key}) : super(key: key);
 
   @override
+  State<CartView> createState() => _CartViewState();
+}
+
+class _CartViewState extends State<CartView> {
+  @override
   Widget build(BuildContext context) {
-    return Directionality(
+    return 
+    
+      Obx(() => 
+    Directionality(
       textDirection: TextDirection.rtl,
       child:Container(
       padding: EdgeInsets.only(top: 10),
@@ -22,15 +33,15 @@ class CartWidget extends StatelessWidget {
             scrollDirection: Axis.horizontal,
             child: Row(
               mainAxisAlignment: MainAxisAlignment.start,
-              children: controller.listCarts.map((cart) {
+              children: cartsController.listCarts.map((cart) {
                 return GestureDetector(
                     onTap: () {
-                      // controller.changeCategory(category);
+                      cartsController.changeCart(cart);
                     },
                     child: CartItemWidget(
-                        title: cart.toString(),
-                        isSelected: controller.selectedCart != null &&
-                            controller.selectedCart == cart.toString()));
+                        title: cart.keyCart,
+                        isSelected: cartsController.selectedCart != null &&
+                            cartsController.selectedCart.value == cart));
               }).toList(),
             ),
           ),
@@ -62,6 +73,6 @@ class CartWidget extends StatelessWidget {
           )
         ],
       ),
-    ));
+    )));
   }
 }

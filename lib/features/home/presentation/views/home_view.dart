@@ -3,8 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:thepos/features/carts/presentation/views/cart_view.dart';
 import 'package:thepos/features/home/controllers/home_controller.dart';
-import 'package:thepos/features/home/presentation/widgets/cart_widget.dart';
 import 'package:thepos/features/home/presentation/widgets/category_widget.dart';
 import 'package:thepos/features/home/presentation/widgets/header_home.dart';
 import 'package:thepos/features/home/presentation/widgets/product_widget.dart';
@@ -26,8 +26,7 @@ class HomeView extends StatelessWidget {
                     Container(
                       width: 300,
                       color: Colors.white,
-                      child: CartWidget(
-                              controller: cont,
+                      child: CartView(
                             ),
                     ),
                   Expanded(
@@ -39,8 +38,7 @@ class HomeView extends StatelessWidget {
                           HeaderHomeWidget(controller: cont),
                           if (cont.showHideCarts.value && GetPlatform.isMobile)
                             Expanded(
-                                child: CartWidget(
-                              controller: cont,
+                                child: CartView(
                             )),
                           if (!(cont.showHideCarts.value &&
                               GetPlatform.isMobile))
