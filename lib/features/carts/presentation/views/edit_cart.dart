@@ -303,7 +303,7 @@ class _EditCartWidgetState extends State<EditCartWidget> {
           Padding(
             padding: const EdgeInsets.symmetric(horizontal: 10),
             child: Row(
-              children: [
+              children: [ 
                 Expanded(
                   child: InkWell(
                       onTap: () {
