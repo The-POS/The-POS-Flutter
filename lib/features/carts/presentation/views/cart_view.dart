@@ -151,6 +151,11 @@ class _CartViewState extends State<CartView> {
                         .cartItems[index];
                     return CartItemProductWidget(
                       item: item,
+                      refresh: (){
+                        setState(() {
+                          
+                        });
+                      },
                     );
                   },
                   separatorBuilder: (context, index) {

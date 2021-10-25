@@ -47,7 +47,28 @@ class CartsController extends GetxController {
           .add(CartItem(product: product, quantity: 1));
     }
 
-    Get.snackbar("تم","اضافة المنتج للسلة" , backgroundColor: Color(0xff178F49).withOpacity(0.5),snackPosition: SnackPosition.BOTTOM)  ;
+    Get.snackbar("تم", "اضافة المنتج للسلة",
+        backgroundColor: Color(0xff178F49).withOpacity(0.5),
+        snackPosition: SnackPosition.BOTTOM);
+    update();
+  }
+
+  Future updateItem(CartItem product) async {
+    listCarts.value[selectedCart.value].cartItems.forEach((elementProduct) {
+      if (elementProduct.product.sku == product.product.sku) {
+        elementProduct.quantity = product.quantity;
+        elementProduct.product.price = product.product.price;
+      }
+    });
+    update();
+  }
+
+  Future deleteItem(CartItem product) async {
+    listCarts.value[selectedCart.value].cartItems.removeWhere(
+        (elementProduct) => elementProduct.product.sku == product.product.sku);
+
+
+  
     update();
   }
 }

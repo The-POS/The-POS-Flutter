@@ -1,14 +1,41 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:thepos/features/carts/data/models/cart_item.dart';
+import 'package:thepos/features/carts/presentation/views/edit_cart.dart';
 
 class CartItemProductWidget extends StatelessWidget {
   final CartItem item;
-  CartItemProductWidget({Key? key, required this.item}) : super(key: key);
+  final Function refresh;
+  CartItemProductWidget({Key? key, required this.item, required this.refresh})
+      : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return ListTile(
+        onTap: () async {
+          if (GetPlatform.isMobile) {
+            
+
+
+
+            await Get.bottomSheet(
+                EditCartWidget(
+                  item: item,
+                ),
+                isScrollControlled: true,
+                backgroundColor: Colors.white);
+          } else {
+            await Get.dialog(
+              Material(
+                child: EditCartWidget(
+                  item: item,
+                ),
+              ),
+            );
+          }
+          refresh();
+        },
         leading: Text(
           "X ${item.quantity}",
           style: GoogleFonts.cairo(
