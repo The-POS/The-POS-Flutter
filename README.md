@@ -55,6 +55,11 @@ If you have a suggestion that would make this better, please fork the repo and c
 4. Push to the Branch (git push origin feature/AmazingFeature)
 5. Open a Pull Request
 
+### Important Resources for Contributing
+1. API Specification [here](https://thepos.stoplight.io/docs/thepos/YXBpOjI0MjY1NjUy-pos)
+2. Tablet/Desktop Design [here](https://xd.adobe.com/view/cbea7617-dbc5-4e04-8f03-27e6444aea9e-9eb9/?fbclid=IwAR2P7hunQxkwuwiu8xQ0i54ficWvFN-_Ki61COl7M5Fuwhu_yWDc_fdn5Ew)
+3. Mobile Design [here](https://xd.adobe.com/view/8b03995d-6b12-43d1-be73-c5f43c789819-de50/?fbclid=IwAR2hIjgDy0yc_gQ0CKijTnlqMe0cSh_fs7cGaOt1lQyPdbpE-xAY02lWlVw)
+
 ## License
 
 ThePOS is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
