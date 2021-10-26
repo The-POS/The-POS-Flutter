@@ -24,6 +24,7 @@ class HomeRepository {
       return products;
     } else {
       final List<Product> products = await remoteDataSource.getProducts();
+      localDataSource.insertProducts(products);
       return products;
     }
   }
