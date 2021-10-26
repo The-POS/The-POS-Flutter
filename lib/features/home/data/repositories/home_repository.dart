@@ -19,12 +19,12 @@ class HomeRepository {
     if (enableFaker) {
       return fakerDataSource.getProducts();
     }
-    var connectivityResult = await (Connectivity().checkConnectivity());
-
-    if (connectivityResult == ConnectivityResult.none) {
-      return localDataSource.getProducts();
+    final List<Product> products = await localDataSource.getProducts();
+    if (products.isNotEmpty) {
+      return products;
     } else {
-      return remoteDataSource.getProducts();
+      final List<Product> products = await remoteDataSource.getProducts();
+      return products;
     }
   }
 
