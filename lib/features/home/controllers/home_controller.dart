@@ -8,8 +8,7 @@ import 'package:thepos/features/home/data/repositories/home_repository.dart';
 
 class HomeController extends GetxController {
   var listHomeProduct = <Product>[].obs;
-  var listCarts =
-      <int>[1, 2, 3, 4, 5, 6, 7, 8, 9, 10].obs; //TODO Create Model Cart
+
   var loadingHome = false.obs;
   var showHideCarts = false.obs;
 
@@ -21,7 +20,6 @@ class HomeController extends GetxController {
   }
 
   Category? selectedCategory;
-  String? selectedCart  = "1";
   List<Category> listCategory = [
     Category(id: "1", name: "الطيور"),
     Category(id: "2", name: "القطط"),
