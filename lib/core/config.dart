@@ -1,3 +1,3 @@
-const String mainUrl = "http://thepos.test/";
-const String apiUrl = "$mainUrl/api/v1/";
+const String mainUrl = "https://stoplight.io/mocks/thepos/thepos/24265652";
+const String apiUrl = "$mainUrl/api/v1";
 const bool enableFaker = true;
