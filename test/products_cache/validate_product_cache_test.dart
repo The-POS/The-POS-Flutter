@@ -16,6 +16,22 @@ void main() {
 
     expect(isExpired, true);
   });
+
+  test('products cache expired after specific time interval', () {
+    const int timeIntervalInHours = 24;
+    const Duration duration = Duration(hours: timeIntervalInHours + 1);
+
+    final DateTime cacheTime = DateTime.now().subtract(duration);
+
+    final DateTime currentDateTime = DateTime.now();
+
+    final ProductCachePolicy cachePolicy =
+        ProductCachePolicy(timeIntervalInHours, cacheTime);
+    final bool isExpired =
+        cachePolicy.isExpired(currentDateTime: currentDateTime);
+
+    expect(isExpired, true);
+  });
 }
 
 class ProductCachePolicy {
@@ -25,7 +41,7 @@ class ProductCachePolicy {
   final DateTime cacheDateTime;
 
   bool isExpired({required DateTime currentDateTime}) {
-    return currentDateTime.difference(currentDateTime).inHours <
+    return currentDateTime.difference(cacheDateTime).inHours >=
         timeIntervalInHours;
   }
 }
