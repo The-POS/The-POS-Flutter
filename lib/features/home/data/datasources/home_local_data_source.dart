@@ -26,7 +26,15 @@ class HomeLocalDataSource {
   }
 
   Future<List<Product>> getProductsByGroupId(int groupId) async {
-    return productsBox.values.where((pr) => pr.groupId == groupId).toList();
+    final bool isCacheExpired = await _isCacheExpired();
+    if (isCacheExpired) {
+      await productsBox.deleteFromDisk();
+      return <Product>[];
+    } else {
+      return productsBox.values
+          .where((Product product) => product.groupId == groupId)
+          .toList();
+    }
   }
 
   Future<bool> _isCacheExpired() async {

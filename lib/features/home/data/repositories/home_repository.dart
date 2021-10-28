@@ -1,4 +1,3 @@
-import 'package:connectivity/connectivity.dart';
 import 'package:thepos/core/config.dart';
 import 'package:thepos/features/home/data/datasources/home_faker_data_source.dart';
 import 'package:thepos/features/home/data/datasources/home_local_data_source.dart';
@@ -30,12 +29,15 @@ class HomeRepository {
   }
 
   Future<List<Product>> getProductsByGroupId(int groupId) async {
-    var connectivityResult = await (Connectivity().checkConnectivity());
-
-    if (connectivityResult == ConnectivityResult.none) {
-      return localDataSource.getProductsByGroupId(groupId);
+    final List<Product> products =
+        await localDataSource.getProductsByGroupId(groupId);
+    if (products.isNotEmpty) {
+      return products;
     } else {
-      return remoteDataSource.getProductsByGroupId(groupId);
+      final List<Product> products =
+          await remoteDataSource.getProductsByGroupId(groupId);
+      localDataSource.insertProducts(products);
+      return products;
     }
   }
 }
