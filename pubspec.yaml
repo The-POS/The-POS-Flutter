@@ -44,6 +44,7 @@ dependencies:
   http: ^0.13.3
   responsive_framework:
   faker_dart: ^0.1.2
+  shared_preferences: ^2.0.8
 dev_dependencies:
   flutter_test:
     sdk: flutter
