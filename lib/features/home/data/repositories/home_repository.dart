@@ -5,14 +5,14 @@ import 'package:thepos/features/home/data/datasources/home_remote_data_source.da
 import 'package:thepos/features/home/data/models/product.dart';
 
 class HomeRepository {
-  final HomeRemoteDataSource remoteDataSource;
-  final HomeLocalDataSource localDataSource;
-  final HomeFakerDataSource fakerDataSource;
-
   HomeRepository(
       {required this.fakerDataSource,
       required this.remoteDataSource,
       required this.localDataSource});
+
+  final HomeRemoteDataSource remoteDataSource;
+  final HomeLocalDataSource localDataSource;
+  final HomeFakerDataSource fakerDataSource;
 
   Future<List<Product>> getProducts() async {
     if (enableFaker) {
