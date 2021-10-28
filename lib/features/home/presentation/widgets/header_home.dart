@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:thepos/features/home/controllers/home_controller.dart';
+import 'package:thepos/features/home/presentation/widgets/search_widget.dart';
 
 class HeaderHomeWidget extends StatelessWidget {
   const HeaderHomeWidget({
@@ -17,15 +18,7 @@ class HeaderHomeWidget extends StatelessWidget {
       child: AppBar(
         backgroundColor: Colors.white,
         elevation: 0.2,
-        title: Text(
-          "المبيعات",
-          style: GoogleFonts.cairo(
-            textStyle: TextStyle(
-                color: Colors.black,
-                fontSize: 20,
-                fontWeight: FontWeight.w400),
-          ),
-        ),
+        title:SearchBar(isSearching: controller.searching.value,),
         leading: InkWell(
           onTap: () {
             controller.showHidCart();
@@ -36,7 +29,20 @@ class HeaderHomeWidget extends StatelessWidget {
             child: Icon(Icons.menu),
           ),
         ),
-        actions: [
+        actions: controller.searching.value?[
+        InkWell(
+          onTap: (){
+            controller.showSearch();
+          },
+          child: Container(
+            padding: EdgeInsets.symmetric(horizontal: 8),
+            child: Icon(
+              Icons.close,
+              color: Colors.grey,
+            ),
+          ),
+        ),
+        ]:[
           Icon(
             Icons.qr_code,
             color: Colors.grey,
@@ -44,9 +50,14 @@ class HeaderHomeWidget extends StatelessWidget {
           SizedBox(
             width: 10,
           ),
-          Icon(
-            Icons.search,
-            color: Colors.grey,
+          InkWell(
+            onTap: (){
+              controller.showSearch();
+            },
+            child: Icon(
+              Icons.search,
+              color: Colors.grey,
+            ),
           ),
           SizedBox(
             width: 5,
@@ -56,3 +67,35 @@ class HeaderHomeWidget extends StatelessWidget {
     );
   }
 }
+
+class SearchBar extends StatelessWidget {
+  final bool isSearching;
+
+  SearchBar({required this.isSearching});
+
+  @override
+  Widget build(BuildContext context) {
+    return Stack(
+      alignment: Alignment.center,
+      children: [
+        AnimateExpansion(
+          animate: !isSearching,
+          axisAlignment: 1.0,
+          child: Text("المبيعات",
+              style: GoogleFonts.cairo(
+                textStyle: TextStyle(
+                    color: Colors.black,
+                    fontSize: 20,
+                    fontWeight: FontWeight.w400),
+              )),
+        ),
+        AnimateExpansion(
+          animate: isSearching,
+          axisAlignment: -1.0,
+          child: Search(),
+        ),
+      ],
+    );
+  }
+}
+

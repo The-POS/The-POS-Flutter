@@ -11,6 +11,7 @@ class HomeController extends GetxController {
 
   var loadingHome = false.obs;
   var showHideCarts = false.obs;
+  var searching = false.obs;
 
   @override
   void onReady() {
@@ -65,6 +66,11 @@ class HomeController extends GetxController {
 
   Future showHidCart() async {
     showHideCarts.value = !showHideCarts.value;
+    update();
+  }
+
+  Future showSearch() async {
+    searching.value = !searching.value;
     update();
   }
 }
