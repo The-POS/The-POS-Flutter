@@ -1,4 +1,5 @@
 import 'package:flutter_test/flutter_test.dart';
+import 'package:thepos/features/products_feature/product_cache_policy.dart';
 
 void main() {
   test('products cache expired on specific time interval', () {
@@ -48,16 +49,4 @@ void main() {
 
     expect(isExpired, false);
   });
-}
-
-class ProductCachePolicy {
-  ProductCachePolicy(this.timeIntervalInHours, this.cacheDateTime);
-
-  final int timeIntervalInHours;
-  final DateTime cacheDateTime;
-
-  bool isExpired({required DateTime currentDateTime}) {
-    return currentDateTime.difference(cacheDateTime).inHours >=
-        timeIntervalInHours;
-  }
 }
