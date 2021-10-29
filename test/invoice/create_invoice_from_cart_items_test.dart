@@ -2,8 +2,8 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:thepos/features/carts/data/models/cart.dart';
 import 'package:thepos/features/carts/data/models/cart_item.dart';
 import 'package:thepos/features/home/data/models/product.dart';
+import 'package:thepos/features/invoice/helper/cart_invoice_mapper.dart';
 import 'package:thepos/features/invoice/models/invoice.dart';
-import 'package:thepos/features/invoice/models/invoice_item.dart';
 
 void main() {
   test('create invoice model return null on empty cart items', () {
@@ -38,22 +38,4 @@ void main() {
     expect(invoice?.items.first.product.sku, testProduct.sku);
     expect(invoice?.items.first.product.price, testProduct.price);
   });
-}
-
-mixin CartInvoiceMapper {
-  static Invoice? createInvoiceFrom({required Cart cart}) {
-    if (cart.cartItems.isNotEmpty) {
-      final Invoice invoice = Invoice(
-          clientId: int.parse(cart.keyCart),
-          items: cart.cartItems
-              .map<InvoiceItem>((CartItem cartItem) => InvoiceItem(
-                    product: cartItem.product,
-                    quantity: cartItem.quantity,
-                  ))
-              .toList());
-      return invoice;
-    } else {
-      return null;
-    }
-  }
 }
