@@ -5,25 +5,25 @@ import 'package:http/testing.dart';
 class MockClientStub extends MockClient {
   MockClientStub() : super(_mockClientHandler);
 
-  static var urls = [];
+  static List<http.Request> requests = <http.Request>[];
   static Exception? clientException;
   static Response? clientResponse;
 
   static Future<Response> _mockClientHandler(http.Request request) {
-    urls.add(request.url);
+    requests.add(request);
     if (clientException != null) {
       throw clientException!;
     } else if (clientResponse != null) {
-      return Future.value(clientResponse);
+      return Future<Response>.value(clientResponse);
     }
-    return Future.value(createResponse(200, ''));
+    return Future<Response>.value(createResponse(200, ''));
   }
 
-  completeWith(Exception exception) {
+  void completeWith(Exception exception) {
     clientException = exception;
   }
 
-  completeWithResponse(Response response) {
+  void completeWithResponse(Response response) {
     clientResponse = response;
   }
 
@@ -31,7 +31,7 @@ class MockClientStub extends MockClient {
       Response(body, statusCode);
 
   static void clear() {
-    urls.clear();
+    requests.clear();
     clientException = null;
     clientResponse = null;
   }
