@@ -21,7 +21,7 @@ An open-source initiative that belongs to [Gaza Tech Community](https://www.face
 - Route Management: [GetX](https://github.com/jonataslaw/getx)
 - Localization: [GetX](https://github.com/jonataslaw/getx)
 
-We chose Getz as the main State Management for this project so we can balance the experience of the contributors, GetX will be easier for beginners to catch and at the same time, we ensure the separation of the business logic from the presentation correctly and avoid boilerplate code.
+We chose GetX as the main State Management for this project so we can balance the experience of the contributors, GetX will be easier for beginners to catch and at the same time, we ensure the separation of the business logic from the presentation correctly and avoid boilerplate code.
 
 For more info about GetX check this [link](https://github.com/jonataslaw/getx)
 
