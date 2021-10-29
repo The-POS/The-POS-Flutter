@@ -19,7 +19,25 @@ class CartsController extends GetxController {
     Cart(keyCart: "8", cartItems: []),
     Cart(keyCart: "9", cartItems: []),
   ].obs;
-  RxInt selectedCart = 0.obs;
+
+  var selectedCart = 0.obs;
+
+  double get invoiceTotal {
+    final Cart selectedCard = listCarts.value[selectedCart.value];
+    if (selectedCard.cartItems.isEmpty) {
+      return 0.0;
+    }
+    return selectedCard.cartItems
+        .map((e) => e.product.price * e.quantity)
+        .reduce((value, element) => value + element);
+  }
+
+  @override
+  void onReady() {
+    super.onReady();
+
+    // getProduct();
+  }
 
   Future changeCart(int index) async {
     selectedCart.value = index;
@@ -60,8 +78,6 @@ class CartsController extends GetxController {
     listCarts.value[selectedCart.value].cartItems.removeWhere(
         (elementProduct) => elementProduct.product.sku == product.product.sku);
 
-
-  
     update();
   }
 }

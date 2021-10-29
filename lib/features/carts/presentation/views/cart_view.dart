@@ -186,7 +186,7 @@ class _CartViewState extends State<CartView> {
                           ),
                           const Spacer(),
                           Text(
-                            '60.05',
+                            '${cartsController.invoiceTotal}',
                             style: GoogleFonts.cairo(
                               textStyle: const TextStyle(
                                   color: Colors.white,
