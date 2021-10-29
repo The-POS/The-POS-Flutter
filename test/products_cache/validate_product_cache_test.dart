@@ -1,5 +1,6 @@
 import 'package:flutter_test/flutter_test.dart';
-import 'package:thepos/features/products_feature/product_cache_policy.dart';
+import 'package:thepos/features/products/product_cache_policy.dart';
+
 
 void main() {
   ProductCachePolicy makeSUT(

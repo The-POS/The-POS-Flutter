@@ -8,7 +8,7 @@ import 'package:thepos/features/carts/data/models/cart_item.dart';
 import 'package:thepos/features/home/data/models/product.dart';
 
 class CartsController extends GetxController {
-  var listCarts = <Cart>[
+  RxList listCarts = <Cart>[
     Cart(keyCart: "1", cartItems: []),
     Cart(keyCart: "2", cartItems: []),
     Cart(keyCart: "3", cartItems: []),
@@ -19,14 +19,7 @@ class CartsController extends GetxController {
     Cart(keyCart: "8", cartItems: []),
     Cart(keyCart: "9", cartItems: []),
   ].obs;
-  var selectedCart = 0.obs;
-
-  @override
-  void onReady() {
-    super.onReady();
-
-    // getProduct();
-  }
+  RxInt selectedCart = 0.obs;
 
   Future changeCart(int index) async {
     selectedCart.value = index;
@@ -48,7 +41,7 @@ class CartsController extends GetxController {
     }
 
     Get.snackbar("تم", "اضافة المنتج للسلة",
-        backgroundColor: Color(0xff178F49).withOpacity(0.5),
+        backgroundColor: const Color(0xff178F49).withOpacity(0.5),
         snackPosition: SnackPosition.BOTTOM);
     update();
   }

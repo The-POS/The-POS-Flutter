@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:thepos/features/home/controllers/home_controller.dart';
+import 'package:thepos/features/home/presentation/controllers/home_controller.dart';
 
 class HeaderHomeWidget extends StatelessWidget {
   const HeaderHomeWidget({
@@ -20,7 +20,7 @@ class HeaderHomeWidget extends StatelessWidget {
         title: Text(
           "المبيعات",
           style: GoogleFonts.cairo(
-            textStyle: TextStyle(
+            textStyle: const TextStyle(
                 color: Colors.black,
                 fontSize: 20,
                 fontWeight: FontWeight.w400),
@@ -31,12 +31,12 @@ class HeaderHomeWidget extends StatelessWidget {
             controller.showHidCart();
           },
           child: Container(
-            color: Color(0xffF79624),
+            color: const Color(0xffF79624),
             width: 50,
-            child: Icon(Icons.menu),
+            child: const Icon(Icons.menu),
           ),
         ),
-        actions: [
+        actions: const [
           Icon(
             Icons.qr_code,
             color: Colors.grey,

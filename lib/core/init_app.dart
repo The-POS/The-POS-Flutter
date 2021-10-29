@@ -1,10 +1,9 @@
 // ignore_for_file: avoid_void_async
 
 import 'package:faker_dart/faker_dart.dart';
-import 'package:get/get.dart';
 import 'package:get_it/get_it.dart';
 import 'package:hive_flutter/hive_flutter.dart';
-import 'package:thepos/features/home/controllers/home_controller.dart';
+import 'package:thepos/core/preferences_utils.dart';
 import 'package:thepos/features/home/data/datasources/home_faker_data_source.dart';
 import 'package:thepos/features/home/data/datasources/home_local_data_source.dart';
 import 'package:thepos/features/home/data/datasources/home_remote_data_source.dart';
@@ -19,6 +18,7 @@ void init() async {
   Hive.registerAdapter(ProductAdapter());
   productsBox = await Hive.openBox<Product>('productsBox');
   setupGetIt();
+  await PreferenceUtils.init();
 
   // Get.create(()=>HomeController());
 }

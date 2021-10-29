@@ -1,6 +1,7 @@
 import 'package:flutter_test/flutter_test.dart';
-import 'package:thepos/features/products_feature/products_api/remote_products_loader.dart';
-import 'package:thepos/features/products_feature/products_api/remote_products_loader_errors.dart';
+import 'package:thepos/features/products/products_api/remote_products_loader.dart';
+import 'package:thepos/features/products/products_api/remote_products_loader_errors.dart';
+
 
 import 'helpers/mock_client_stub.dart';
 import 'helpers/remote_loader_sut.dart';

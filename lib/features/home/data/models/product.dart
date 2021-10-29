@@ -27,7 +27,7 @@ class Product {
   factory Product.fromJson(Map<String, dynamic> json) => Product(
         sku: json['sku'],
         name: json["name"],
-        groupId: json["groupId"]== null ? 0 : json["groupId"],
+        groupId: json["groupId"] ?? 0,
         price: json["price"] == null ? 0 : json["price"].toDouble(),
         taxRate: json["tax_rate"] == null ? 0 : json["tax_rate"].toDouble(),
         taxedPrice:

@@ -1,11 +1,10 @@
-import 'package:shared_preferences/shared_preferences.dart';
 import 'package:thepos/core/config.dart';
 import 'package:thepos/core/init_app.dart';
+import 'package:thepos/core/preferences_utils.dart';
 import 'package:thepos/features/home/data/models/product.dart';
-import 'package:thepos/features/products_feature/product_cache_policy.dart';
+import 'package:thepos/features/products/product_cache_policy.dart';
 
 class HomeLocalDataSource {
-  static const String cacheTimeKey = 'cachedProductTime';
 
   Future<List<Product>> getProducts() async {
     final bool isCacheExpired = await _isCacheExpired();
@@ -18,10 +17,8 @@ class HomeLocalDataSource {
   }
 
   Future<Iterable<int>> insertProducts(List<Product> products) async {
-    final SharedPreferences sharedPreferences =
-        await SharedPreferences.getInstance();
-    sharedPreferences.setInt(
-        cacheTimeKey, DateTime.now().millisecondsSinceEpoch);
+
+    PreferenceUtils.setCacheTime(DateTime.now().millisecondsSinceEpoch);
     return productsBox.addAll(products);
   }
 
@@ -38,9 +35,8 @@ class HomeLocalDataSource {
   }
 
   Future<bool> _isCacheExpired() async {
-    final SharedPreferences sharedPreferences =
-        await SharedPreferences.getInstance();
-    final int? cachedProductTime = sharedPreferences.getInt(cacheTimeKey);
+
+    final int cachedProductTime = PreferenceUtils.getCacheTime();
     if (cachedProductTime == null) {
       return false;
     }

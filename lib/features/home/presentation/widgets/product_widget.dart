@@ -12,14 +12,12 @@ class ProductWidget extends StatelessWidget {
     return Container(
       decoration: BoxDecoration(
           border: Border.all(
-            color: Color(0xffDADADA),
-            style: BorderStyle.solid,
-            width: 1.0,
+            color: const Color(0xffDADADA),
           ),
           color: Colors.white,
           borderRadius: BorderRadius.circular(8.0)),
-      margin: EdgeInsets.all(4),
-      padding: EdgeInsets.all(8),
+      margin: const EdgeInsets.all(4),
+      padding: const EdgeInsets.all(8),
       child: Column(
         children: [
           Expanded(
@@ -30,7 +28,7 @@ class ProductWidget extends StatelessWidget {
             ),
           ),
 
-          Divider(color: Color(0xffDADADA),),
+          Divider(color: const Color(0xffDADADA),),
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
@@ -38,26 +36,26 @@ class ProductWidget extends StatelessWidget {
                 "ريال",
                 maxLines: 1,
                 style: GoogleFonts.cairo(
-                  textStyle: TextStyle(
+                  textStyle: const TextStyle(
                       color: Colors.black,
                       fontSize: 15,
                       fontWeight: FontWeight.w300),
                 ),
               ),
-              SizedBox(
+              const SizedBox(
                 width: 5,
               ),
               Text(
                 product.price.toString(),
                 maxLines: 1,
                 style: GoogleFonts.cairo(
-                  textStyle: TextStyle(
+                  textStyle: const TextStyle(
                       color: Colors.black,
                       fontSize: 20,
                       fontWeight: FontWeight.w400),
                 ),
               ),
-              SizedBox(
+              const SizedBox(
                 width: 10,
               ),
               Expanded(

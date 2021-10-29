@@ -9,8 +9,8 @@ import 'package:thepos/features/home/data/repositories/home_repository.dart';
 class HomeController extends GetxController {
   var listHomeProduct = <Product>[].obs;
 
-  var loadingHome = false.obs;
-  var showHideCarts = false.obs;
+  RxBool loadingHome = false.obs;
+  RxBool showHideCarts = false.obs;
 
   @override
   void onReady() {

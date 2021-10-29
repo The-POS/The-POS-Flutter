@@ -1,4 +1,4 @@
-import 'package:thepos/features/products_feature/products_api/remote_products_loader.dart';
+import 'package:thepos/features/products/products_api/remote_products_loader.dart';
 
 import 'mock_client_stub.dart';
 
