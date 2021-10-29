@@ -17,7 +17,7 @@ void main() {
     return RemoteStoreInvoiceSUT(client, sut);
   }
 
-  test('init does not post any data to the end point', () async {
+  test('init does not post any data to the end point', () {
     _makeSUT();
     expect(MockClientStub.requests.isEmpty, true);
   });
