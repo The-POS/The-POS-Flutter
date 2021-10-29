@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:thepos/features/carts/data/models/cart_item.dart';
 import 'package:thepos/features/carts/presentation/controllers/carts_controller.dart';
 import 'package:thepos/features/carts/presentation/widgets/cart_item_product_widget.dart';
 import 'package:thepos/features/carts/presentation/widgets/cart_item_widget.dart';
@@ -22,7 +21,8 @@ class _CartViewState extends State<CartView> {
   Widget build(BuildContext context) {
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 8),
-      child: Obx(() => Directionality(
+      child: Obx(
+        () => Directionality(
           textDirection: TextDirection.rtl,
           child: Container(
             padding: const EdgeInsets.only(top: 10),
@@ -50,8 +50,10 @@ class _CartViewState extends State<CartView> {
                 ),
                 Container(
                   width: double.infinity,
-                  margin: const EdgeInsets.symmetric(horizontal: 10, vertical: 10),
-                  padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 10),
+                  margin:
+                      const EdgeInsets.symmetric(horizontal: 10, vertical: 10),
+                  padding:
+                      const EdgeInsets.symmetric(horizontal: 10, vertical: 10),
                   decoration: BoxDecoration(
                       border: Border.all(
                         color: const Color(0xffF79624),
@@ -135,34 +137,82 @@ class _CartViewState extends State<CartView> {
                     ),
                   ],
                 ),
-                ListView.separated(
-                  scrollDirection: Axis.vertical,
-                  shrinkWrap: true,
-                  physics: const NeverScrollableScrollPhysics(),
-                  itemCount: cartsController
-                  .listCarts[cartsController.selectedCart.value]
-                  .cartItems
-                  .length,
-                  itemBuilder: (BuildContext context, int index) {
-                CartItem item = cartsController
-                    .listCarts[cartsController.selectedCart.value]
-                    .cartItems[index];
-                return CartItemProductWidget(
-                  item: item,
-                  refresh: (){
-                    setState(() {
-
-                    });
-                  },
-                );
-                  },
-                  separatorBuilder: (BuildContext context, int index) {
-                return const Divider();
-                  },
-                )
+                Expanded(
+                  child: ListView.separated(
+                    scrollDirection: Axis.vertical,
+                    shrinkWrap: true,
+                    physics: NeverScrollableScrollPhysics(),
+                    itemCount: cartsController
+                        .listCarts[cartsController.selectedCart.value]
+                        .cartItems
+                        .length,
+                    itemBuilder: (context, index) {
+                      var item = cartsController
+                          .listCarts[cartsController.selectedCart.value]
+                          .cartItems[index];
+                      return CartItemProductWidget(
+                        item: item,
+                        refresh: () {
+                          setState(() {});
+                        },
+                      );
+                    },
+                    separatorBuilder: (context, index) {
+                      return Divider();
+                    },
+                  ),
+                ),
+                Padding(
+                  padding: const EdgeInsets.only(bottom: 8.0),
+                  child: ElevatedButton(
+                    onPressed: () {},
+                    style: ElevatedButton.styleFrom(
+                      primary: const Color(0xff178f49), // background
+                      onPrimary: const Color(0xffF79624),
+                      // foreground
+                    ),
+                    child: SizedBox(
+                      height: 55,
+                      child: Row(
+                        children: <Widget>[
+                          Text(
+                            'الدفع',
+                            style: GoogleFonts.cairo(
+                              textStyle: const TextStyle(
+                                  color: Colors.white,
+                                  fontSize: 20,
+                                  fontWeight: FontWeight.normal),
+                            ),
+                          ),
+                          const Spacer(),
+                          Text(
+                            '60.05',
+                            style: GoogleFonts.cairo(
+                              textStyle: const TextStyle(
+                                  color: Colors.white,
+                                  fontSize: 25,
+                                  fontWeight: FontWeight.bold),
+                            ),
+                          ),
+                          Text(
+                            'ريال',
+                            style: GoogleFonts.cairo(
+                              textStyle: const TextStyle(
+                                  color: Colors.white,
+                                  fontSize: 15,
+                                  fontWeight: FontWeight.normal),
+                            ),
+                          )
+                        ],
+                      ),
+                    ),
+                  ),
+                ),
               ],
             ),
-          ))),
+          ),
+        ),
+      ),
     );
   }
 }
