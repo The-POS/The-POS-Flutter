@@ -1,3 +1,4 @@
+import 'package:flutter_test/flutter_test.dart';
 import 'package:thepos/features/carts/data/models/cart.dart';
 import 'package:thepos/features/carts/data/models/cart_item.dart';
 import 'package:thepos/features/home/data/models/product.dart';
@@ -37,4 +38,21 @@ dynamic tryFunction(TryFunction function) async {
     expectedError = error;
   }
   return expectedError;
+}
+
+void expectInvoice(Invoice invoice, Invoice other) {
+  expect(invoice.clientId, other.clientId);
+  expect(invoice.items.length, other.items.length);
+  for (int i = 0; i < invoice.items.length; i++) {
+    expect(invoice.items[i].quantity, other.items[i].quantity);
+    expectProduct(invoice.items[i].product, other.items[i].product);
+  }
+}
+
+void expectProduct(Product product, Product other) {
+  expect(product.sku, other.sku);
+  expect(product.name, other.name);
+  expect(product.price, other.price);
+  expect(product.taxedPrice, other.taxedPrice);
+  expect(product.taxRate, other.taxRate);
 }

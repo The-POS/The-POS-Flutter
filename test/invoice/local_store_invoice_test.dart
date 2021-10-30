@@ -31,17 +31,7 @@ void main() {
 
     final List<Invoice> result = localStoreInvoice.retrieve();
     expect(result.isEmpty, false);
-    expect(result.first.clientId, invoice.clientId);
-    expect(
-        result.first.items.first.product.sku, invoice.items.first.product.sku);
-    expect(result.first.items.first.product.name,
-        invoice.items.first.product.name);
-    expect(result.first.items.first.product.price,
-        invoice.items.first.product.price);
-    expect(result.first.items.first.product.taxedPrice,
-        invoice.items.first.product.taxedPrice);
-    expect(result.first.items.first.product.taxRate,
-        invoice.items.first.product.taxRate);
+    expectInvoice(result.first, invoice);
   });
 }
 
