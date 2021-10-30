@@ -1,1 +1,4 @@
-enum RemoteStoreInvoiceErrors { connectivity }
+enum RemoteStoreInvoiceErrors {
+  connectivity,
+  invalidData,
+}

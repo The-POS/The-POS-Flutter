@@ -43,4 +43,16 @@ void main() {
 
     expect(error, RemoteStoreInvoiceErrors.connectivity);
   });
+
+  test('store delivers error on non 201 HTTP Response', () async {
+    final RemoteStoreInvoiceSUT sut = _makeSUT();
+    final List<int> samples = <int>[199, 200, 300, 400, 500];
+    for (final int statusCode in samples) {
+      sut.client.completeWithResponse(
+          MockClientStub.createResponse(statusCode, 'response'));
+      final dynamic error =
+          await tryFunction(() => sut.remoteStoreInvoice.store(anyJsonInvoice));
+      expect(error != null, true);
+    }
+  });
 }
