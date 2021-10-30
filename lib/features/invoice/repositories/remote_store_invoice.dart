@@ -14,9 +14,11 @@ class RemoteStoreInvoice {
     try {
       final http.Response response =
           await _client.post(_url, body: json.encode(body));
-
       if (response.statusCode == 404) {
         return Future<http.Response>.error(RemoteStoreInvoiceErrors.notFound);
+      } else if (response.statusCode == 409) {
+        return Future<http.Response>.error(
+            RemoteStoreInvoiceErrors.duplicateClientId);
       }
       if (response.statusCode != 201) {
         return Future<http.Response>.error(

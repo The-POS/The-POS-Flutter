@@ -56,12 +56,13 @@ void main() {
     }
   });
 
-  test('store delivers not found error on 404 HTTP Response', () async {
+  test('store delivers duplicate client id error on 409 HTTP Response',
+      () async {
     final RemoteStoreInvoiceSUT sut = _makeSUT();
     sut.client
-        .completeWithResponse(MockClientStub.createResponse(404, 'response'));
+        .completeWithResponse(MockClientStub.createResponse(409, 'response'));
     final dynamic error =
         await tryFunction(() => sut.remoteStoreInvoice.store(anyJsonInvoice));
-    expect(error, RemoteStoreInvoiceErrors.notFound);
+    expect(error, RemoteStoreInvoiceErrors.duplicateClientId);
   });
 }
