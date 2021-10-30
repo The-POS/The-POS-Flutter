@@ -1,14 +1,12 @@
 import 'dart:convert';
 
 import 'package:flutter_test/flutter_test.dart';
-import 'package:thepos/features/home/data/models/product.dart';
-import 'package:thepos/features/invoice/models/invoice.dart';
-import 'package:thepos/features/invoice/models/invoice_item.dart';
 import 'package:thepos/features/invoice/repositories/remote_store_invoice.dart';
 import 'package:thepos/features/invoice/repositories/remote_store_invoice_error.dart';
 
 import '../helpers/mock_client_stub.dart';
 import 'helpers/remote_store_invoice_sut.dart';
+import 'helpers/shared_test_helper.dart';
 
 void main() {
   RemoteStoreInvoiceSUT _makeSUT() {
@@ -40,41 +38,19 @@ void main() {
 
   test('store post the correct data to the end point', () async {
     final RemoteStoreInvoiceSUT sut = _makeSUT();
-    final Product testProduct =
-        Product(name: 'test name', sku: 'test sku', price: 4);
-    const int testQuantity = 2;
 
-    final Invoice testInvoice = Invoice(
-      clientId: 0,
-      items: <InvoiceItem>[
-        InvoiceItem(product: testProduct, quantity: testQuantity)
-      ],
-    );
+    await sut.remoteStoreInvoice.store(anyJsonInvoice);
 
-    await sut.remoteStoreInvoice.store(testInvoice.toJson());
-
-    expect(
-        MockClientStub.requests.first.body, json.encode(testInvoice.toJson()));
+    expect(MockClientStub.requests.first.body, json.encode(anyJsonInvoice));
   });
 
   test('store delivers error on the client error', () async {
     final RemoteStoreInvoiceSUT sut = _makeSUT();
-    final Product testProduct =
-        Product(name: 'test name', sku: 'test sku', price: 4);
-    const int testQuantity = 2;
 
-    final Invoice testInvoice = Invoice(
-      clientId: 0,
-      items: <InvoiceItem>[
-        InvoiceItem(product: testProduct, quantity: testQuantity)
-      ],
-    );
-
-    final Exception anyException = Exception();
     sut.client.completeWith(anyException);
 
     final dynamic error =
-        await tryStoreInvoice(sut.remoteStoreInvoice, testInvoice.toJson());
+        await tryStoreInvoice(sut.remoteStoreInvoice, anyJsonInvoice);
 
     expect(error, RemoteStoreInvoiceErrors.connectivity);
   });
