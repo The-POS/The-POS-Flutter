@@ -55,4 +55,13 @@ void main() {
       expect(error != null, true);
     }
   });
+
+  test('store delivers not found error on 404 HTTP Response', () async {
+    final RemoteStoreInvoiceSUT sut = _makeSUT();
+    sut.client
+        .completeWithResponse(MockClientStub.createResponse(404, 'response'));
+    final dynamic error =
+        await tryFunction(() => sut.remoteStoreInvoice.store(anyJsonInvoice));
+    expect(error, RemoteStoreInvoiceErrors.notFound);
+  });
 }
