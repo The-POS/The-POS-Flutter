@@ -10,23 +10,21 @@ class RemoteStoreInvoice {
   final http.Client _client;
   final Uri _url;
 
-  Future<http.Response> store(Map<String, dynamic> body) async {
+  Future<void> store(Map<String, dynamic> body) async {
     try {
       final http.Response response =
           await _client.post(_url, body: json.encode(body));
-      if (response.statusCode == 404) {
-        return Future<http.Response>.error(RemoteStoreInvoiceErrors.notFound);
+      if (response.statusCode == 201) {
+        return;
+      } else if (response.statusCode == 404) {
+        return Future<void>.error(RemoteStoreInvoiceErrors.notFound);
       } else if (response.statusCode == 409) {
-        return Future<http.Response>.error(
-            RemoteStoreInvoiceErrors.duplicateClientId);
+        return Future<void>.error(RemoteStoreInvoiceErrors.duplicateClientId);
+      } else {
+        return Future<void>.error(RemoteStoreInvoiceErrors.invalidData);
       }
-      if (response.statusCode != 201) {
-        return Future<http.Response>.error(
-            RemoteStoreInvoiceErrors.invalidData);
-      }
-      return response;
     } catch (error) {
-      return Future<http.Response>.error(RemoteStoreInvoiceErrors.connectivity);
+      return Future<void>.error(RemoteStoreInvoiceErrors.connectivity);
     }
   }
 }

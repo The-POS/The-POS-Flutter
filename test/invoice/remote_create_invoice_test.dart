@@ -65,4 +65,12 @@ void main() {
         await tryFunction(() => sut.remoteStoreInvoice.store(anyJsonInvoice));
     expect(error, RemoteStoreInvoiceErrors.duplicateClientId);
   });
+
+  test('store delivers void on 201 HTTP Response', () async {
+    final RemoteStoreInvoiceSUT sut = _makeSUT();
+    sut.client.completeWithResponse(MockClientStub.createResponse(201, ''));
+    final dynamic result =
+        await tryFunction(() => sut.remoteStoreInvoice.store(anyJsonInvoice));
+    expect(result.runtimeType, Null);
+  });
 }
