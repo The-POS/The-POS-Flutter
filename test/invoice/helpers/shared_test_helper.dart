@@ -27,3 +27,14 @@ final Invoice anyInvoice = Invoice(
 final Map<String, dynamic> anyJsonInvoice = anyInvoice.toJson();
 
 final Exception anyException = Exception();
+
+typedef TryFunction = Future<dynamic> Function();
+dynamic tryFunction(TryFunction function) async {
+  dynamic expectedError;
+  try {
+    await function();
+  } catch (error) {
+    expectedError = error;
+  }
+  return expectedError;
+}

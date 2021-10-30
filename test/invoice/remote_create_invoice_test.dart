@@ -16,17 +16,6 @@ void main() {
     return RemoteStoreInvoiceSUT(client, sut);
   }
 
-  dynamic tryStoreInvoice(
-      RemoteStoreInvoice sut, Map<String, dynamic> body) async {
-    dynamic expectedError;
-    try {
-      await sut.store(body);
-    } catch (error) {
-      expectedError = error;
-    }
-    return expectedError;
-  }
-
   tearDown(() {
     MockClientStub.clear();
   });
@@ -50,7 +39,7 @@ void main() {
     sut.client.completeWith(anyException);
 
     final dynamic error =
-        await tryStoreInvoice(sut.remoteStoreInvoice, anyJsonInvoice);
+        await tryFunction(() => sut.remoteStoreInvoice.store(anyJsonInvoice));
 
     expect(error, RemoteStoreInvoiceErrors.connectivity);
   });
