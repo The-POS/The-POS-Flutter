@@ -28,7 +28,7 @@ void main() {
   test('store post the correct data to the end point', () async {
     final RemoteStoreInvoiceSUT sut = _makeSUT();
 
-    await sut.remoteStoreInvoice.store(anyJsonInvoice);
+    await await tryFunction(() => sut.remoteStoreInvoice.store(anyJsonInvoice));
 
     expect(MockClientStub.requests.first.body, json.encode(anyJsonInvoice));
   });
