@@ -3,7 +3,8 @@ import 'dart:convert';
 
 import 'package:http/http.dart' as http;
 import 'package:thepos/features/invoice/models/invoice.dart';
-import 'package:thepos/features/invoice/repositories/remote_store_invoice_error.dart';
+
+import 'remote_store_invoice_error.dart';
 
 class RemoteStoreInvoice {
   RemoteStoreInvoice(this._client, this._url);

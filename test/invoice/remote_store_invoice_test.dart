@@ -3,8 +3,8 @@ import 'dart:convert';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:thepos/features/home/data/models/product.dart';
 import 'package:thepos/features/invoice/models/invoice.dart';
-import 'package:thepos/features/invoice/repositories/remote_store_invoice.dart';
-import 'package:thepos/features/invoice/repositories/remote_store_invoice_error.dart';
+import 'package:thepos/features/invoice/repositories/api_invoice/remote_store_invoice.dart';
+import 'package:thepos/features/invoice/repositories/api_invoice/remote_store_invoice_error.dart';
 
 import '../helpers/mock_client_stub.dart';
 import 'helpers/remote_store_invoice_sut.dart';
