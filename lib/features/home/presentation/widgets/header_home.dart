@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/svg.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:thepos/features/home/presentation/controllers/home_controller.dart';
 
@@ -21,9 +22,7 @@ class HeaderHomeWidget extends StatelessWidget {
           "المبيعات",
           style: GoogleFonts.cairo(
             textStyle: const TextStyle(
-                color: Colors.black,
-                fontSize: 20,
-                fontWeight: FontWeight.w400),
+                color: Colors.black, fontSize: 20, fontWeight: FontWeight.w400),
           ),
         ),
         leading: InkWell(
@@ -36,18 +35,28 @@ class HeaderHomeWidget extends StatelessWidget {
             child: const Icon(Icons.menu),
           ),
         ),
-        actions: const [
-          Icon(
-            Icons.qr_code,
-            color: Colors.grey,
+        actions: [
+          SvgPicture.asset(
+            "assets/svg/barcode.svg",
+            width: 30,
           ),
+          // Icon(
+          //   Icons.qr_code,
+          //   color: Colors.grey,
+          // ),
           SizedBox(
-            width: 10,
+            width: 20,
           ),
-          Icon(
-            Icons.search,
-            color: Colors.grey,
+
+          SvgPicture.asset(
+            "assets/svg/search.svg",
+            width: 20,
           ),
+
+          // Icon(
+          //   Icons.search,
+          //   color: Colors.grey,
+          // ),
           SizedBox(
             width: 5,
           ),

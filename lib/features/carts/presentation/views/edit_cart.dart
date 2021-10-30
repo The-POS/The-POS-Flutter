@@ -3,6 +3,7 @@ import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:thepos/core/init_app.dart';
 import 'package:thepos/features/carts/data/models/cart_item.dart';
+import 'package:thepos/features/carts/presentation/controllers/carts_controller.dart';
 import 'package:thepos/features/carts/presentation/views/cart_view.dart';
 import 'package:thepos/features/carts/presentation/widgets/KeyPad.dart';
 
@@ -16,6 +17,8 @@ class EditCartWidget extends StatefulWidget {
 
 class _EditCartWidgetState extends State<EditCartWidget> {
   TextEditingController pinController = TextEditingController();
+// final cartsController = Get.put(CartsController());
+  var cartsController = Get.find<CartsController>();
 
   @override
   void initState() {
@@ -285,7 +288,7 @@ class _EditCartWidgetState extends State<EditCartWidget> {
           //     child: Text(pinController.text, style: TextStyle(fontSize: 40))),
 
           Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 30),
+            padding: const EdgeInsets.symmetric(horizontal: 10),
             child: KeyPad(
               isPinLogin: false,
               onChange: (t) {
@@ -303,7 +306,7 @@ class _EditCartWidgetState extends State<EditCartWidget> {
           Padding(
             padding: const EdgeInsets.symmetric(horizontal: 10),
             child: Row(
-              children: [ 
+              children: [
                 Expanded(
                   child: InkWell(
                       onTap: () {
@@ -320,10 +323,10 @@ class _EditCartWidgetState extends State<EditCartWidget> {
                         // width: 60,
                         // height: 60,
                         alignment: Alignment.center,
-                        margin:
-                            const EdgeInsets.symmetric(horizontal: 5, vertical: 1),
-                        padding:
-                            const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
+                        margin: const EdgeInsets.symmetric(
+                            horizontal: 5, vertical: 1),
+                        padding: const EdgeInsets.symmetric(
+                            horizontal: 20, vertical: 10),
                         decoration: BoxDecoration(
                             color: const Color(0xffE14646),
                             borderRadius: BorderRadius.circular(5.0)),
@@ -354,9 +357,10 @@ class _EditCartWidgetState extends State<EditCartWidget> {
                       // width: 60,
                       // height: 60,
                       alignment: Alignment.center,
-                      margin: const EdgeInsets.symmetric(horizontal: 5, vertical: 1),
-                      padding:
-                          const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
+                      margin: const EdgeInsets.symmetric(
+                          horizontal: 5, vertical: 1),
+                      padding: const EdgeInsets.symmetric(
+                          horizontal: 20, vertical: 10),
                       decoration: BoxDecoration(
                           color: const Color(0xff178F49),
                           borderRadius: BorderRadius.circular(5.0)),
