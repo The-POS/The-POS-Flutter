@@ -1,6 +1,8 @@
 import 'dart:convert';
 
 import 'package:flutter_test/flutter_test.dart';
+import 'package:thepos/features/home/data/models/product.dart';
+import 'package:thepos/features/invoice/models/invoice.dart';
 import 'package:thepos/features/invoice/repositories/remote_store_invoice.dart';
 import 'package:thepos/features/invoice/repositories/remote_store_invoice_error.dart';
 
@@ -75,11 +77,29 @@ void main() {
     expect(error, RemoteStoreInvoiceErrors.notFound);
   });
 
-  test('store delivers void on 201 HTTP Response', () async {
+  test('store delivers created invoice on 201 HTTP Response', () async {
     final RemoteStoreInvoiceSUT sut = _makeSUT();
-    sut.client.completeWithResponse(MockClientStub.createResponse(201, ''));
-    final dynamic result =
-        await tryFunction(() => sut.remoteStoreInvoice.store(anyJsonInvoice));
-    expect(result.runtimeType, Null);
+
+    final Invoice invoice = anyInvoice;
+    final Map<String, dynamic> body = invoice.toJson();
+    final String response = jsonEncode(body);
+
+    sut.client
+        .completeWithResponse(MockClientStub.createResponse(201, response));
+
+    final Invoice result = await sut.remoteStoreInvoice.store(body);
+
+    expect(result.clientId, invoice.clientId);
+    expect(result.items.length, invoice.items.length);
+    expect(result.items.first.quantity, invoice.items.first.quantity);
+
+    final Product resultFirstProduct = result.items.first.product;
+    final Product expectedResultFirstProduct = invoice.items.first.product;
+
+    expect(resultFirstProduct.sku, expectedResultFirstProduct.sku);
+    expect(resultFirstProduct.name, expectedResultFirstProduct.name);
+    expect(resultFirstProduct.taxRate, expectedResultFirstProduct.taxRate);
+    expect(
+        resultFirstProduct.taxedPrice, expectedResultFirstProduct.taxedPrice);
   });
 }

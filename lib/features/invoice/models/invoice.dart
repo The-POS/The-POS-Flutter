@@ -6,7 +6,7 @@ class Invoice {
   factory Invoice.fromJson(Map<String, dynamic> json) {
     final int clientId = json['client_id'];
     final List<InvoiceItem> invoiceItems = <InvoiceItem>[];
-    final List<Map<String, dynamic>> items = json['items'];
+    final List<dynamic> items = json['items'];
     for (final Map<String, dynamic> value in items) {
       invoiceItems.add(InvoiceItem.fromJson(value));
     }

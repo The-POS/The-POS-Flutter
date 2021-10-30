@@ -2,6 +2,7 @@ import 'dart:async';
 import 'dart:convert';
 
 import 'package:http/http.dart' as http;
+import 'package:thepos/features/invoice/models/invoice.dart';
 import 'package:thepos/features/invoice/repositories/remote_store_invoice_error.dart';
 
 class RemoteStoreInvoice {
@@ -10,21 +11,30 @@ class RemoteStoreInvoice {
   final http.Client _client;
   final Uri _url;
 
-  Future<void> store(Map<String, dynamic> body) async {
+  Future<Invoice> store(Map<String, dynamic> body) async {
     try {
       final http.Response response =
           await _client.post(_url, body: json.encode(body));
       if (response.statusCode == 201) {
-        return;
+        return _tryParse(response.body);
       } else if (response.statusCode == 404) {
-        return Future<void>.error(RemoteStoreInvoiceErrors.notFound);
+        return Future<Invoice>.error(RemoteStoreInvoiceErrors.notFound);
       } else if (response.statusCode == 409) {
-        return Future<void>.error(RemoteStoreInvoiceErrors.duplicateClientId);
+        return Future<Invoice>.error(
+            RemoteStoreInvoiceErrors.duplicateClientId);
       } else {
-        return Future<void>.error(RemoteStoreInvoiceErrors.invalidData);
+        return Future<Invoice>.error(RemoteStoreInvoiceErrors.invalidData);
       }
     } catch (error) {
-      return Future<void>.error(RemoteStoreInvoiceErrors.connectivity);
+      return Future<Invoice>.error(RemoteStoreInvoiceErrors.connectivity);
+    }
+  }
+
+  Future<Invoice> _tryParse(String body) {
+    try {
+      return Future<Invoice>.value(Invoice.fromJson(jsonDecode(body)));
+    } catch (error) {
+      return Future<Invoice>.error(RemoteStoreInvoiceErrors.invalidData);
     }
   }
 }
