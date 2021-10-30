@@ -33,6 +33,21 @@ void main() {
     expect(result.isEmpty, false);
     expectInvoice(result.first, invoice);
   });
+
+  test('retrieve delivers an empty cache after delete the inserted invoice',
+      () async {
+    final Box<Map<String, dynamic>> hiveBox = await Hive.openBox('testBox');
+    final LocalStoreInvoice localStoreInvoice =
+        LocalStoreInvoice(hiveBox: hiveBox);
+
+    final Invoice invoice = anyInvoice;
+    await localStoreInvoice.store(invoice);
+
+    await localStoreInvoice.delete(invoice);
+
+    final List<Invoice> result = localStoreInvoice.retrieve();
+    expect(result.isEmpty, true);
+  });
 }
 
 class LocalStoreInvoice {
@@ -41,7 +56,7 @@ class LocalStoreInvoice {
   final Box<Map<String, dynamic>> hiveBox;
 
   Future<Invoice> store(Invoice invoice) async {
-    await hiveBox.add(invoice.toJson());
+    await hiveBox.put(invoice.clientId, invoice.toJson());
     return invoice;
   }
 
@@ -49,5 +64,10 @@ class LocalStoreInvoice {
     return hiveBox.values
         .map((Map<String, dynamic> json) => Invoice.fromJson(json))
         .toList();
+  }
+
+  Future<Invoice> delete(Invoice invoice) async {
+    await hiveBox.delete(invoice.clientId);
+    return invoice;
   }
 }
