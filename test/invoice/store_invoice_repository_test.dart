@@ -16,7 +16,7 @@ void main() {
     final StoreInvoice local = StoreInvoiceStub(localResult);
 
     return StoreInvoiceRepository(
-      isOnline: true,
+      isOnline: isOnline,
       remote: remote,
       local: local,
     );
@@ -53,6 +53,6 @@ void main() {
 
     final Invoice result = await sut.store(anyInvoice);
 
-    expectInvoice(result, remoteResult);
+    expectInvoice(result, localResult);
   });
 }
