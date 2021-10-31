@@ -29,7 +29,7 @@ void main() {
   test('store post the correct data to the end point', () async {
     final RemoteStoreInvoiceSUT sut = _makeSUT();
 
-    await await tryFunction(() => sut.remoteStoreInvoice.store(anyJsonInvoice));
+    await await tryFunction(() => sut.remoteStoreInvoice.store(anyInvoice));
 
     expect(MockClientStub.requests.first.body, json.encode(anyJsonInvoice));
   });
@@ -40,7 +40,7 @@ void main() {
     sut.client.completeWith(anyException);
 
     final dynamic error =
-        await tryFunction(() => sut.remoteStoreInvoice.store(anyJsonInvoice));
+        await tryFunction(() => sut.remoteStoreInvoice.store(anyInvoice));
 
     expect(error, RemoteStoreInvoiceErrors.connectivity);
   });
@@ -52,7 +52,7 @@ void main() {
       sut.client.completeWithResponse(
           MockClientStub.createResponse(statusCode, 'response'));
       final dynamic error =
-          await tryFunction(() => sut.remoteStoreInvoice.store(anyJsonInvoice));
+          await tryFunction(() => sut.remoteStoreInvoice.store(anyInvoice));
       expect(error != null, true);
     }
   });
@@ -63,7 +63,7 @@ void main() {
     sut.client
         .completeWithResponse(MockClientStub.createResponse(409, 'response'));
     final dynamic error =
-        await tryFunction(() => sut.remoteStoreInvoice.store(anyJsonInvoice));
+        await tryFunction(() => sut.remoteStoreInvoice.store(anyInvoice));
     expect(error, RemoteStoreInvoiceErrors.duplicateClientId);
   });
 
@@ -72,7 +72,7 @@ void main() {
     sut.client
         .completeWithResponse(MockClientStub.createResponse(404, 'response'));
     final dynamic error =
-        await tryFunction(() => sut.remoteStoreInvoice.store(anyJsonInvoice));
+        await tryFunction(() => sut.remoteStoreInvoice.store(anyInvoice));
     expect(error, RemoteStoreInvoiceErrors.notFound);
   });
 
@@ -80,13 +80,12 @@ void main() {
     final RemoteStoreInvoiceSUT sut = _makeSUT();
 
     final Invoice invoice = anyInvoice;
-    final Map<String, dynamic> body = invoice.toJson();
-    final String response = jsonEncode(body);
+    final String response = jsonEncode(invoice.toJson());
 
     sut.client
         .completeWithResponse(MockClientStub.createResponse(201, response));
 
-    final Invoice result = await sut.remoteStoreInvoice.store(body);
+    final Invoice result = await sut.remoteStoreInvoice.store(invoice);
 
     expectInvoice(result, invoice);
   });

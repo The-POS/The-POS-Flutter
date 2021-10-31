@@ -12,10 +12,10 @@ class RemoteStoreInvoice {
   final http.Client _client;
   final Uri _url;
 
-  Future<Invoice> store(Map<String, dynamic> body) async {
+  Future<Invoice> store(Invoice invoice) async {
     try {
       final http.Response response =
-          await _client.post(_url, body: json.encode(body));
+          await _client.post(_url, body: json.encode(invoice.toJson()));
       if (response.statusCode == 201) {
         return _tryParse(response.body);
       } else if (response.statusCode == 404) {
