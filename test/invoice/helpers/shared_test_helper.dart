@@ -20,10 +20,20 @@ final Cart anyCart = Cart(
   cartItems: <CartItem>[CartItem(product: anyProduct, quantity: anyQuantity)],
 );
 
+final InvoiceItem anyInvoiceItem =
+    InvoiceItem(product: anyProduct, quantity: anyQuantity);
+
 final Invoice anyInvoice = Invoice(
   clientId: 0,
-  items: <InvoiceItem>[InvoiceItem(product: anyProduct, quantity: anyQuantity)],
+  items: <InvoiceItem>[anyInvoiceItem],
 );
+
+Invoice createInvoice(int clientId, List<InvoiceItem> items) {
+  return Invoice(
+    clientId: clientId,
+    items: items,
+  );
+}
 
 final Map<String, dynamic> anyJsonInvoice = anyInvoice.toJson();
 
