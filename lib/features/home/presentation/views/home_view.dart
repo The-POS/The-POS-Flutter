@@ -79,7 +79,7 @@ class HomeView extends StatelessWidget {
                                   alignment: WrapAlignment.center,
                                   // mainAxisAlignment: MainAxisAlignment.end,
                                   children:
-                                      cont.listHomeProduct.value.map((product) {
+                                      cont.newListHomeProduct.value.map((product) {
                                     return InkWell(
                                       onTap: () {
                                         cartsController.addProduct(product);

@@ -1,11 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:thepos/features/home/controllers/home_controller.dart';
 
 class Search extends StatelessWidget {
+  HomeController controller;
+  Search(this.controller);
+
   @override
   Widget build(BuildContext context) {
     return TextField(
       autofocus: true,
+      onChanged:  controller.onSearch,
       decoration: InputDecoration(
         border: InputBorder.none,
         hintText: 'أدخل اسم المنتج',

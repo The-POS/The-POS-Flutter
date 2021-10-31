@@ -18,7 +18,7 @@ class HeaderHomeWidget extends StatelessWidget {
       child: AppBar(
         backgroundColor: Colors.white,
         elevation: 0.2,
-        title:SearchBar(isSearching: controller.searching.value,),
+        title:SearchBar(isSearching: controller.searching.value,controller:controller),
         leading: InkWell(
           onTap: () {
             controller.showHidCart();
@@ -70,8 +70,9 @@ class HeaderHomeWidget extends StatelessWidget {
 
 class SearchBar extends StatelessWidget {
   final bool isSearching;
+  final HomeController controller;
 
-  SearchBar({required this.isSearching});
+  SearchBar({required this.isSearching,required this.controller});
 
   @override
   Widget build(BuildContext context) {
@@ -92,7 +93,7 @@ class SearchBar extends StatelessWidget {
         AnimateExpansion(
           animate: isSearching,
           axisAlignment: -1.0,
-          child: Search(),
+          child: Search(controller),
         ),
       ],
     );
