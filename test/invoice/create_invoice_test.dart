@@ -2,6 +2,7 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:thepos/features/invoice/data/data_sources/store_invoice.dart';
 import 'package:thepos/features/invoice/data/models/invoice.dart';
 import 'package:thepos/features/invoice/data/models/invoice_item.dart';
+import 'package:thepos/features/invoice/data/repositories/store_invoice_repository.dart';
 
 import 'helpers/shared_test_helper.dart';
 
@@ -53,23 +54,6 @@ void main() {
 
     expectInvoice(result, remoteResult);
   });
-}
-
-class StoreInvoiceRepository {
-  StoreInvoiceRepository(
-      {required this.isOnline, required this.remote, required this.local});
-
-  final bool isOnline;
-  final StoreInvoice remote;
-  final StoreInvoice local;
-
-  Future<Invoice> store(Invoice invoice) {
-    if (isOnline) {
-      return remote.store(invoice);
-    } else {
-      return local.store(invoice);
-    }
-  }
 }
 
 class StoreInvoiceStub extends StoreInvoice {
