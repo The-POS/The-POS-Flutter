@@ -1,7 +1,7 @@
 import 'package:flutter_test/flutter_test.dart';
 import 'package:hive_flutter/adapters.dart';
-import 'package:thepos/features/invoice/models/invoice.dart';
-import 'package:thepos/features/invoice/repositories/local_invoice/local_store_invoice.dart';
+import 'package:thepos/features/invoice/data/data_sources/local_store_invoice.dart';
+import 'package:thepos/features/invoice/data/models/invoice.dart';
 
 import 'helpers/shared_test_helper.dart';
 

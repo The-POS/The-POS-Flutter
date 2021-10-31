@@ -1,5 +1,6 @@
 import 'package:hive/hive.dart';
-import 'package:thepos/features/invoice/models/invoice.dart';
+
+import '../models/invoice.dart';
 
 class LocalStoreInvoice {
   LocalStoreInvoice({required this.hiveBox});

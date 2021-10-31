@@ -1,6 +1,6 @@
 import 'package:flutter_test/flutter_test.dart';
+import 'package:thepos/features/invoice/data/models/invoice.dart';
 import 'package:thepos/features/invoice/helper/cart_invoice_mapper.dart';
-import 'package:thepos/features/invoice/models/invoice.dart';
 
 import 'helpers/shared_test_helper.dart';
 

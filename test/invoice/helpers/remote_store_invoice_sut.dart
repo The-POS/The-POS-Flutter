@@ -1,4 +1,4 @@
-import 'package:thepos/features/invoice/repositories/api_invoice/remote_store_invoice.dart';
+import 'package:thepos/features/invoice/data/data_sources/api_invoice/remote_store_invoice.dart';
 
 import '../../helpers/mock_client_stub.dart';
 

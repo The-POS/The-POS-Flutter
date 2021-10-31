@@ -2,8 +2,8 @@ import 'dart:async';
 import 'dart:convert';
 
 import 'package:http/http.dart' as http;
-import 'package:thepos/features/invoice/models/invoice.dart';
 
+import '../../models/invoice.dart';
 import 'remote_store_invoice_error.dart';
 
 class RemoteStoreInvoice {

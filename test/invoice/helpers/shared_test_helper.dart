@@ -2,8 +2,8 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:thepos/features/carts/data/models/cart.dart';
 import 'package:thepos/features/carts/data/models/cart_item.dart';
 import 'package:thepos/features/home/data/models/product.dart';
-import 'package:thepos/features/invoice/models/invoice.dart';
-import 'package:thepos/features/invoice/models/invoice_item.dart';
+import 'package:thepos/features/invoice/data/models/invoice.dart';
+import 'package:thepos/features/invoice/data/models/invoice_item.dart';
 
 final Product anyProduct =
     Product(name: 'test name', sku: 'test sku', price: 4);
