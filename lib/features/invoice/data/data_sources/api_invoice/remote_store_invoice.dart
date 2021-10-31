@@ -4,14 +4,16 @@ import 'dart:convert';
 import 'package:http/http.dart' as http;
 
 import '../../models/invoice.dart';
+import '../store_invoice.dart';
 import 'remote_store_invoice_error.dart';
 
-class RemoteStoreInvoice {
+class RemoteStoreInvoice extends StoreInvoice {
   RemoteStoreInvoice(this._client, this._url);
 
   final http.Client _client;
   final Uri _url;
 
+  @override
   Future<Invoice> store(Invoice invoice) async {
     try {
       final http.Response response =
