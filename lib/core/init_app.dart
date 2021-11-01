@@ -3,12 +3,19 @@
 import 'package:faker_dart/faker_dart.dart';
 import 'package:get_it/get_it.dart';
 import 'package:hive_flutter/hive_flutter.dart';
+import 'package:http/http.dart' as http;
 import 'package:thepos/core/preferences_utils.dart';
 import 'package:thepos/features/home/data/datasources/home_faker_data_source.dart';
 import 'package:thepos/features/home/data/datasources/home_local_data_source.dart';
 import 'package:thepos/features/home/data/datasources/home_remote_data_source.dart';
 import 'package:thepos/features/home/data/models/product.dart';
 import 'package:thepos/features/home/data/repositories/home_repository.dart';
+import 'package:thepos/features/invoice/data/data_sources/api_invoice/remote_store_invoice.dart';
+import 'package:thepos/features/invoice/data/data_sources/local_store_invoice.dart';
+import 'package:thepos/features/invoice/data/data_sources/store_invoice.dart';
+import 'package:thepos/features/invoice/data/repositories/invoice_repository.dart';
+
+import 'config.dart';
 
 late Box<Product> productsBox;
 final faker = Faker.instance;
@@ -25,7 +32,7 @@ void init() async {
 
 final getIt = GetIt.instance;
 
-void setupGetIt() {
+Future<void> setupGetIt() async {
   //dataSorces
   getIt.registerSingleton<HomeLocalDataSource>(HomeLocalDataSource());
   getIt.registerSingleton<HomeRemoteDataSource>(HomeRemoteDataSource());
@@ -36,4 +43,18 @@ void setupGetIt() {
       localDataSource: getIt(),
       remoteDataSource: getIt(),
       fakerDataSource: getIt()));
+
+  final Uri uri = Uri.https(domain, '$mainUrl/api/v1/sales-invoices');
+  print('$uri');
+
+  final Box<Map<String, dynamic>> hiveBox = await Hive.openBox('invoicesBox');
+
+  final StoreInvoice remote = RemoteStoreInvoice(http.Client(), uri);
+  final StoreInvoice local = LocalStoreInvoice(hiveBox: hiveBox);
+
+  getIt.registerSingleton<StoreInvoice>(InvoiceRepository(
+    isOnline: true,
+    remote: remote,
+    local: local,
+  ));
 }
