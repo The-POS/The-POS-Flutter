@@ -165,47 +165,53 @@ class _CartViewState extends State<CartView> {
                 Padding(
                   padding: const EdgeInsets.only(bottom: 8.0),
                   child: ElevatedButton(
-                    onPressed: () {},
+                    onPressed: () {
+                      cartsController.pay();
+                    },
                     style: ElevatedButton.styleFrom(
                       primary: const Color(0xff178f49), // background
                       onPrimary: const Color(0xffF79624),
                       // foreground
                     ),
-                    child: SizedBox(
-                      height: 55,
-                      child: Row(
-                        children: <Widget>[
-                          Text(
-                            'الدفع',
-                            style: GoogleFonts.cairo(
-                              textStyle: const TextStyle(
-                                  color: Colors.white,
-                                  fontSize: 20,
-                                  fontWeight: FontWeight.normal),
-                            ),
-                          ),
-                          const Spacer(),
-                          Text(
-                            '${cartsController.invoiceTotal}',
-                            style: GoogleFonts.cairo(
-                              textStyle: const TextStyle(
-                                  color: Colors.white,
-                                  fontSize: 25,
-                                  fontWeight: FontWeight.bold),
-                            ),
-                          ),
-                          Text(
-                            'ريال',
-                            style: GoogleFonts.cairo(
-                              textStyle: const TextStyle(
-                                  color: Colors.white,
-                                  fontSize: 15,
-                                  fontWeight: FontWeight.normal),
-                            ),
+                    child: cartsController.isPayLoading.value
+                        ? const Center(
+                            child: CircularProgressIndicator(),
                           )
-                        ],
-                      ),
-                    ),
+                        : SizedBox(
+                            height: 55,
+                            child: Row(
+                              children: <Widget>[
+                                Text(
+                                  'الدفع',
+                                  style: GoogleFonts.cairo(
+                                    textStyle: const TextStyle(
+                                        color: Colors.white,
+                                        fontSize: 20,
+                                        fontWeight: FontWeight.normal),
+                                  ),
+                                ),
+                                const Spacer(),
+                                Text(
+                                  '${cartsController.invoiceTotal}',
+                                  style: GoogleFonts.cairo(
+                                    textStyle: const TextStyle(
+                                        color: Colors.white,
+                                        fontSize: 25,
+                                        fontWeight: FontWeight.bold),
+                                  ),
+                                ),
+                                Text(
+                                  'ريال',
+                                  style: GoogleFonts.cairo(
+                                    textStyle: const TextStyle(
+                                        color: Colors.white,
+                                        fontSize: 15,
+                                        fontWeight: FontWeight.normal),
+                                  ),
+                                )
+                              ],
+                            ),
+                          ),
                   ),
                 ),
               ],

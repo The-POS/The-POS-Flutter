@@ -2,10 +2,18 @@
 
 import 'dart:ui';
 
+import 'package:connectivity/connectivity.dart';
 import 'package:get/get.dart';
+import 'package:hive_flutter/adapters.dart';
+import 'package:http/http.dart' as http;
 import 'package:thepos/features/carts/data/models/cart.dart';
 import 'package:thepos/features/carts/data/models/cart_item.dart';
 import 'package:thepos/features/home/data/models/product.dart';
+import 'package:thepos/features/invoice/data/data_sources/api_invoice/remote_store_invoice.dart';
+import 'package:thepos/features/invoice/data/data_sources/local_store_invoice.dart';
+import 'package:thepos/features/invoice/data/data_sources/store_invoice.dart';
+import 'package:thepos/features/invoice/data/repositories/invoice_repository.dart';
+import 'package:thepos/features/invoice/helper/cart_invoice_mapper.dart';
 
 class CartsController extends GetxController {
   RxList listCarts = <Cart>[
@@ -21,6 +29,7 @@ class CartsController extends GetxController {
   ].obs;
 
   var selectedCart = 0.obs;
+  var isPayLoading = false.obs;
 
   double get invoiceTotal {
     final Cart selectedCard = listCarts.value[selectedCart.value];
@@ -79,5 +88,32 @@ class CartsController extends GetxController {
         (elementProduct) => elementProduct.product.sku == product.product.sku);
 
     update();
+  }
+
+  Future<void> pay() async {
+    final connectivityResult = await Connectivity().checkConnectivity();
+    final bool isOnline = connectivityResult == ConnectivityResult.mobile ||
+        connectivityResult == ConnectivityResult.wifi;
+
+    final uri = Uri.https(
+        'stoplight.io', '/mocks/thepos/thepos/24265652/api/v1/sales-invoices');
+    final StoreInvoice remote = RemoteStoreInvoice(http.Client(), uri);
+
+    final Box<Map<String, dynamic>> hiveBox = await Hive.openBox('invoicesBox');
+
+    final StoreInvoice local = LocalStoreInvoice(hiveBox: hiveBox);
+    final InvoiceRepository invoiceRepository =
+        InvoiceRepository(isOnline: isOnline, remote: remote, local: local);
+    final cart = listCarts.value[selectedCart.value];
+    final invoice = CartInvoiceMapper.createInvoiceFrom(cart: cart);
+    isPayLoading.value = true;
+    if (invoice != null) {
+      try {
+        await invoiceRepository.store(invoice);
+        isPayLoading.value = false;
+      } catch (error) {
+        isPayLoading.value = false;
+      }
+    }
   }
 }
