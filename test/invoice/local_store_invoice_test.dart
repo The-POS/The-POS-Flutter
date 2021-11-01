@@ -21,7 +21,7 @@ void main() {
 
   test('retrieve delivers empty on empty cache', () async {
     final LocalStoreInvoice sut = await makeSUT();
-    final List<Invoice> result = sut.retrieve();
+    final List<Invoice> result = await sut.load();
     expect(result.isEmpty, true);
   });
 
@@ -31,7 +31,7 @@ void main() {
     final Invoice invoice = anyInvoice;
     await sut.store(invoice);
 
-    final List<Invoice> result = sut.retrieve();
+    final List<Invoice> result = await sut.load();
     expect(result.isEmpty, false);
     expectInvoice(result.first, invoice);
   });
@@ -44,7 +44,7 @@ void main() {
     await sut.store(invoice);
     await sut.delete(invoice);
 
-    final List<Invoice> result = sut.retrieve();
+    final List<Invoice> result = await sut.load();
     expect(result.isEmpty, true);
   });
 }

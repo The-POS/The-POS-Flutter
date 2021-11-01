@@ -2,8 +2,9 @@ import 'package:hive/hive.dart';
 import 'package:thepos/features/invoice/data/data_sources/store_invoice.dart';
 
 import '../models/invoice.dart';
+import 'invoice_loader.dart';
 
-class LocalStoreInvoice extends StoreInvoice {
+class LocalStoreInvoice extends StoreInvoice implements InvoiceLoader {
   LocalStoreInvoice({required this.hiveBox});
 
   final Box<Map<String, dynamic>> hiveBox;
@@ -14,12 +15,15 @@ class LocalStoreInvoice extends StoreInvoice {
     return invoice;
   }
 
-  List<Invoice> retrieve() {
-    return hiveBox.values
+  @override
+  Future<List<Invoice>> load() {
+    final List<Invoice> invoices = hiveBox.values
         .map((Map<String, dynamic> json) => Invoice.fromJson(json))
         .toList();
+    return Future<List<Invoice>>.value(invoices);
   }
 
+  @override
   Future<Invoice> delete(Invoice invoice) async {
     await hiveBox.delete(invoice.clientId);
     return invoice;
