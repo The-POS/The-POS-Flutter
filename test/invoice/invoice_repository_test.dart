@@ -16,7 +16,9 @@ void main() {
     final StoreInvoice local = StoreInvoiceStub(result: localResult);
 
     return InvoiceRepository(
-      isOnline: isOnline,
+      checkInternetConnectivity: () {
+        return Future<bool>.value(isOnline);
+      },
       remote: remote,
       local: local,
     );

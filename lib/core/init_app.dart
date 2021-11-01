@@ -1,5 +1,6 @@
 // ignore_for_file: avoid_void_async
 
+import 'package:connectivity/connectivity.dart';
 import 'package:faker_dart/faker_dart.dart';
 import 'package:get_it/get_it.dart';
 import 'package:hive_flutter/hive_flutter.dart';
@@ -52,8 +53,15 @@ Future<void> setupGetIt() async {
   final StoreInvoice local = LocalStoreInvoice(hiveBox: hiveBox);
 
   getIt.registerSingleton<StoreInvoice>(InvoiceRepository(
-    isOnline: false,
+    checkInternetConnectivity: checkInternetConnectivity,
     remote: remote,
     local: local,
   ));
+}
+
+Future<bool> checkInternetConnectivity() async {
+  final ConnectivityResult connectivityResult =
+      await Connectivity().checkConnectivity();
+  return connectivityResult == ConnectivityResult.mobile ||
+      connectivityResult == ConnectivityResult.wifi;
 }

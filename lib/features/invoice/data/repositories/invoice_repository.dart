@@ -3,14 +3,17 @@ import 'package:thepos/features/invoice/data/models/invoice.dart';
 
 class InvoiceRepository extends StoreInvoice {
   InvoiceRepository(
-      {required this.isOnline, required this.remote, required this.local});
+      {required this.checkInternetConnectivity,
+      required this.remote,
+      required this.local});
 
-  final bool isOnline;
+  final Future<bool> Function() checkInternetConnectivity;
   final StoreInvoice remote;
   final StoreInvoice local;
 
   @override
   Future<Invoice> store(Invoice invoice) async {
+    final bool isOnline = await checkInternetConnectivity();
     if (isOnline) {
       return remote.store(invoice);
     } else {
