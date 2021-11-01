@@ -6,6 +6,7 @@ import 'package:thepos/features/invoice/data/models/invoice_item.dart';
 import 'helpers/invoice_loader_stub.dart';
 import 'helpers/shared_test_helper.dart';
 import 'helpers/store_invoice_spy.dart';
+import 'helpers/store_invoice_stub.dart';
 
 void main() {
   test(
@@ -34,5 +35,25 @@ void main() {
       expectInvoice(
           storeInvoice.postedInvoices[i], invoiceLoader.deletedInvoice[i]);
     }
+  });
+
+  test('load does not delete invoice when store failed to post it server',
+      () async {
+    final List<Invoice> loaderResult = <Invoice>[
+      createInvoice(1, <InvoiceItem>[anyInvoiceItem]),
+      createInvoice(2, <InvoiceItem>[anyInvoiceItem]),
+      createInvoice(3, <InvoiceItem>[anyInvoiceItem])
+    ];
+
+    final InvoiceLoaderStub invoiceLoader = InvoiceLoaderStub(loaderResult);
+    final StoreInvoiceStub storeInvoice =
+        StoreInvoiceStub(error: Exception('message'));
+
+    final InvoiceLoaderRemoteStoreDecorator loader =
+        InvoiceLoaderRemoteStoreDecorator(invoiceLoader, storeInvoice);
+
+    await tryFunction(() => loader.load());
+
+    expect(invoiceLoader.deletedInvoice.length, 0);
   });
 }

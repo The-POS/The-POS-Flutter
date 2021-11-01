@@ -12,8 +12,8 @@ void main() {
       {required bool isOnline,
       required Invoice remoteResult,
       required Invoice localResult}) {
-    final StoreInvoice remote = StoreInvoiceStub(remoteResult);
-    final StoreInvoice local = StoreInvoiceStub(localResult);
+    final StoreInvoice remote = StoreInvoiceStub(result: remoteResult);
+    final StoreInvoice local = StoreInvoiceStub(result: localResult);
 
     return StoreInvoiceRepository(
       isOnline: isOnline,
