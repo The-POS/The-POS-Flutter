@@ -1,8 +1,8 @@
 import 'package:thepos/features/invoice/data/data_sources/store_invoice.dart';
 import 'package:thepos/features/invoice/data/models/invoice.dart';
 
-class StoreInvoiceRepository extends StoreInvoice {
-  StoreInvoiceRepository(
+class InvoiceRepository extends StoreInvoice {
+  InvoiceRepository(
       {required this.isOnline, required this.remote, required this.local});
 
   final bool isOnline;

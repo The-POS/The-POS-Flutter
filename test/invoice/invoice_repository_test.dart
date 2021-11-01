@@ -2,20 +2,20 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:thepos/features/invoice/data/data_sources/store_invoice.dart';
 import 'package:thepos/features/invoice/data/models/invoice.dart';
 import 'package:thepos/features/invoice/data/models/invoice_item.dart';
-import 'package:thepos/features/invoice/data/repositories/store_invoice_repository.dart';
+import 'package:thepos/features/invoice/data/repositories/invoice_repository.dart';
 
 import 'helpers/shared_test_helper.dart';
 import 'helpers/store_invoice_stub.dart';
 
 void main() {
-  StoreInvoiceRepository makeSUT(
+  InvoiceRepository makeSUT(
       {required bool isOnline,
       required Invoice remoteResult,
       required Invoice localResult}) {
     final StoreInvoice remote = StoreInvoiceStub(result: remoteResult);
     final StoreInvoice local = StoreInvoiceStub(result: localResult);
 
-    return StoreInvoiceRepository(
+    return InvoiceRepository(
       isOnline: isOnline,
       remote: remote,
       local: local,
@@ -28,7 +28,7 @@ void main() {
     final Invoice localResult =
         createInvoice(2, <InvoiceItem>[anyInvoiceItem, anyInvoiceItem]);
 
-    final StoreInvoiceRepository sut = makeSUT(
+    final InvoiceRepository sut = makeSUT(
       isOnline: true,
       remoteResult: remoteResult,
       localResult: localResult,
@@ -45,7 +45,7 @@ void main() {
     final Invoice localResult =
         createInvoice(2, <InvoiceItem>[anyInvoiceItem, anyInvoiceItem]);
 
-    final StoreInvoiceRepository sut = makeSUT(
+    final InvoiceRepository sut = makeSUT(
       isOnline: false,
       remoteResult: remoteResult,
       localResult: localResult,

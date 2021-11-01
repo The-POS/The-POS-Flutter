@@ -3,7 +3,7 @@ import 'package:thepos/features/invoice/data/data_sources/invoice_loader_remote_
 import 'package:thepos/features/invoice/data/models/invoice.dart';
 import 'package:thepos/features/invoice/data/models/invoice_item.dart';
 
-import 'helpers/invoice_loader_stub.dart';
+import 'helpers/invoice_loader_stub_spy.dart';
 import 'helpers/shared_test_helper.dart';
 import 'helpers/store_invoice_spy.dart';
 import 'helpers/store_invoice_stub.dart';
