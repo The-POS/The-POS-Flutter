@@ -16,8 +16,11 @@ class RemoteStoreInvoice extends StoreInvoice {
   @override
   Future<Invoice> store(Invoice invoice) async {
     try {
-      final http.Response response =
-          await _client.post(_url, body: json.encode(invoice.toJson()));
+      final http.Response response = await _client.post(
+        _url,
+        body: json.encode(invoice.toJson()),
+        headers: <String, String>{'Content-Type': 'application/json'},
+      );
       if (response.statusCode == 201) {
         return _tryParse(response.body);
       } else if (response.statusCode == 404) {
