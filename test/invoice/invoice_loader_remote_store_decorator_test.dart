@@ -18,7 +18,8 @@ void main() {
       createInvoice(3, <InvoiceItem>[anyInvoiceItem])
     ];
 
-    final InvoiceLoaderStub invoiceLoader = InvoiceLoaderStub(loaderResult);
+    final InvoiceLoaderStubSpy invoiceLoader =
+        InvoiceLoaderStubSpy(loaderResult);
     final StoreInvoiceSpy storeInvoice = StoreInvoiceSpy();
 
     final InvoiceLoaderRemoteStoreDecorator loader =
@@ -45,7 +46,8 @@ void main() {
       createInvoice(3, <InvoiceItem>[anyInvoiceItem])
     ];
 
-    final InvoiceLoaderStub invoiceLoader = InvoiceLoaderStub(loaderResult);
+    final InvoiceLoaderStubSpy invoiceLoader =
+        InvoiceLoaderStubSpy(loaderResult);
     final StoreInvoiceStub storeInvoice =
         StoreInvoiceStub(error: Exception('message'));
 

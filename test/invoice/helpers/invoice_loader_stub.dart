@@ -1,8 +1,8 @@
 import 'package:thepos/features/invoice/data/data_sources/invoice_loader.dart';
 import 'package:thepos/features/invoice/data/models/invoice.dart';
 
-class InvoiceLoaderStub extends InvoiceLoader {
-  InvoiceLoaderStub(this.results);
+class InvoiceLoaderStubSpy extends InvoiceLoader {
+  InvoiceLoaderStubSpy(this.results);
   final List<Invoice> results;
 
   List<Invoice> deletedInvoice = <Invoice>[];
