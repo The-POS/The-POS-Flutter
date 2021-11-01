@@ -6,7 +6,7 @@ import 'package:thepos/features/invoice/data/models/invoice.dart';
 import 'helpers/shared_test_helper.dart';
 
 void main() {
-  setUp(() {
+  setUpAll(() {
     Hive.init('testPath');
   });
 
@@ -15,7 +15,7 @@ void main() {
   });
 
   Future<LocalStoreInvoice> makeSUT() async {
-    final Box<Map<String, dynamic>> hiveBox = await Hive.openBox('testBox');
+    final Box<String> hiveBox = await Hive.openBox('testBox');
     return LocalStoreInvoice(hiveBox: hiveBox);
   }
 

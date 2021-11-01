@@ -45,15 +45,14 @@ Future<void> setupGetIt() async {
       fakerDataSource: getIt()));
 
   final Uri uri = Uri.https(domain, '$mainUrl/api/v1/sales-invoices');
-  print('$uri');
 
-  final Box<Map<String, dynamic>> hiveBox = await Hive.openBox('invoicesBox');
+  final Box<String> hiveBox = await Hive.openBox('invoicesBox');
 
   final StoreInvoice remote = RemoteStoreInvoice(http.Client(), uri);
   final StoreInvoice local = LocalStoreInvoice(hiveBox: hiveBox);
 
   getIt.registerSingleton<StoreInvoice>(InvoiceRepository(
-    isOnline: true,
+    isOnline: false,
     remote: remote,
     local: local,
   ));
