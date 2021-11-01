@@ -45,6 +45,8 @@ dependencies:
   responsive_framework:
   faker_dart: ^0.1.2
   shared_preferences: ^2.0.8
+  modal_side_sheet: ^0.0.1
+  flutter_slidable: ^0.6.0
 dev_dependencies:
   flutter_test:
     sdk: flutter

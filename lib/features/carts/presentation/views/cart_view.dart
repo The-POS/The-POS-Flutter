@@ -8,8 +8,6 @@ import 'package:thepos/features/carts/presentation/controllers/carts_controller.
 import 'package:thepos/features/carts/presentation/widgets/cart_item_product_widget.dart';
 import 'package:thepos/features/carts/presentation/widgets/cart_item_widget.dart';
 
-final cartsController = Get.put(CartsController());
-
 class CartView extends StatefulWidget {
   const CartView({Key? key}) : super(key: key);
 
@@ -18,6 +16,8 @@ class CartView extends StatefulWidget {
 }
 
 class _CartViewState extends State<CartView> {
+  var cartsController = Get.find<CartsController>();
+
   @override
   Widget build(BuildContext context) {
     return Padding(
@@ -50,8 +50,10 @@ class _CartViewState extends State<CartView> {
                 ),
                 Container(
                   width: double.infinity,
-                  margin: const EdgeInsets.symmetric(horizontal: 10, vertical: 10),
-                  padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 10),
+                  margin:
+                      const EdgeInsets.symmetric(horizontal: 10, vertical: 10),
+                  padding:
+                      const EdgeInsets.symmetric(horizontal: 10, vertical: 10),
                   decoration: BoxDecoration(
                       border: Border.all(
                         color: const Color(0xffF79624),
@@ -129,9 +131,15 @@ class _CartViewState extends State<CartView> {
                         ),
                       ],
                     ),
-                    SvgPicture.asset(
-                      "assets/svg/delet.svg",
-                      width: 25,
+                    GestureDetector(
+                      onTap: () {
+                        cartsController.clearCarts();
+                        setState(() {});
+                      },
+                      child: SvgPicture.asset(
+                        "assets/svg/delet.svg",
+                        width: 25,
+                      ),
                     ),
                   ],
                 ),
@@ -140,24 +148,22 @@ class _CartViewState extends State<CartView> {
                   shrinkWrap: true,
                   physics: const NeverScrollableScrollPhysics(),
                   itemCount: cartsController
-                  .listCarts[cartsController.selectedCart.value]
-                  .cartItems
-                  .length,
+                      .listCarts[cartsController.selectedCart.value]
+                      .cartItems
+                      .length,
                   itemBuilder: (BuildContext context, int index) {
-                CartItem item = cartsController
-                    .listCarts[cartsController.selectedCart.value]
-                    .cartItems[index];
-                return CartItemProductWidget(
-                  item: item,
-                  refresh: (){
-                    setState(() {
-
-                    });
-                  },
-                );
+                    CartItem item = cartsController
+                        .listCarts[cartsController.selectedCart.value]
+                        .cartItems[index];
+                    return CartItemProductWidget(
+                      item: item,
+                      refresh: () {
+                        setState(() {});
+                      },
+                    );
                   },
                   separatorBuilder: (BuildContext context, int index) {
-                return const Divider();
+                    return const Divider();
                   },
                 )
               ],

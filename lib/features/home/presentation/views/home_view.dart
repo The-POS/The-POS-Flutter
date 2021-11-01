@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:thepos/features/carts/presentation/controllers/carts_controller.dart';
 import 'package:thepos/features/carts/presentation/views/cart_view.dart';
 import 'package:thepos/features/home/data/models/product.dart';
 import 'package:thepos/features/home/presentation/controllers/home_controller.dart';
@@ -11,7 +12,9 @@ import 'package:thepos/features/home/presentation/widgets/header_home.dart';
 import 'package:thepos/features/home/presentation/widgets/product_widget.dart';
 
 class HomeView extends GetView<HomeController> {
-  const HomeView({Key? key}) : super(key: key);
+   HomeView({Key? key}) : super(key: key);
+   
+  final cartsController = Get.put(CartsController());
 
   @override
   Widget build(BuildContext context) {
