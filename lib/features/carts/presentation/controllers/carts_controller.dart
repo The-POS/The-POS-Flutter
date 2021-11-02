@@ -5,10 +5,13 @@ import 'dart:ui';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:get/get.dart';
+import 'package:thepos/core/init_app.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:thepos/features/carts/data/models/cart.dart';
 import 'package:thepos/features/carts/data/models/cart_item.dart';
 import 'package:thepos/features/home/data/models/product.dart';
+import 'package:thepos/features/invoice/data/data_sources/store_invoice.dart';
+import 'package:thepos/features/invoice/helper/cart_invoice_mapper.dart';
 
 class CartsController extends GetxController {
   RxList<Cart> listCarts = <Cart>[
@@ -22,7 +25,26 @@ class CartsController extends GetxController {
     Cart(keyCart: "8", cartItems: []),
     Cart(keyCart: "9", cartItems: []),
   ].obs;
-  RxInt selectedCart = 0.obs;
+
+  var selectedCart = 0.obs;
+  var isPayLoading = false.obs;
+
+  double get invoiceTotal {
+    final Cart selectedCard = listCarts.value[selectedCart.value];
+    if (selectedCard.cartItems.isEmpty) {
+      return 0.0;
+    }
+    return selectedCard.cartItems
+        .map((e) => e.product.price * e.quantity)
+        .reduce((value, element) => value + element);
+  }
+
+  @override
+  void onReady() {
+    super.onReady();
+
+    // getProduct();
+  }
 
   Future changeCart(int index) async {
     selectedCart.value = index;
@@ -65,6 +87,23 @@ class CartsController extends GetxController {
 
     update();
   }
+
+  Future<void> pay() async {
+    final cart = listCarts.value[selectedCart.value];
+    final invoice = CartInvoiceMapper.createInvoiceFrom(cart: cart);
+    isPayLoading.value = true;
+    if (invoice != null) {
+      final StoreInvoice invoiceRepository = getIt<StoreInvoice>();
+      try {
+        await invoiceRepository.store(invoice);
+        Get.snackbar("تم", "تم إصدار الفاتورة",
+            backgroundColor: const Color(0xff178F49).withOpacity(0.5),
+            snackPosition: SnackPosition.BOTTOM);
+        isPayLoading.value = false;
+      } catch (error) {
+        isPayLoading.value = false;
+      }
+    }
 
   Future clearCarts() async {
   await  Get.defaultDialog(
