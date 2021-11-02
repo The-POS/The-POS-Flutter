@@ -31,31 +31,44 @@ class HeaderHomeWidget extends StatelessWidget {
             child: const Icon(Icons.menu),
           ),
         ),
-        actions: [
-          SvgPicture.asset(
-            "assets/svg/barcode.svg",
-            width: 30,
-          ),
-          // Icon(
-          //   Icons.qr_code,
-          //   color: Colors.grey,
-          // ),
-          SizedBox(
-            width: 20,
-          ),
-          InkWell(
-              onTap: () {
-                controller.showSearch();
-              },
-              child: SvgPicture.asset(
-                "assets/svg/search.svg",
-                width: 20,
-              )),
+        actions: controller.searching.value
+            ? [
+                GestureDetector(
+                  onTap: (){
+                    controller.showSearch();
+                  },
+                  child: const Icon(
+                    Icons.close,
+                    color: Colors.black,
+                    size: 32,
+                  ),
+                ),
+              ]
+            : [
+                SvgPicture.asset(
+                  "assets/svg/barcode.svg",
+                  width: 30,
+                ),
+                // Icon(
+                //   Icons.qr_code,
+                //   color: Colors.grey,
+                // ),
+                SizedBox(
+                  width: 20,
+                ),
+                InkWell(
+                    onTap: () {
+                      controller.showSearch();
+                    },
+                    child: SvgPicture.asset(
+                      "assets/svg/search.svg",
+                      width: 20,
+                    )),
 
-          SizedBox(
-            width: 5,
-          ),
-        ],
+                SizedBox(
+                  width: 5,
+                ),
+              ],
       ),
     );
   }

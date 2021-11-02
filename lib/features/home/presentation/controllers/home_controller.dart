@@ -56,6 +56,7 @@ class HomeController extends GetxController {
     try {
       listHomeProduct.value = await getIt<HomeRepository>()
           .getProductsByGroupId(int.parse(selectedCategory!.id));
+      newListHomeProduct = listHomeProduct.value.obs;
       update();
     } catch (e) {
       print("error getProduct $e");

@@ -73,7 +73,7 @@ class HomeView extends GetView<HomeController> {
                             child: Wrap(
                               alignment: WrapAlignment.center,
                               // mainAxisAlignment: MainAxisAlignment.end,
-                              children: cont.listHomeProduct.value
+                              children: cont.newListHomeProduct.value
                                   .map((Product product) {
                                 return InkWell(
                                   onTap: () {

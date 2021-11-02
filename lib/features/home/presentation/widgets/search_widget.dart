@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:thepos/features/home/controllers/home_controller.dart';
+import 'package:thepos/features/home/presentation/controllers/home_controller.dart';
 
 class Search extends StatelessWidget {
   HomeController controller;
