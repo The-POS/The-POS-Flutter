@@ -5,8 +5,8 @@ import 'dart:ui';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:get/get.dart';
-import 'package:thepos/core/init_app.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:thepos/core/init_app.dart';
 import 'package:thepos/features/carts/data/models/cart.dart';
 import 'package:thepos/features/carts/data/models/cart_item.dart';
 import 'package:thepos/features/home/data/models/product.dart';
@@ -104,9 +104,10 @@ class CartsController extends GetxController {
         isPayLoading.value = false;
       }
     }
+  }
 
   Future clearCarts() async {
-  await  Get.defaultDialog(
+    await Get.defaultDialog(
         title: "حذف ؟ ",
         titleStyle: GoogleFonts.cairo(
           textStyle: const TextStyle(
@@ -125,8 +126,6 @@ class CartsController extends GetxController {
             ),
           ),
         ),
-
-        
         confirm: GestureDetector(
           onTap: () {
             listCarts.value[selectedCart.value].cartItems.clear();
