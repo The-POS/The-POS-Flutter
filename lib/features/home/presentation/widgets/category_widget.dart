@@ -11,12 +11,11 @@ class CategoryWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      margin: EdgeInsets.symmetric(horizontal: 5,vertical: 1),
-      padding: EdgeInsets.symmetric(horizontal: 20,vertical: 0),
+      margin: const EdgeInsets.symmetric(horizontal: 5,vertical: 1),
+      padding: const EdgeInsets.symmetric(horizontal: 20),
 decoration: BoxDecoration(
                 border: Border.all(
                     color: isSelected? Colors.transparent: Colors.grey,
-                    style: BorderStyle.solid,
                     width: isSelected? 1:1.0,
                 ),
                 color: isSelected?const Color(0xff178F49) : Colors.white,

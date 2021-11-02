@@ -19,7 +19,6 @@ class AppPages {
     GetPage(
       
       name: Routes.HOME,
-      // binding: HomeBinding(),
 
       page: () => HomeView(),
     ),

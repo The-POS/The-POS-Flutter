@@ -2,13 +2,16 @@
 
 import 'dart:ui';
 
+import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 import 'package:get/get.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:thepos/features/carts/data/models/cart.dart';
 import 'package:thepos/features/carts/data/models/cart_item.dart';
 import 'package:thepos/features/home/data/models/product.dart';
 
 class CartsController extends GetxController {
-  var listCarts = <Cart>[
+  RxList<Cart> listCarts = <Cart>[
     Cart(keyCart: "1", cartItems: []),
     Cart(keyCart: "2", cartItems: []),
     Cart(keyCart: "3", cartItems: []),
@@ -19,14 +22,7 @@ class CartsController extends GetxController {
     Cart(keyCart: "8", cartItems: []),
     Cart(keyCart: "9", cartItems: []),
   ].obs;
-  var selectedCart = 0.obs;
-
-  @override
-  void onReady() {
-    super.onReady();
-
-    // getProduct();
-  }
+  RxInt selectedCart = 0.obs;
 
   Future changeCart(int index) async {
     selectedCart.value = index;
@@ -48,7 +44,7 @@ class CartsController extends GetxController {
     }
 
     Get.snackbar("تم", "اضافة المنتج للسلة",
-        backgroundColor: Color(0xff178F49).withOpacity(0.5),
+        backgroundColor: const Color(0xff178F49).withOpacity(0.5),
         snackPosition: SnackPosition.BOTTOM);
     update();
   }
@@ -67,8 +63,60 @@ class CartsController extends GetxController {
     listCarts.value[selectedCart.value].cartItems.removeWhere(
         (elementProduct) => elementProduct.product.sku == product.product.sku);
 
-
-  
     update();
+  }
+
+  Future clearCarts() async {
+  await  Get.defaultDialog(
+        title: "حذف ؟ ",
+        titleStyle: GoogleFonts.cairo(
+          textStyle: const TextStyle(
+              color: Colors.black, fontSize: 15, fontWeight: FontWeight.bold),
+        ),
+        content: Padding(
+          padding: const EdgeInsets.all(8.0),
+          child: Text(
+            "هل انت متأكد من حذف جميع العناصر في السلة  -  ${listCarts.value[selectedCart.value].keyCart}",
+            textAlign: TextAlign.center,
+            style: GoogleFonts.cairo(
+              textStyle: const TextStyle(
+                  color: Colors.black,
+                  fontSize: 20,
+                  fontWeight: FontWeight.bold),
+            ),
+          ),
+        ),
+
+        
+        confirm: GestureDetector(
+          onTap: () {
+            listCarts.value[selectedCart.value].cartItems.clear();
+            Get.back();
+
+            update();
+          },
+          child: Text(
+            "متابعة",
+            style: GoogleFonts.cairo(
+              textStyle: const TextStyle(
+                  color: Colors.red,
+                  fontSize: 20,
+                  fontWeight: FontWeight.normal),
+            ),
+          ),
+        ),
+        cancel: GestureDetector(
+            onTap: () {
+              Get.back();
+            },
+            child: Text(
+              "الغاء",
+              style: GoogleFonts.cairo(
+                textStyle: const TextStyle(
+                    color: Colors.grey,
+                    fontSize: 20,
+                    fontWeight: FontWeight.normal),
+              ),
+            )));
   }
 }

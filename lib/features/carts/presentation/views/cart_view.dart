@@ -3,11 +3,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:thepos/features/carts/controllers/carts_controller.dart';
+import 'package:thepos/features/carts/data/models/cart_item.dart';
+import 'package:thepos/features/carts/presentation/controllers/carts_controller.dart';
 import 'package:thepos/features/carts/presentation/widgets/cart_item_product_widget.dart';
 import 'package:thepos/features/carts/presentation/widgets/cart_item_widget.dart';
-
-final cartsController = Get.put(CartsController());
 
 class CartView extends StatefulWidget {
   const CartView({Key? key}) : super(key: key);
@@ -17,6 +16,8 @@ class CartView extends StatefulWidget {
 }
 
 class _CartViewState extends State<CartView> {
+  var cartsController = Get.find<CartsController>();
+
   @override
   Widget build(BuildContext context) {
     return Padding(
@@ -24,7 +25,7 @@ class _CartViewState extends State<CartView> {
       child: Obx(() => Directionality(
           textDirection: TextDirection.rtl,
           child: Container(
-            padding: EdgeInsets.only(top: 10),
+            padding: const EdgeInsets.only(top: 10),
             color: Colors.white,
             // height: 100,
             child: Column(
@@ -32,9 +33,8 @@ class _CartViewState extends State<CartView> {
                 SingleChildScrollView(
                   scrollDirection: Axis.horizontal,
                   child: Row(
-                    mainAxisAlignment: MainAxisAlignment.start,
                     children: cartsController.listCarts.map((cart) {
-                      var index = cartsController.listCarts.indexOf(cart);
+                      final index = cartsController.listCarts.indexOf(cart);
 
                       return GestureDetector(
                           onTap: () {
@@ -50,8 +50,10 @@ class _CartViewState extends State<CartView> {
                 ),
                 Container(
                   width: double.infinity,
-                  margin: EdgeInsets.symmetric(horizontal: 10, vertical: 10),
-                  padding: EdgeInsets.symmetric(horizontal: 10, vertical: 10),
+                  margin:
+                      const EdgeInsets.symmetric(horizontal: 10, vertical: 10),
+                  padding:
+                      const EdgeInsets.symmetric(horizontal: 10, vertical: 10),
                   decoration: BoxDecoration(
                       border: Border.all(
                         color: const Color(0xffF79624),
@@ -66,15 +68,15 @@ class _CartViewState extends State<CartView> {
                       Text(
                         "زائر - ١٠٠",
                         style: GoogleFonts.cairo(
-                          textStyle: TextStyle(
+                          textStyle: const TextStyle(
                               color: Colors.black,
                               fontSize: 20,
                               fontWeight: FontWeight.bold),
                         ),
                       ),
-                      Icon(
+                      const Icon(
                         Icons.account_circle_outlined,
-                        color: const Color(0xffF79624),
+                        color: Color(0xffF79624),
                         size: 30,
                       ),
                     ],
@@ -94,7 +96,7 @@ class _CartViewState extends State<CartView> {
                         Text(
                           'السلة ',
                           style: GoogleFonts.cairo(
-                            textStyle: TextStyle(
+                            textStyle: const TextStyle(
                                 color: Colors.black,
                                 fontSize: 20,
                                 fontWeight: FontWeight.bold),
@@ -111,17 +113,17 @@ class _CartViewState extends State<CartView> {
                           width: 30,
                           height: 30,
                           alignment: Alignment.center,
-                          decoration: BoxDecoration(
+                          decoration: const BoxDecoration(
                             borderRadius: BorderRadius.all(
                                 Radius.elliptical(9999.0, 9999.0)),
-                            color: const Color(0xff178f49),
+                            color: Color(0xff178f49),
                           ),
                           child: Text(
                             '${cartsController.listCarts[cartsController.selectedCart.value].cartItems.length}',
-                            style: TextStyle(
+                            style: const TextStyle(
                               fontFamily: 'Cairo',
                               fontSize: 20,
-                              color: const Color(0xffffffff),
+                              color: Color(0xffffffff),
                               fontWeight: FontWeight.w600,
                             ),
                             textAlign: TextAlign.left,
@@ -129,39 +131,41 @@ class _CartViewState extends State<CartView> {
                         ),
                       ],
                     ),
-                    SvgPicture.asset(
-                      "assets/svg/delet.svg",
-                      width: 25,
+                    GestureDetector(
+                      onTap: () {
+                        cartsController.clearCarts();
+                        setState(() {});
+                      },
+                      child: SvgPicture.asset(
+                        "assets/svg/delet.svg",
+                        width: 25,
+                      ),
                     ),
                   ],
                 ),
-                Container(
-                    // color: Colors.red,
-                    child: ListView.separated(
+                ListView.separated(
                   scrollDirection: Axis.vertical,
                   shrinkWrap: true,
-                  physics: NeverScrollableScrollPhysics(),
+                  physics: const NeverScrollableScrollPhysics(),
                   itemCount: cartsController
                       .listCarts[cartsController.selectedCart.value]
                       .cartItems
                       .length,
-                  itemBuilder: (context, index) {
-                    var item = cartsController
+                  itemBuilder: (BuildContext context, int index) {
+                    CartItem item = cartsController
                         .listCarts[cartsController.selectedCart.value]
                         .cartItems[index];
                     return CartItemProductWidget(
                       item: item,
-                      refresh: (){
-                        setState(() {
-                          
-                        });
+                      refresh: () {
+                        setState(() {});
                       },
                     );
                   },
-                  separatorBuilder: (context, index) {
-                    return Divider();
+                  separatorBuilder: (BuildContext context, int index) {
+                    return const Divider();
                   },
-                ))
+                )
               ],
             ),
           ))),

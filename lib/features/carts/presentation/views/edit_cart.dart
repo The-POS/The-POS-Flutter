@@ -3,6 +3,7 @@ import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:thepos/core/init_app.dart';
 import 'package:thepos/features/carts/data/models/cart_item.dart';
+import 'package:thepos/features/carts/presentation/controllers/carts_controller.dart';
 import 'package:thepos/features/carts/presentation/views/cart_view.dart';
 import 'package:thepos/features/carts/presentation/widgets/KeyPad.dart';
 
@@ -16,6 +17,8 @@ class EditCartWidget extends StatefulWidget {
 
 class _EditCartWidgetState extends State<EditCartWidget> {
   TextEditingController pinController = TextEditingController();
+// final cartsController = Get.put(CartsController());
+  var cartsController = Get.find<CartsController>();
 
   @override
   void initState() {
@@ -26,7 +29,7 @@ class _EditCartWidgetState extends State<EditCartWidget> {
     refreshView();
   }
 
-  var isPriceSelected = false;
+  bool isPriceSelected = false;
   refreshView() {
     if (isPriceSelected == true) {
       pinController.text = widget.item.product.price.toString();
@@ -43,7 +46,7 @@ class _EditCartWidgetState extends State<EditCartWidget> {
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
           Container(
-            margin: EdgeInsets.symmetric(horizontal: 30, vertical: 20),
+            margin: const EdgeInsets.symmetric(horizontal: 30, vertical: 20),
             child: Row(
               children: [
                 Expanded(
@@ -54,7 +57,7 @@ class _EditCartWidgetState extends State<EditCartWidget> {
                       "${widget.item.product.name}",
                       textAlign: TextAlign.center,
                       style: GoogleFonts.cairo(
-                        textStyle: TextStyle(
+                        textStyle: const TextStyle(
                             color: Color(0xff000000),
                             fontSize: 20,
                             fontWeight: FontWeight.w600),
@@ -76,7 +79,7 @@ class _EditCartWidgetState extends State<EditCartWidget> {
                           text:
                               "${faker.datatype.number(min: 10000000, max: 932838389)}",
                           style: GoogleFonts.cairo(
-                            textStyle: TextStyle(
+                            textStyle: const TextStyle(
                                 color: Colors.black,
                                 fontSize: 15,
                                 fontWeight: FontWeight.w600),
@@ -99,7 +102,7 @@ class _EditCartWidgetState extends State<EditCartWidget> {
                         TextSpan(
                           text: "${widget.item.product.price} ريال",
                           style: GoogleFonts.cairo(
-                            textStyle: TextStyle(
+                            textStyle: const TextStyle(
                                 color: Colors.black,
                                 fontSize: 15,
                                 fontWeight: FontWeight.w600),
@@ -109,7 +112,7 @@ class _EditCartWidgetState extends State<EditCartWidget> {
                     ))
                   ],
                 )),
-                SizedBox(
+                const SizedBox(
                   width: 20,
                 ),
                 Container(
@@ -160,31 +163,31 @@ class _EditCartWidgetState extends State<EditCartWidget> {
                             padding: const EdgeInsets.symmetric(vertical: 10),
                             child: Row(
                               children: [
-                                SizedBox(
+                                const SizedBox(
                                   width: 10,
                                 ),
                                 Text(
                                   "${widget.item.product.price}",
                                   textAlign: TextAlign.center,
                                   style: GoogleFonts.cairo(
-                                    textStyle: TextStyle(
+                                    textStyle: const TextStyle(
                                         color: Color(0xff000000),
                                         fontSize: 20,
                                         fontWeight: FontWeight.w600),
                                   ),
                                 ),
-                                Spacer(),
+                                const Spacer(),
                                 Text(
                                   "السعر",
                                   textAlign: TextAlign.center,
                                   style: GoogleFonts.cairo(
-                                    textStyle: TextStyle(
+                                    textStyle: const TextStyle(
                                         color: Color(0xff000000),
                                         fontSize: 20,
                                         fontWeight: FontWeight.w600),
                                   ),
                                 ),
-                                SizedBox(
+                                const SizedBox(
                                   width: 10,
                                 ),
                               ],
@@ -221,31 +224,31 @@ class _EditCartWidgetState extends State<EditCartWidget> {
                             padding: const EdgeInsets.symmetric(vertical: 10),
                             child: Row(
                               children: [
-                                SizedBox(
+                                const SizedBox(
                                   width: 10,
                                 ),
                                 Text(
                                   "${widget.item.quantity}",
                                   textAlign: TextAlign.center,
                                   style: GoogleFonts.cairo(
-                                    textStyle: TextStyle(
+                                    textStyle: const TextStyle(
                                         color: Color(0xff000000),
                                         fontSize: 20,
                                         fontWeight: FontWeight.w600),
                                   ),
                                 ),
-                                Spacer(),
+                                const Spacer(),
                                 Text(
                                   "العدد",
                                   textAlign: TextAlign.center,
                                   style: GoogleFonts.cairo(
-                                    textStyle: TextStyle(
+                                    textStyle: const TextStyle(
                                         color: Color(0xff000000),
                                         fontSize: 20,
                                         fontWeight: FontWeight.w600),
                                   ),
                                 ),
-                                SizedBox(
+                                const SizedBox(
                                   width: 10,
                                 ),
                               ],
@@ -259,11 +262,11 @@ class _EditCartWidgetState extends State<EditCartWidget> {
               ],
             ),
           ),
-          SizedBox(
+          const SizedBox(
             height: 30,
           ),
           Container(
-            margin: EdgeInsets.symmetric(horizontal: 30, vertical: 20),
+            margin: const EdgeInsets.symmetric(horizontal: 30, vertical: 20),
             width: double.infinity,
             decoration: BoxDecoration(
               color: const Color(0xfff4f5fa),
@@ -273,7 +276,7 @@ class _EditCartWidgetState extends State<EditCartWidget> {
               "${pinController.text}",
               textAlign: TextAlign.center,
               style: GoogleFonts.cairo(
-                textStyle: TextStyle(
+                textStyle: const TextStyle(
                     color: Color(0xff000000),
                     fontSize: 20,
                     fontWeight: FontWeight.w600),
@@ -285,7 +288,7 @@ class _EditCartWidgetState extends State<EditCartWidget> {
           //     child: Text(pinController.text, style: TextStyle(fontSize: 40))),
 
           Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 30),
+            padding: const EdgeInsets.symmetric(horizontal: 10),
             child: KeyPad(
               isPinLogin: false,
               onChange: (t) {
@@ -297,13 +300,13 @@ class _EditCartWidgetState extends State<EditCartWidget> {
               pinController: pinController,
             ),
           ),
-          SizedBox(
+          const SizedBox(
             height: 20,
           ),
           Padding(
             padding: const EdgeInsets.symmetric(horizontal: 10),
             child: Row(
-              children: [ 
+              children: [
                 Expanded(
                   child: InkWell(
                       onTap: () {
@@ -320,17 +323,17 @@ class _EditCartWidgetState extends State<EditCartWidget> {
                         // width: 60,
                         // height: 60,
                         alignment: Alignment.center,
-                        margin:
-                            EdgeInsets.symmetric(horizontal: 5, vertical: 1),
-                        padding:
-                            EdgeInsets.symmetric(horizontal: 20, vertical: 10),
+                        margin: const EdgeInsets.symmetric(
+                            horizontal: 5, vertical: 1),
+                        padding: const EdgeInsets.symmetric(
+                            horizontal: 20, vertical: 10),
                         decoration: BoxDecoration(
                             color: const Color(0xffE14646),
                             borderRadius: BorderRadius.circular(5.0)),
                         child: Text(
                           "حذف",
                           style: GoogleFonts.cairo(
-                            textStyle: TextStyle(
+                            textStyle: const TextStyle(
                                 color: Colors.white,
                                 fontSize: 25,
                                 fontWeight: FontWeight.bold),
@@ -354,16 +357,17 @@ class _EditCartWidgetState extends State<EditCartWidget> {
                       // width: 60,
                       // height: 60,
                       alignment: Alignment.center,
-                      margin: EdgeInsets.symmetric(horizontal: 5, vertical: 1),
-                      padding:
-                          EdgeInsets.symmetric(horizontal: 20, vertical: 10),
+                      margin: const EdgeInsets.symmetric(
+                          horizontal: 5, vertical: 1),
+                      padding: const EdgeInsets.symmetric(
+                          horizontal: 20, vertical: 10),
                       decoration: BoxDecoration(
                           color: const Color(0xff178F49),
                           borderRadius: BorderRadius.circular(5.0)),
                       child: Text(
                         "تحديث",
                         style: GoogleFonts.cairo(
-                          textStyle: TextStyle(
+                          textStyle: const TextStyle(
                               color: Colors.white,
                               fontSize: 25,
                               fontWeight: FontWeight.bold),
@@ -375,7 +379,7 @@ class _EditCartWidgetState extends State<EditCartWidget> {
               ],
             ),
           ),
-          SizedBox(
+          const SizedBox(
             height: 30,
           )
         ],

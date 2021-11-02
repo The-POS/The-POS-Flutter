@@ -7,7 +7,7 @@ class HomeFakerDataSource {
   Future<List<Product>> getProducts() async {
     List<Product> list = [];
 
-    for (var i = 0; i < 100; i++) {
+    for (int i = 0; i < 100; i++) {
       list.add(Product(
           name: faker.commerce.productName(),
           price: faker.datatype.number(max: 200).toDouble(),
@@ -19,7 +19,7 @@ class HomeFakerDataSource {
   Future<List<Product>> getProductsByGroupId(int groupId) async {
     List<Product> list = [];
 
-    for (var i = 0; i < 100; i++) {
+    for (int i = 0; i < 100; i++) {
       list.add(Product(
           name: faker.commerce.productName(),
           price: faker.datatype.number(max: 200).toDouble(),
