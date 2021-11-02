@@ -8,6 +8,8 @@ import 'package:thepos/features/home/data/repositories/home_repository.dart';
 
 class HomeController extends GetxController {
   var listHomeProduct = <Product>[].obs;
+  var newListHomeProduct = <Product>[].obs;
+  var searching = false.obs;
 
   RxBool loadingHome = false.obs;
   RxBool showHideCarts = false.obs;
@@ -26,12 +28,19 @@ class HomeController extends GetxController {
     Category(id: "3", name: "الكلاب"),
     Category(id: "4", name: "الكل")
   ]; //TODO get values from repository
+  onSearch(String value) {
+    newListHomeProduct.value = listHomeProduct.value
+        .where(
+            (string) => string.name.toLowerCase().contains(value.toLowerCase()))
+        .toList();
+    update();
+  }
 
   Future getProduct() async {
     loadingHome.value = true;
     try {
       listHomeProduct.value = await getIt<HomeRepository>().getProducts();
-
+      newListHomeProduct = listHomeProduct.value.obs;
       print("Count PR  ${listHomeProduct.value.length}");
       update();
     } catch (e) {
@@ -47,6 +56,7 @@ class HomeController extends GetxController {
     try {
       listHomeProduct.value = await getIt<HomeRepository>()
           .getProductsByGroupId(int.parse(selectedCategory!.id));
+      newListHomeProduct = listHomeProduct.value.obs;
       update();
     } catch (e) {
       print("error getProduct $e");
@@ -65,6 +75,11 @@ class HomeController extends GetxController {
 
   Future showHidCart() async {
     showHideCarts.value = !showHideCarts.value;
+    update();
+  }
+
+  Future showSearch() async {
+    searching.value = !searching.value;
     update();
   }
 }

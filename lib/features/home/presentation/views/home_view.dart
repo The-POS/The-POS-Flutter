@@ -12,8 +12,8 @@ import 'package:thepos/features/home/presentation/widgets/header_home.dart';
 import 'package:thepos/features/home/presentation/widgets/product_widget.dart';
 
 class HomeView extends GetView<HomeController> {
-   HomeView({Key? key}) : super(key: key);
-   
+  HomeView({Key? key}) : super(key: key);
+
   final cartsController = Get.put(CartsController());
 
   @override
@@ -39,8 +39,7 @@ class HomeView extends GetView<HomeController> {
                       HeaderHomeWidget(controller: cont),
                       if (cont.showHideCarts.value && GetPlatform.isMobile)
                         const Expanded(child: CartView()),
-                      if (!(cont.showHideCarts.value &&
-                          GetPlatform.isMobile))
+                      if (!(cont.showHideCarts.value && GetPlatform.isMobile))
                         Column(
                           children: [
                             const SizedBox(
@@ -49,19 +48,17 @@ class HomeView extends GetView<HomeController> {
                             SingleChildScrollView(
                               child: Row(
                                 mainAxisAlignment: MainAxisAlignment.end,
-                                children:
-                                    cont.listCategory.map((category) {
+                                children: cont.listCategory.map((category) {
                                   return GestureDetector(
                                       onTap: () {
                                         cont.changeCategory(category);
                                       },
                                       child: CategoryWidget(
                                           title: category.name,
-                                          isSelected: cont
-                                                      .selectedCategory !=
-                                                  null &&
-                                              cont.selectedCategory!.id ==
-                                                  category.id));
+                                          isSelected:
+                                              cont.selectedCategory != null &&
+                                                  cont.selectedCategory!.id ==
+                                                      category.id));
                                 }).toList(),
                               ),
                             ),
@@ -70,15 +67,14 @@ class HomeView extends GetView<HomeController> {
                             ),
                           ],
                         ),
-                      if (!(cont.showHideCarts.value &&
-                          GetPlatform.isMobile))
+                      if (!(cont.showHideCarts.value && GetPlatform.isMobile))
                         Expanded(
                           child: SingleChildScrollView(
                             child: Wrap(
                               alignment: WrapAlignment.center,
                               // mainAxisAlignment: MainAxisAlignment.end,
-                              children:
-                                  cont.listHomeProduct.value.map((Product product) {
+                              children: cont.newListHomeProduct.value
+                                  .map((Product product) {
                                 return InkWell(
                                   onTap: () {
                                     cartsController.addProduct(product);
