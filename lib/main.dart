@@ -42,6 +42,12 @@ class MyApp extends StatelessWidget {
         dividerColor: const Color.fromRGBO(218, 218, 218, 1),
         primaryColor: const Color.fromRGBO(23, 143, 73, 1.0),
         scaffoldBackgroundColor: const Color.fromRGBO(244, 245, 250, 1),
+        floatingActionButtonTheme: const FloatingActionButtonThemeData(
+            backgroundColor: Color.fromRGBO(252, 189, 24, 1),
+            sizeConstraints: BoxConstraints(
+              minWidth: 80,
+              minHeight: 80,
+            )),
         visualDensity: VisualDensity.adaptivePlatformDensity,
       ),
     );
