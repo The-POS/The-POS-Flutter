@@ -11,6 +11,8 @@ Future<void> main() async {
   runApp(const MyApp());
 }
 
+final GlobalKey<NavigatorState> navigatorKey = GlobalKey<NavigatorState>();
+
 class MyApp extends StatelessWidget {
   const MyApp({Key? key}) : super(key: key);
 
@@ -22,23 +24,24 @@ class MyApp extends StatelessWidget {
       enableLog: true,
       getPages: AppPages.routes,
       initialRoute: AppPages.INITIAL,
+      navigatorKey: navigatorKey,
       locale: LocalizationService.locale,
       translations: LocalizationService(),
-         builder: (context, widget) => ResponsiveWrapper.builder(
-          widget,
-          maxWidth: 1200,
-          minWidth: 480,
-          defaultScale: true,
-          breakpoints: [
-            ResponsiveBreakpoint.resize(480, name: MOBILE),
-            ResponsiveBreakpoint.autoScale(800, name: TABLET),
-            ResponsiveBreakpoint.resize(1000, name: DESKTOP),
-          ],),
+      builder: (context, widget) => ResponsiveWrapper.builder(
+        widget,
+        maxWidth: 1200,
+        minWidth: 480,
+        defaultScale: true,
+        breakpoints: [
+          ResponsiveBreakpoint.resize(480, name: MOBILE),
+          ResponsiveBreakpoint.autoScale(800, name: TABLET),
+          ResponsiveBreakpoint.resize(1000, name: DESKTOP),
+        ],
+      ),
       theme: ThemeData(
         primarySwatch: Colors.blue,
         visualDensity: VisualDensity.adaptivePlatformDensity,
       ),
-
     );
   }
 }
