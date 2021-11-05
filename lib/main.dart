@@ -20,25 +20,28 @@ class MyApp extends StatelessWidget {
     return GetMaterialApp(
       debugShowCheckedModeBanner: false,
       enableLog: true,
-      getPages: AppPages.routes,
-      initialRoute: AppPages.INITIAL,
+      getPages: routes,
+      initialRoute: initial,
       locale: LocalizationService.locale,
       translations: LocalizationService(),
-         builder: (context, widget) => ResponsiveWrapper.builder(
-          widget,
-          maxWidth: 1200,
-          minWidth: 480,
-          defaultScale: true,
-          breakpoints: [
-            ResponsiveBreakpoint.resize(480, name: MOBILE),
-            ResponsiveBreakpoint.autoScale(800, name: TABLET),
-            ResponsiveBreakpoint.resize(1000, name: DESKTOP),
-          ],),
+      builder: (context, widget) => ResponsiveWrapper.builder(
+        widget,
+        maxWidth: 1200,
+        minWidth: 480,
+        defaultScale: true,
+        breakpoints: [
+          const ResponsiveBreakpoint.resize(480, name: MOBILE),
+          const ResponsiveBreakpoint.autoScale(800, name: TABLET),
+          const ResponsiveBreakpoint.resize(1000, name: DESKTOP),
+        ],
+      ),
       theme: ThemeData(
-        primarySwatch: Colors.blue,
+        appBarTheme: const AppBarTheme(
+          color: Color.fromRGBO(23, 143, 73, 1.0),
+        ),
+        scaffoldBackgroundColor: const Color.fromRGBO(244, 245, 250, 1),
         visualDensity: VisualDensity.adaptivePlatformDensity,
       ),
-
     );
   }
 }
