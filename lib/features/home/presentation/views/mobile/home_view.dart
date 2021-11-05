@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:thepos/features/home/presentation/views/mobile/common/app_bar.dart';
 
+import 'common/categories_widget.dart';
+
 class HomeView extends StatefulWidget {
   const HomeView({Key? key}) : super(key: key);
 
@@ -13,7 +15,9 @@ class HomeViewState extends State<HomeView> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: POSAppBar(),
-      body: Container(),
+      body: Column(
+        children: const <Widget>[CategoriesWidget()],
+      ),
     );
   }
 }

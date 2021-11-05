@@ -39,6 +39,7 @@ class MyApp extends StatelessWidget {
         appBarTheme: const AppBarTheme(
           color: Color.fromRGBO(23, 143, 73, 1.0),
         ),
+        primaryColor: const Color.fromRGBO(23, 143, 73, 1.0),
         scaffoldBackgroundColor: const Color.fromRGBO(244, 245, 250, 1),
         visualDensity: VisualDensity.adaptivePlatformDensity,
       ),
