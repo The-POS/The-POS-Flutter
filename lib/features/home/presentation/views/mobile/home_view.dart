@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:thepos/features/home/presentation/views/mobile/common/app_bar.dart';
+import 'package:get/get.dart';
+import 'package:thepos/routes/mobile_app_pages.dart';
 
 import 'common/cart_floating_action_button.dart';
 import 'common/categories_widget.dart';
+import 'common/home_app_bar.dart';
 import 'common/products/products_widget.dart';
 
 class HomeView extends StatefulWidget {
@@ -16,9 +18,9 @@ class HomeViewState extends State<HomeView> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: POSAppBar(),
+      appBar: HomeAppBar(),
       floatingActionButton: CartFloatingActionButton(
-        onPressed: () {},
+        onPressed: _navigateToCartView,
       ),
       floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
       body: Column(
@@ -28,5 +30,9 @@ class HomeViewState extends State<HomeView> {
         ],
       ),
     );
+  }
+
+  void _navigateToCartView() {
+    Get.toNamed(MobileRoutes.CART);
   }
 }

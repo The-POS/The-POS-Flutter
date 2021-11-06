@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:google_fonts/google_fonts.dart';
 
-class POSAppBar extends AppBar {
-  POSAppBar({Key? key}) : super(key: key);
+class HomeAppBar extends AppBar {
+  HomeAppBar({Key? key}) : super(key: key);
 
   @override
   Widget? get leading => _buildElevatedButton('assets/svg/menu.svg');
