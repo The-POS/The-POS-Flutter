@@ -105,57 +105,56 @@ class CartsController extends GetxController {
       }
     }
 
-  Future clearCarts() async {
-  await  Get.defaultDialog(
-        title: "حذف ؟ ",
-        titleStyle: GoogleFonts.cairo(
-          textStyle: const TextStyle(
-              color: Colors.black, fontSize: 15, fontWeight: FontWeight.bold),
-        ),
-        content: Padding(
-          padding: const EdgeInsets.all(8.0),
-          child: Text(
-            "هل انت متأكد من حذف جميع العناصر في السلة  -  ${listCarts.value[selectedCart.value].keyCart}",
-            textAlign: TextAlign.center,
-            style: GoogleFonts.cairo(
-              textStyle: const TextStyle(
-                  color: Colors.black,
-                  fontSize: 20,
-                  fontWeight: FontWeight.bold),
-            ),
+    Future clearCarts() async {
+      await Get.defaultDialog(
+          title: "حذف ؟ ",
+          titleStyle: GoogleFonts.cairo(
+            textStyle: const TextStyle(
+                color: Colors.black, fontSize: 15, fontWeight: FontWeight.bold),
           ),
-        ),
-
-        
-        confirm: GestureDetector(
-          onTap: () {
-            listCarts.value[selectedCart.value].cartItems.clear();
-            Get.back();
-
-            update();
-          },
-          child: Text(
-            "متابعة",
-            style: GoogleFonts.cairo(
-              textStyle: const TextStyle(
-                  color: Colors.red,
-                  fontSize: 20,
-                  fontWeight: FontWeight.normal),
-            ),
-          ),
-        ),
-        cancel: GestureDetector(
-            onTap: () {
-              Get.back();
-            },
+          content: Padding(
+            padding: const EdgeInsets.all(8.0),
             child: Text(
-              "الغاء",
+              "هل انت متأكد من حذف جميع العناصر في السلة  -  ${listCarts.value[selectedCart.value].keyCart}",
+              textAlign: TextAlign.center,
               style: GoogleFonts.cairo(
                 textStyle: const TextStyle(
-                    color: Colors.grey,
+                    color: Colors.black,
+                    fontSize: 20,
+                    fontWeight: FontWeight.bold),
+              ),
+            ),
+          ),
+          confirm: GestureDetector(
+            onTap: () {
+              listCarts.value[selectedCart.value].cartItems.clear();
+              Get.back();
+
+              update();
+            },
+            child: Text(
+              "متابعة",
+              style: GoogleFonts.cairo(
+                textStyle: const TextStyle(
+                    color: Colors.red,
                     fontSize: 20,
                     fontWeight: FontWeight.normal),
               ),
-            )));
+            ),
+          ),
+          cancel: GestureDetector(
+              onTap: () {
+                Get.back();
+              },
+              child: Text(
+                "الغاء",
+                style: GoogleFonts.cairo(
+                  textStyle: const TextStyle(
+                      color: Colors.grey,
+                      fontSize: 20,
+                      fontWeight: FontWeight.normal),
+                ),
+              )));
+    }
   }
 }
