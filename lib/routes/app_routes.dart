@@ -1,6 +1,6 @@
 part of 'app_pages.dart';
 
 abstract class Routes {
-  static const HOME = '/home';
-  static const SPLASH = '/splash';
+  static const String HOME = '/home';
+  static const String SPLASH = '/splash';
 }

@@ -17,9 +17,7 @@ class AppPages {
       page: () => SplashView(),
     ),
     GetPage(
-      
       name: Routes.HOME,
-
       page: () => HomeView(),
     ),
   ];
