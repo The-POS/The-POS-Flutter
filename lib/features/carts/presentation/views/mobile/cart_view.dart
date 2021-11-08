@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 
+import 'common/cartItems/cart_items_widget.dart';
 import 'common/cart_app_bar.dart';
-import 'common/cart_items_widget.dart';
+import 'common/invoice_floating_action_button.dart';
 
 class CartView extends StatefulWidget {
   const CartView({Key? key}) : super(key: key);
@@ -16,6 +17,10 @@ class CartViewState extends State<CartView> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: CartAppBar(),
+      floatingActionButton: InvoiceFloatingActionButton(
+        onPressed: _showInvoicesDialog,
+      ),
+      floatingActionButtonLocation: FloatingActionButtonLocation.startFloat,
       body: Column(
         children: <Widget>[
           _buildTopRow(),
@@ -24,6 +29,8 @@ class CartViewState extends State<CartView> {
       ),
     );
   }
+
+  void _showInvoicesDialog() {}
 
   Widget _buildTopRow() {
     return Padding(
