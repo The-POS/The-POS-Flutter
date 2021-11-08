@@ -3,8 +3,13 @@ import 'package:flutter_svg/svg.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 class CartFloatingActionButton extends FloatingActionButton {
-  const CartFloatingActionButton({Key? key, required VoidCallback onPressed})
+  const CartFloatingActionButton(
+      {Key? key,
+      required this.numberOfOpenedCart,
+      required VoidCallback onPressed})
       : super(key: key, onPressed: onPressed);
+
+  final int numberOfOpenedCart;
 
   @override
   Widget? get child => Container(
@@ -15,7 +20,7 @@ class CartFloatingActionButton extends FloatingActionButton {
           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
           children: <Widget>[
             Text(
-              '2',
+              '$numberOfOpenedCart',
               style: GoogleFonts.cairo(
                 textStyle: const TextStyle(
                   color: Colors.black,

@@ -1,14 +1,19 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:thepos/features/home/data/models/category.dart';
 
-class CategoriesWidget extends StatefulWidget {
-  const CategoriesWidget({Key? key}) : super(key: key);
+class CategoriesWidget extends StatelessWidget {
+  const CategoriesWidget({
+    Key? key,
+    required this.categories,
+    this.selectedCategory,
+    required this.selectCategory,
+  }) : super(key: key);
 
-  @override
-  CategoriesWidgetState createState() => CategoriesWidgetState();
-}
+  final List<Category> categories;
+  final Category? selectedCategory;
+  final Function(Category category) selectCategory;
 
-class CategoriesWidgetState extends State<CategoriesWidget> {
   @override
   Widget build(BuildContext context) {
     return Padding(
@@ -16,19 +21,24 @@ class CategoriesWidgetState extends State<CategoriesWidget> {
       child: Wrap(
         spacing: 14,
         runSpacing: 14,
-        children: <Widget>[
-          _builderCategoryItem(context, 'الكل', true),
-          _builderCategoryItem(context, 'الكلاب', false),
-          _builderCategoryItem(context, 'القطط', false),
-          _builderCategoryItem(context, 'الطيور', false),
-          _builderCategoryItem(context, '+ الوصول السريع', false),
-        ],
+        children: categories
+            .map(
+              (Category category) => GestureDetector(
+                onTap: () {selectCategory(category);},
+                child: _builderCategoryItem(
+                  context,
+                  categoryName: category.name,
+                  selected: category.id == selectedCategory?.id,
+                ),
+              ),
+            )
+            .toList(),
       ),
     );
   }
 
-  Widget _builderCategoryItem(
-      BuildContext context, String categoryName, bool selected) {
+  Widget _builderCategoryItem(BuildContext context,
+      {required String categoryName, required bool selected}) {
     return Container(
       decoration: BoxDecoration(
         color: selected ? Theme.of(context).primaryColor : Colors.white,

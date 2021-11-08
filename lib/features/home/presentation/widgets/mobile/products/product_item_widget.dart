@@ -4,7 +4,14 @@ import 'package:google_fonts/google_fonts.dart';
 class ProductItemWidget extends StatelessWidget {
   const ProductItemWidget({
     Key? key,
+    required this.productImage,
+    required this.productName,
+    required this.productPrice,
   }) : super(key: key);
+
+  final String productImage;
+  final String productName;
+  final double productPrice;
 
   @override
   Widget build(BuildContext context) {
@@ -21,7 +28,7 @@ class ProductItemWidget extends StatelessWidget {
           Padding(
             padding: const EdgeInsets.all(16.0),
             child: Image.network(
-              'https://images.unsplash.com/photo-1546868871-7041f2a55e12?ixid=MnwxMjA3fDB8MHxzZWFyY2h8MjB8fHByb2R1Y3R8ZW58MHx8MHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=800&q=60',
+              productImage,
               width: 100,
               height: 100,
             ),
@@ -34,7 +41,7 @@ class ProductItemWidget extends StatelessWidget {
             child: Row(
               children: <Widget>[
                 Text(
-                  'اسم المنتج',
+                  productName,
                   style: GoogleFonts.cairo(
                     textStyle: const TextStyle(
                       color: Colors.black,
@@ -48,7 +55,7 @@ class ProductItemWidget extends StatelessWidget {
                   crossAxisAlignment: CrossAxisAlignment.end,
                   children: <Widget>[
                     Text(
-                      '120',
+                      '$productPrice',
                       style: GoogleFonts.cairo(
                         textStyle: const TextStyle(
                           color: Colors.black,

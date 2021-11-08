@@ -18,6 +18,7 @@ class HomeController extends GetxController {
   void onReady() {
     super.onReady();
 
+    selectedCategory = listCategory.first;
     getProduct();
   }
 
@@ -39,7 +40,8 @@ class HomeController extends GetxController {
   Future getProduct() async {
     loadingHome.value = true;
     try {
-      listHomeProduct.value = await getIt<HomeRepository>().getProducts();
+      final homeRepo = getIt<HomeRepository>();
+      listHomeProduct.value = await homeRepo.getProducts();
       newListHomeProduct = listHomeProduct.value.obs;
       print("Count PR  ${listHomeProduct.value.length}");
       update();
@@ -50,7 +52,7 @@ class HomeController extends GetxController {
   }
 
   Future getProductsByGroupId() async {
-    if (selectedCategory != null) {
+    if (selectedCategory == null) {
       return;
     }
     try {

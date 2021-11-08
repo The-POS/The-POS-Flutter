@@ -8,7 +8,7 @@ const String MOBILE_INITIAL = MobileRoutes.HOME;
 final List<GetPage<Widget>> mobileRoutes = <GetPage<Widget>>[
   GetPage<HomeView>(
     name: MobileRoutes.HOME,
-    page: () => const HomeView(),
+    page: () => HomeView(),
   ),
   GetPage<CartView>(
     name: MobileRoutes.CART,
