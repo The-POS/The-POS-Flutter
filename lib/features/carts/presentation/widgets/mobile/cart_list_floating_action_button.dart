@@ -7,6 +7,14 @@ class CartListFloatingActionButton extends FloatingActionButton {
       : super(key: key, onPressed: onPressed);
 
   @override
+  Widget build(BuildContext context) {
+    return Container(
+      margin: const EdgeInsets.only(bottom: 64),
+      child: super.build(context),
+    );
+  }
+
+  @override
   Widget? get child => Container(
         padding: const EdgeInsets.all(16.0),
         width: 64,

@@ -6,6 +6,7 @@ import 'package:thepos/features/carts/presentation/views/mobile/cart_list_view.d
 import '../../widgets/mobile/cartItems/cart_items_widget.dart';
 import '../../widgets/mobile/cart_app_bar.dart';
 import '../../widgets/mobile/cart_list_floating_action_button.dart';
+import '../../widgets/mobile/pay_button.dart';
 
 class CartView extends StatefulWidget {
   const CartView({Key? key}) : super(key: key);
@@ -23,11 +24,21 @@ class CartViewState extends State<CartView> {
         onPressed: _showCartListView,
       ),
       floatingActionButtonLocation: FloatingActionButtonLocation.startFloat,
-      body: Column(
-        children: <Widget>[
-          _buildTopRow(),
-          const Expanded(child: CartItemsWidget())
-        ],
+      body: SafeArea(
+        child: Column(
+          children: <Widget>[
+            _buildTopRow(),
+            const Expanded(child: CartItemsWidget()),
+            Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: PayButton(
+                isLoading: false,
+                invoiceTotal: 23,
+                onPressed: () {},
+              ),
+            ),
+          ],
+        ),
       ),
     );
   }
