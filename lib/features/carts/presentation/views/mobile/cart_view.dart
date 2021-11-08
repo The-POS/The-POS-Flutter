@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:get/get.dart';
+import 'package:thepos/features/carts/presentation/views/mobile/cart_list_view.dart';
 
 import '../../widgets/mobile/cartItems/cart_items_widget.dart';
 import '../../widgets/mobile/cart_app_bar.dart';
@@ -30,7 +32,17 @@ class CartViewState extends State<CartView> {
     );
   }
 
-  void _showCartListView() {}
+  void _showCartListView() {
+    Get.defaultDialog(
+      title: '',
+      backgroundColor: Colors.white,
+      barrierDismissible: true,
+      radius: 5,
+      content: const CartListView(
+        selectedCartIndex: 0,
+      ),
+    );
+  }
 
   Widget _buildTopRow() {
     return Padding(
