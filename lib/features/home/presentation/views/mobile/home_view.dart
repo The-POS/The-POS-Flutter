@@ -2,10 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:thepos/routes/mobile_app_pages.dart';
 
-import 'common/cart_floating_action_button.dart';
-import 'common/categories_widget.dart';
-import 'common/home_app_bar.dart';
-import 'common/products/products_widget.dart';
+import '../../widgets/mobile/cart_floating_action_button.dart';
+import '../../widgets/mobile/categories_widget.dart';
+import '../../widgets/mobile/home_app_bar.dart';
+import '../../widgets/mobile/products/products_widget.dart';
 
 class HomeView extends StatefulWidget {
   const HomeView({Key? key}) : super(key: key);

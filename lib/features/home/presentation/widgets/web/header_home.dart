@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:thepos/features/home/presentation/widgets/search_widget.dart';
 import 'package:thepos/features/home/presentation/controllers/home_controller.dart';
+import 'package:thepos/features/home/presentation/widgets/web/search_widget.dart';
 
 class HeaderHomeWidget extends StatelessWidget {
   const HeaderHomeWidget({
@@ -34,7 +34,7 @@ class HeaderHomeWidget extends StatelessWidget {
         actions: controller.searching.value
             ? [
                 GestureDetector(
-                  onTap: (){
+                  onTap: () {
                     controller.showSearch();
                   },
                   child: const Icon(

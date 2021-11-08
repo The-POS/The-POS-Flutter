@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 
-class InvoiceFloatingActionButton extends FloatingActionButton {
-  const InvoiceFloatingActionButton({Key? key, required VoidCallback onPressed})
+class CartListFloatingActionButton extends FloatingActionButton {
+  const CartListFloatingActionButton(
+      {Key? key, required VoidCallback onPressed})
       : super(key: key, onPressed: onPressed);
 
   @override

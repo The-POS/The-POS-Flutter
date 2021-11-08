@@ -1,6 +1,6 @@
 import 'package:flutter/widgets.dart';
 import 'package:get/get_navigation/src/routes/get_route.dart';
-import 'package:thepos/features/home/presentation/views/home_view.dart';
+import 'package:thepos/features/home/presentation/views/web/home_view.dart';
 import 'package:thepos/features/splash/presentation/views/splash_view.dart';
 
 const String WEB_INITIAL = WebRoutes.HOME;
