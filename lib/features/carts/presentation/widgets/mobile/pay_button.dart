@@ -9,7 +9,7 @@ class PayButton extends StatelessWidget {
     required this.onPressed,
   }) : super(key: key);
 
-  final int invoiceTotal;
+  final double invoiceTotal;
   final bool isLoading;
   final VoidCallback onPressed;
 
@@ -41,7 +41,7 @@ class PayButton extends StatelessWidget {
                   ),
                   const Spacer(),
                   Text(
-                    '${invoiceTotal}',
+                    '$invoiceTotal',
                     style: GoogleFonts.cairo(
                       textStyle: const TextStyle(
                           color: Colors.white,
