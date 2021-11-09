@@ -10,6 +10,7 @@ class HomeController extends GetxController {
   var listHomeProduct = <Product>[].obs;
   var newListHomeProduct = <Product>[].obs;
   var searching = false.obs;
+  var barcoding = false.obs;
 
   RxBool loadingHome = false.obs;
   RxBool showHideCarts = false.obs;
@@ -29,6 +30,13 @@ class HomeController extends GetxController {
     Category(id: "4", name: "الكل")
   ]; //TODO get values from repository
   onSearch(String value) {
+    newListHomeProduct.value = listHomeProduct.value
+        .where(
+            (string) => string.name.toLowerCase().contains(value.toLowerCase()))
+        .toList();
+    update();
+  }
+  onBarcode(String value) {
     newListHomeProduct.value = listHomeProduct.value
         .where(
             (string) => string.name.toLowerCase().contains(value.toLowerCase()))
@@ -82,4 +90,10 @@ class HomeController extends GetxController {
     searching.value = !searching.value;
     update();
   }
+
+  Future showBarcode() async {
+    barcoding.value = !barcoding.value;
+    update();
+  }
 }
+

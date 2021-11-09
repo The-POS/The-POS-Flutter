@@ -125,8 +125,6 @@ class CartsController extends GetxController {
               ),
             ),
           ),
-
-
           confirm: GestureDetector(
             onTap: () {
               listCarts.value[selectedCart.value].cartItems.clear();
