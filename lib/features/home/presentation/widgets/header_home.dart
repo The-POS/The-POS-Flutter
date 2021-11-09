@@ -39,99 +39,49 @@ class HeaderHomeWidget extends StatelessWidget {
             ),
           ),
           actions: controller.searching.value
-          ? [
-          GestureDetector(
-            onTap: () {
-              controller.showSearch();
-            },
-            child: const Icon(
-              Icons.close,
-              color: Colors.black,
-              size: 32,
+              ? [
+            GestureDetector(
+              onTap: (){
+                controller.showSearch();
+              },
+              child: const Icon(
+                Icons.close,
+                color: Colors.black,
+                size: 32,
+              ),
             ),
-          ),
           ]
-              : controller.barcoding.value
-          ? [
-          GestureDetector(
-          onTap: () {
-    controller.showBarcode();
-    },
-      child: Container(
-        margin: const EdgeInsets.only(left: 15),
-        child: const Icon(
-          Icons.check_circle_outline,
-          color: Colors.green,
-          size: 32,
-        ),
-        actions: controller.searching.value
-            ? [
-                GestureDetector(
-                  onTap: (){
-                    controller.showSearch();
-                  },
-                  child: const Icon(
-                    Icons.close,
-                    color: Colors.black,
-                    size: 32,
-                  ),
-                ),
-              ]
-            : [
-                InkWell(
-                  child: SvgPicture.asset(
-                    "assets/svg/barcode.svg",
-                    width: 30,
-                  ),
-                  onTap: () {
-                    scanBarcodeNormal();
-                  },
-                ),
-                // Icon(
-                //   Icons.qr_code,
-                //   color: Colors.grey,
-                // ),
-                SizedBox(
-                  width: 20,
-                ),
-                InkWell(
-                    onTap: () {
-                      controller.showSearch();
-                    },
-                    child: SvgPicture.asset(
-                      "assets/svg/search.svg",
-                      width: 20,
-                    )),
+              : [
+            InkWell(
+              child: SvgPicture.asset(
+                "assets/svg/barcode.svg",
+                width: 30,
+              ),
+              onTap: () {
 
-                SizedBox(
-                  width: 5,
-                ),
-              ],
+              },
+            ),
+            // Icon(
+            //   Icons.qr_code,
+            //   color: Colors.grey,
+            // ),
+            SizedBox(
+              width: 20,
+            ),
+            InkWell(
+                onTap: () {
+                  // controller.showSearch();
+                  scanBarcodeNormal();
+                },
+                child: SvgPicture.asset(
+                  "assets/svg/search.svg",
+                  width: 20,
+                )),
+            SizedBox(
+              width: 5,
+            ),
+          ],
       ),
-    ),
-    ]
-        : [
-    GestureDetector(
-    child: SvgPicture.asset(
-    "assets/svg/barcode.svg",
-    width: 30,
-    ),
-    onTap: () {
-    controller.showBarcode();
-    },
-    ),
-    const SizedBox(width: 20),
-    InkWell(
-    onTap: () {
-    controller.showSearch();
-    },
-    child: SvgPicture.asset(
-    "assets/svg/search.svg",
-    width: 20,
-    )),
-    const SizedBox(width: 5),
-    ],
-    ),
     );
   }
 
