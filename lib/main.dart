@@ -44,14 +44,15 @@ class MyApp extends StatelessWidget {
         primaryColor: const Color.fromRGBO(23, 143, 73, 1.0),
         scaffoldBackgroundColor: const Color.fromRGBO(244, 245, 250, 1),
         progressIndicatorTheme: const ProgressIndicatorThemeData(
-          color: Color.fromRGBO(23, 143, 73, 1.0),
+          color: Color.fromRGBO(252, 189, 24, 1),
         ),
         floatingActionButtonTheme: const FloatingActionButtonThemeData(
-            backgroundColor: Color.fromRGBO(252, 189, 24, 1),
-            sizeConstraints: BoxConstraints(
-              minWidth: 80,
-              minHeight: 80,
-            )),
+          backgroundColor: Color.fromRGBO(252, 189, 24, 1),
+          sizeConstraints: BoxConstraints(
+            minWidth: 80,
+            minHeight: 80,
+          ),
+        ),
         visualDensity: VisualDensity.adaptivePlatformDensity,
       ),
     );

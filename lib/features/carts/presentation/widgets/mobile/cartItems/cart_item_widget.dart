@@ -2,10 +2,18 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 class CartItemWidget extends StatelessWidget {
-  const CartItemWidget(
-      {Key? key, required this.isFirstItem, required this.isLastItem})
-      : super(key: key);
+  const CartItemWidget({
+    Key? key,
+    required this.isFirstItem,
+    required this.quantity,
+    required this.productName,
+    required this.productPrice,
+    required this.isLastItem,
+  }) : super(key: key);
 
+  final int quantity;
+  final String productName;
+  final double productPrice;
   final bool isFirstItem;
   final bool isLastItem;
 
@@ -22,7 +30,7 @@ class CartItemWidget extends StatelessWidget {
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: <Widget>[
           Text(
-            'x1',
+            'x$quantity',
             style: GoogleFonts.cairo(
               textStyle: const TextStyle(
                 color: Colors.black,
@@ -32,7 +40,7 @@ class CartItemWidget extends StatelessWidget {
             ),
           ),
           Text(
-            'اسم المنتج',
+            productName,
             style: GoogleFonts.cairo(
               textStyle: const TextStyle(
                 color: Colors.black,
@@ -52,7 +60,7 @@ class CartItemWidget extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.end,
       children: <Widget>[
         Text(
-          '33.5',
+          '$productPrice',
           style: GoogleFonts.cairo(
             textStyle: TextStyle(
               color: Theme.of(context).primaryColor,

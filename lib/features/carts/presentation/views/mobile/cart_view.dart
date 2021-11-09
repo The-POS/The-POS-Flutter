@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
+import 'package:thepos/features/carts/presentation/controllers/carts_controller.dart';
 import 'package:thepos/features/carts/presentation/views/mobile/cart_list_view.dart';
 
 import '../../widgets/mobile/cartItems/cart_items_widget.dart';
@@ -8,37 +9,45 @@ import '../../widgets/mobile/cart_app_bar.dart';
 import '../../widgets/mobile/cart_list_floating_action_button.dart';
 import '../../widgets/mobile/pay_button.dart';
 
-class CartView extends StatefulWidget {
-  const CartView({Key? key}) : super(key: key);
+class CartView extends StatelessWidget {
+  CartView({Key? key}) : super(key: key);
 
-  @override
-  CartViewState createState() => CartViewState();
-}
+  final CartsController cartsController = Get.find<CartsController>();
 
-class CartViewState extends State<CartView> {
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: CartAppBar(),
-      floatingActionButton: CartListFloatingActionButton(
-        onPressed: _showCartListView,
-      ),
-      floatingActionButtonLocation: FloatingActionButtonLocation.startFloat,
-      body: SafeArea(
-        child: Column(
-          children: <Widget>[
-            _buildTopRow(),
-            const Expanded(child: CartItemsWidget()),
-            Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: PayButton(
-                isLoading: false,
-                invoiceTotal: 23,
-                onPressed: () {},
-              ),
-            ),
-          ],
+    return Obx(
+      () => Scaffold(
+        appBar: CartAppBar(),
+        floatingActionButton: CartListFloatingActionButton(
+          onPressed: _showCartListView,
         ),
+        floatingActionButtonLocation: FloatingActionButtonLocation.startFloat,
+        body: _buildBody(),
+      ),
+    );
+  }
+
+  SafeArea _buildBody() {
+    return SafeArea(
+      child: Column(
+        children: <Widget>[
+          _buildTopRow(),
+          Expanded(
+            child: CartItemsWidget(
+              cart:
+                  cartsController.listCarts[cartsController.selectedCart.value],
+            ),
+          ),
+          Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: PayButton(
+              isLoading: cartsController.isPayLoading.value,
+              invoiceTotal: cartsController.invoiceTotal,
+              onPressed: () => cartsController.pay(),
+            ),
+          ),
+        ],
       ),
     );
   }
@@ -49,8 +58,14 @@ class CartViewState extends State<CartView> {
       backgroundColor: Colors.white,
       barrierDismissible: true,
       radius: 5,
-      content: const CartListView(
-        selectedCartIndex: 0,
+      content: Obx(
+        () => CartListView(
+          selectedCartIndex: cartsController.selectedCart.value,
+          onSelectCart: (int selectIndex) {
+            cartsController.changeCart(selectIndex);
+            Get.back();
+          },
+        ),
       ),
     );
   }

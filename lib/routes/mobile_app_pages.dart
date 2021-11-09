@@ -12,7 +12,7 @@ final List<GetPage<Widget>> mobileRoutes = <GetPage<Widget>>[
   ),
   GetPage<CartView>(
     name: MobileRoutes.CART,
-    page: () => const CartView(),
+    page: () => CartView(),
   ),
 ];
 
