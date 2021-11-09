@@ -75,17 +75,24 @@ class CartView extends StatelessWidget {
       padding: const EdgeInsets.all(16.0),
       child: Row(
         children: <Widget>[
-          _buildElevatedButton('assets/svg/dots.svg'),
+          _buildElevatedButton(
+            assets: 'assets/svg/dots.svg',
+            onPressed: () {},
+          ),
           const Spacer(),
-          _buildElevatedButton('assets/svg/delete.svg'),
+          _buildElevatedButton(
+            assets: 'assets/svg/delete.svg',
+            onPressed: () => cartsController.clearCarts(),
+          ),
         ],
       ),
     );
   }
 
-  ElevatedButton _buildElevatedButton(String assets) {
+  ElevatedButton _buildElevatedButton(
+      {required String assets, required VoidCallback onPressed}) {
     return ElevatedButton(
-      onPressed: () {},
+      onPressed: onPressed,
       style: ElevatedButton.styleFrom(
         primary: Colors.transparent,
         shadowColor: Colors.transparent,

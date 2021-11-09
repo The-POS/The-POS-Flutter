@@ -128,9 +128,10 @@ class CartsController extends GetxController {
         ),
         confirm: GestureDetector(
           onTap: () {
-            listCarts.value[selectedCart.value].cartItems.clear();
+            final Cart tmpCart = listCarts[selectedCart.value];
+            tmpCart.cartItems.clear();
+            listCarts[selectedCart.value] = tmpCart;
             Get.back();
-
             update();
           },
           child: Text(
