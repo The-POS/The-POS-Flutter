@@ -3,7 +3,16 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 class EditCartSegmentedControl extends StatefulWidget {
-  const EditCartSegmentedControl({Key? key}) : super(key: key);
+  const EditCartSegmentedControl({
+    Key? key,
+    required this.onSegmentSelected,
+    required this.quantity,
+    required this.price,
+  }) : super(key: key);
+
+  final int quantity;
+  final double price;
+  final Function(int selectedSegmentIndex) onSegmentSelected;
 
   @override
   EditCartSegmentedControlState createState() =>
@@ -25,10 +34,12 @@ class EditCartSegmentedControlState extends State<EditCartSegmentedControl> {
           setState(() {
             groupValue = value;
           });
+          widget.onSegmentSelected(value ?? 0);
         },
         children: <int, Widget>{
-          0: _buildSegment(index: 0, title: 'العدد', value: '١'),
-          1: _buildSegment(index: 1, title: 'السعر', value: '١٠'),
+          0: _buildSegment(
+              index: 0, title: 'العدد', value: '${widget.quantity}'),
+          1: _buildSegment(index: 1, title: 'السعر', value: '${widget.price}'),
         },
       ),
     );
