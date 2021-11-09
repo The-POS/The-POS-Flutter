@@ -9,6 +9,7 @@ class CartItemWidget extends StatelessWidget {
     required this.productName,
     required this.productPrice,
     required this.isLastItem,
+    required this.onTap,
   }) : super(key: key);
 
   final int quantity;
@@ -16,41 +17,45 @@ class CartItemWidget extends StatelessWidget {
   final double productPrice;
   final bool isFirstItem;
   final bool isLastItem;
+  final VoidCallback onTap;
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      padding: const EdgeInsets.all(12),
-      decoration: BoxDecoration(
-        color: Colors.white,
-        borderRadius: _getBorderRadius(),
-      ),
-      height: 54,
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        children: <Widget>[
-          Text(
-            'x$quantity',
-            style: GoogleFonts.cairo(
-              textStyle: const TextStyle(
-                color: Colors.black,
-                fontSize: 15,
-                fontWeight: FontWeight.w600,
+    return GestureDetector(
+      onTap: onTap,
+      child: Container(
+        padding: const EdgeInsets.all(12),
+        decoration: BoxDecoration(
+          color: Colors.white,
+          borderRadius: _getBorderRadius(),
+        ),
+        height: 54,
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: <Widget>[
+            Text(
+              'x$quantity',
+              style: GoogleFonts.cairo(
+                textStyle: const TextStyle(
+                  color: Colors.black,
+                  fontSize: 15,
+                  fontWeight: FontWeight.w600,
+                ),
               ),
             ),
-          ),
-          Text(
-            productName,
-            style: GoogleFonts.cairo(
-              textStyle: const TextStyle(
-                color: Colors.black,
-                fontSize: 15,
-                fontWeight: FontWeight.w600,
+            Text(
+              productName,
+              style: GoogleFonts.cairo(
+                textStyle: const TextStyle(
+                  color: Colors.black,
+                  fontSize: 15,
+                  fontWeight: FontWeight.w600,
+                ),
               ),
             ),
-          ),
-          _buildPriceRow(context),
-        ],
+            _buildPriceRow(context),
+          ],
+        ),
       ),
     );
   }

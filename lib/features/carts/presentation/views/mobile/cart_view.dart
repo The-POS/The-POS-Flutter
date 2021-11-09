@@ -37,6 +37,7 @@ class CartView extends StatelessWidget {
             child: CartItemsWidget(
               cart:
                   cartsController.listCarts[cartsController.selectedCart.value],
+              onTapCartItem: (int index) => cartsController.editCartItem(index),
             ),
           ),
           Padding(

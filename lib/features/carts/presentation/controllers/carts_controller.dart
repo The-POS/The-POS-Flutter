@@ -9,6 +9,7 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:thepos/core/init_app.dart';
 import 'package:thepos/features/carts/data/models/cart.dart';
 import 'package:thepos/features/carts/data/models/cart_item.dart';
+import 'package:thepos/features/carts/presentation/views/mobile/edit_cart_item_view.dart';
 import 'package:thepos/features/home/data/models/product.dart';
 import 'package:thepos/features/invoice/data/data_sources/store_invoice.dart';
 import 'package:thepos/features/invoice/helper/cart_invoice_mapper.dart';
@@ -157,5 +158,35 @@ class CartsController extends GetxController {
                     fontWeight: FontWeight.normal),
               ),
             )));
+  }
+
+  void editCartItem(int index) {
+    final CartItem cartItem = listCarts[selectedCart.value].cartItems[index];
+    Get.bottomSheet(
+      EditCartItemView(
+        quantity: cartItem.quantity,
+        productImage: faker.image.loremPicsum.image(),
+        productName: cartItem.product.name,
+        productBarCode: cartItem.product.sku,
+        productPrice: cartItem.product.price,
+        updatePrice: (double price) async {
+          cartItem.product.price = price;
+          final tempCart = listCarts[selectedCart.value];
+          tempCart.cartItems[index] = cartItem;
+          listCarts[selectedCart.value] = tempCart;
+          update();
+          Get.back();
+        },
+        updateQuantity: (int quantity) async {
+          cartItem.quantity = quantity;
+          final tempCart = listCarts[selectedCart.value];
+          tempCart.cartItems[index] = cartItem;
+          listCarts[selectedCart.value] = tempCart;
+          update();
+          Get.back();
+        },
+      ),
+      isDismissible: true,
+    );
   }
 }

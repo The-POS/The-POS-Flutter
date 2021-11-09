@@ -1,5 +1,8 @@
+// ignore_for_file: avoid_dynamic_calls
+
 import 'package:flutter/material.dart';
 import 'package:get/get_navigation/src/root/get_material_app.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:responsive_framework/responsive_framework.dart';
 import 'package:thepos/core/init_app.dart';
 import 'package:thepos/routes/app_pages.dart';
@@ -51,6 +54,19 @@ class MyApp extends StatelessWidget {
           sizeConstraints: BoxConstraints(
             minWidth: 80,
             minHeight: 80,
+          ),
+        ),
+        inputDecorationTheme: InputDecorationTheme(
+          labelStyle: GoogleFonts.cairo(
+              textStyle: const TextStyle(
+                  color: Color.fromRGBO(23, 143, 73, 1),
+                  fontSize: 12,
+                  fontWeight: FontWeight.normal)),
+          enabledBorder: const UnderlineInputBorder(
+            borderSide: BorderSide(color: Color.fromRGBO(23, 143, 73, 1)),
+          ),
+          focusedBorder: const UnderlineInputBorder(
+            borderSide: BorderSide(color: Color.fromRGBO(23, 143, 73, 1)),
           ),
         ),
         visualDensity: VisualDensity.adaptivePlatformDensity,

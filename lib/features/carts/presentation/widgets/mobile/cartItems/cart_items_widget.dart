@@ -4,9 +4,12 @@ import 'package:thepos/features/carts/data/models/cart.dart';
 import 'cart_item_widget.dart';
 
 class CartItemsWidget extends StatelessWidget {
-  const CartItemsWidget({Key? key, required this.cart}) : super(key: key);
+  const CartItemsWidget(
+      {Key? key, required this.cart, required this.onTapCartItem})
+      : super(key: key);
 
   final Cart cart;
+  final Function(int index) onTapCartItem;
 
   @override
   Widget build(BuildContext context) {
@@ -22,6 +25,7 @@ class CartItemsWidget extends StatelessWidget {
           productPrice: cart.cartItems[index].product.price,
           isFirstItem: index == 0,
           isLastItem: index == cart.cartItems.length - 1,
+          onTap: () => onTapCartItem(index),
         ),
       ),
     );
