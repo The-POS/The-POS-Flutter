@@ -83,7 +83,7 @@ class CartsController extends GetxController {
 
   Future deleteItem(CartItem product) async {
     listCarts.value[selectedCart.value].cartItems.removeWhere(
-        (elementProduct) => elementProduct.product.sku == product.product.sku);
+            (elementProduct) => elementProduct.product.sku == product.product.sku);
 
     update();
   }
