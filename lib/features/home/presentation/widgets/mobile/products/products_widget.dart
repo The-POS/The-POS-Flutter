@@ -16,12 +16,13 @@ class ProductsWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     return Padding(
       padding: const EdgeInsets.all(16.0),
-      child: GridView(
-        gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-          crossAxisCount: 2,
-          mainAxisSpacing: 6,
-          crossAxisSpacing: 8,
-        ),
+      child: GridView.count(
+        shrinkWrap: true,
+        physics: const NeverScrollableScrollPhysics(),
+        padding: EdgeInsets.zero,
+        crossAxisCount: 2,
+        mainAxisSpacing: 6,
+        crossAxisSpacing: 8,
         children: products
             .map(
               (Product product) => GestureDetector(

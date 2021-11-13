@@ -6,7 +6,7 @@ import 'package:thepos/routes/mobile_app_pages.dart';
 
 import '../../widgets/mobile/cart_floating_action_button.dart';
 import '../../widgets/mobile/categories_widget.dart';
-import '../../widgets/mobile/home_app_bar.dart';
+import '../../widgets/mobile/home_silver_app_bar.dart';
 import '../../widgets/mobile/products/products_widget.dart';
 
 class HomeView extends StatelessWidget {
@@ -19,20 +19,29 @@ class HomeView extends StatelessWidget {
   Widget build(BuildContext context) {
     return Obx(
       () => Scaffold(
-        appBar: HomeAppBar(),
         floatingActionButton: CartFloatingActionButton(
           numberOfOpenedCart: cartsController.listCarts.length,
           onPressed: _navigateToCartView,
         ),
         floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
-        body: _buildBody(),
+        body: CustomScrollView(
+          slivers: <Widget>[
+            HomeSilverAppBar(
+              onSearchTextChanged: (String value) {
+                homeController.onSearch(value);
+              },
+            ),
+            _buildBody(),
+          ],
+        ),
       ),
     );
   }
 
-  Column _buildBody() {
-    return Column(
-      children: <Widget>[
+  SliverList _buildBody() {
+    return SliverList(
+        delegate: SliverChildListDelegate(
+      <Widget>[
         CategoriesWidget(
           categories: homeController.listCategory,
           selectedCategory: homeController.selectedCategory,
@@ -45,14 +54,12 @@ class HomeView extends StatelessWidget {
             ),
           )
         else
-          Expanded(
-            child: ProductsWidget(
-              products: homeController.listHomeProduct,
-              onTapProduct: cartsController.addProduct,
-            ),
+          ProductsWidget(
+            products: homeController.listHomeProduct,
+            onTapProduct: cartsController.addProduct,
           )
       ],
-    );
+    ));
   }
 
   void _navigateToCartView() {

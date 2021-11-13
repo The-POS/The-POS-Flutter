@@ -24,7 +24,9 @@ class CategoriesWidget extends StatelessWidget {
         children: categories
             .map(
               (Category category) => GestureDetector(
-                onTap: () {selectCategory(category);},
+                onTap: () {
+                  selectCategory(category);
+                },
                 child: _builderCategoryItem(
                   context,
                   categoryName: category.name,
