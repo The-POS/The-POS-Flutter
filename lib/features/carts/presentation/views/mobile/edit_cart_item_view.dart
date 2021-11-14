@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:thepos/features/carts/presentation/widgets/common/key_pad.dart';
 
 import '../../widgets/mobile/editCart/edit_cart_product_item_widget.dart';
 import '../../widgets/mobile/editCart/edit_cart_segmented_control.dart';
@@ -30,13 +31,12 @@ class EditCartItemView extends StatefulWidget {
 
 class EditCartItemViewState extends State<EditCartItemView> {
   int _selectedSegmentIndex = 0;
-  String? _valueToUpdate;
+  final TextEditingController textEditingController = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
     return Container(
       padding: const EdgeInsets.all(16),
-      height: 400,
       color: Colors.white,
       child: Column(
         children: <Widget>[
@@ -52,16 +52,20 @@ class EditCartItemViewState extends State<EditCartItemView> {
             onSegmentSelected: _onSegmentSelected,
           ),
           TextField(
-            onChanged: (String value) {
-              _valueToUpdate = value;
-            },
+            controller: textEditingController,
             textInputAction: TextInputAction.done,
             keyboardType: TextInputType.number,
             decoration: InputDecoration(
               labelText: _selectedSegmentIndex == 0 ? 'الكمية' : 'السعر',
             ),
           ),
-          const SizedBox(height: 12),
+          Expanded(
+            child: KeyPad(
+              textEditingController: textEditingController,
+              onSubmit: (String value) {},
+              onChange: (String value) {},
+            ),
+          ),
           _buildActionButtonWidget(context),
         ],
       ),
@@ -125,15 +129,15 @@ class EditCartItemViewState extends State<EditCartItemView> {
   }
 
   void _update() {
-    if (_valueToUpdate == null) {
+    if (textEditingController.text == null) {
       return;
     }
+    final String _valueToUpdate = textEditingController.text;
     if (_selectedSegmentIndex == 0) {
-      final int newQuantity = int.parse(_valueToUpdate ?? '${widget.quantity}');
+      final int newQuantity = int.parse(_valueToUpdate);
       widget.updateQuantity(newQuantity);
     } else {
-      final double newPrice =
-          double.parse(_valueToUpdate ?? '${widget.productPrice}');
+      final double newPrice = double.parse(_valueToUpdate);
       widget.updatePrice(newPrice);
     }
   }

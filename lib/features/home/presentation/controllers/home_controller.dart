@@ -27,10 +27,6 @@ class HomeController extends GetxController {
     Category(id: "1", name: "الطيور"),
     Category(id: "2", name: "القطط"),
     Category(id: "3", name: "الكلاب"),
-    Category(id: "3", name: "الكلاب"),
-    Category(id: "3", name: "الكلاب"),
-    Category(id: "3", name: "الكلاب"),
-    Category(id: "3", name: "الكلاب"),
   ]; //TODO get values from repository
   onSearch(String value) {
     newListHomeProduct.value = listHomeProduct.value

@@ -163,30 +163,34 @@ class CartsController extends GetxController {
   void editCartItem(int index) {
     final CartItem cartItem = listCarts[selectedCart.value].cartItems[index];
     Get.bottomSheet(
-      EditCartItemView(
-        quantity: cartItem.quantity,
-        productImage: faker.image.loremPicsum.image(),
-        productName: cartItem.product.name,
-        productBarCode: cartItem.product.sku,
-        productPrice: cartItem.product.price,
-        updatePrice: (double price) async {
-          cartItem.product.price = price;
-          final tempCart = listCarts[selectedCart.value];
-          tempCart.cartItems[index] = cartItem;
-          listCarts[selectedCart.value] = tempCart;
-          update();
-          Get.back();
-        },
-        updateQuantity: (int quantity) async {
-          cartItem.quantity = quantity;
-          final tempCart = listCarts[selectedCart.value];
-          tempCart.cartItems[index] = cartItem;
-          listCarts[selectedCart.value] = tempCart;
-          update();
-          Get.back();
-        },
+      SizedBox(
+        height: 900,
+        child: EditCartItemView(
+          quantity: cartItem.quantity,
+          productImage: faker.image.loremPicsum.image(),
+          productName: cartItem.product.name,
+          productBarCode: cartItem.product.sku,
+          productPrice: cartItem.product.price,
+          updatePrice: (double price) async {
+            cartItem.product.price = price;
+            final tempCart = listCarts[selectedCart.value];
+            tempCart.cartItems[index] = cartItem;
+            listCarts[selectedCart.value] = tempCart;
+            update();
+            Get.back();
+          },
+          updateQuantity: (int quantity) async {
+            cartItem.quantity = quantity;
+            final tempCart = listCarts[selectedCart.value];
+            tempCart.cartItems[index] = cartItem;
+            listCarts[selectedCart.value] = tempCart;
+            update();
+            Get.back();
+          },
+        ),
       ),
       isDismissible: true,
+      isScrollControlled: true,
     );
   }
 }
