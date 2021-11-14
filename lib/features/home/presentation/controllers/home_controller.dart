@@ -1,5 +1,7 @@
 // ignore_for_file: always_specify_types
 
+import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_barcode_scanner/flutter_barcode_scanner.dart';
 import 'package:get/get.dart';
@@ -7,6 +9,7 @@ import 'package:thepos/core/init_app.dart';
 import 'package:thepos/features/home/data/models/category.dart';
 import 'package:thepos/features/home/data/models/product.dart';
 import 'package:thepos/features/home/data/repositories/home_repository.dart';
+import 'package:thepos/features/home/presentation/widgets/popup_choice_barcode.dart';
 
 class HomeController extends GetxController {
   var listHomeProduct = <Product>[].obs;
@@ -38,6 +41,7 @@ class HomeController extends GetxController {
         .toList();
     update();
   }
+
   onBarcode(String value) {
     newListHomeProduct.value = listHomeProduct.value
         .where(
@@ -128,5 +132,26 @@ class HomeController extends GetxController {
 
     _scanBarcode = barcodeScanRes;
   }
-}
 
+  void modalBottomSheetMenu4() {
+    showModalBottomSheet(
+        context: Get.context!,
+        // use the shape border property to give it rounder corners
+        shape: const RoundedRectangleBorder(
+          borderRadius: BorderRadius.only(
+            topLeft: Radius.circular(20),
+            topRight: Radius.circular(20),
+          ),
+        ),
+        builder: (builder) {
+          return const PopupChoiceBarcode();
+        })
+      .then((value) {
+        if(value != null && value ==1){
+          scanQR();
+        }else if(value != null && value ==2){
+          scanBarcodeNormal();
+        }
+      });
+  }
+}
