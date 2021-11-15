@@ -56,7 +56,8 @@ class HeaderHomeWidget extends StatelessWidget {
                 width: 30,
               ),
               onTap: () {
-
+                controller.modalBottomSheetMenu4();
+                 //controller.scanBarcodeNormal();
               },
             ),
             // Icon(
@@ -68,8 +69,7 @@ class HeaderHomeWidget extends StatelessWidget {
             ),
             InkWell(
                 onTap: () {
-                  // controller.showSearch();
-                  controller.scanBarcodeNormal();
+                  controller.showSearch();
                 },
                 child: SvgPicture.asset(
                   "assets/svg/search.svg",
