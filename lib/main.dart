@@ -15,6 +15,8 @@ Future<void> main() async {
   runApp(const MyApp());
 }
 
+final GlobalKey<NavigatorState> navigatorKey = GlobalKey<NavigatorState>();
+
 class MyApp extends StatelessWidget {
   const MyApp({Key? key}) : super(key: key);
 
@@ -27,6 +29,7 @@ class MyApp extends StatelessWidget {
       getPages: routes,
       initialRoute: initial,
       locale: LocalizationService.locale,
+      navigatorKey: navigatorKey,
       translations: LocalizationService(),
       builder: (context, widget) => ResponsiveWrapper.builder(
         widget,

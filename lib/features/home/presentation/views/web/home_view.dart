@@ -54,9 +54,9 @@ class HomeView extends GetView<HomeController> {
                                       child: CategoryWidget(
                                           title: category.name,
                                           isSelected:
-                                              cont.selectedCategory != null &&
-                                                  cont.selectedCategory!.id ==
-                                                      category.id));
+                                          cont.selectedCategory != null &&
+                                              cont.selectedCategory!.id ==
+                                                  category.id));
                                 }).toList(),
                               ),
                             ),

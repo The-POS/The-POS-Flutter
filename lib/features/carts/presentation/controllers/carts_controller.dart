@@ -84,7 +84,7 @@ class CartsController extends GetxController {
 
   Future deleteItem(CartItem product) async {
     listCarts.value[selectedCart.value].cartItems.removeWhere(
-        (elementProduct) => elementProduct.product.sku == product.product.sku);
+            (elementProduct) => elementProduct.product.sku == product.product.sku);
 
     update();
   }
@@ -144,20 +144,37 @@ class CartsController extends GetxController {
                   fontWeight: FontWeight.normal),
             ),
           ),
-        ),
-        cancel: GestureDetector(
+          confirm: GestureDetector(
             onTap: () {
+              listCarts.value[selectedCart.value].cartItems.clear();
               Get.back();
+
+              update();
             },
             child: Text(
-              "الغاء",
+              "متابعة",
               style: GoogleFonts.cairo(
                 textStyle: const TextStyle(
-                    color: Colors.grey,
+                    color: Colors.red,
                     fontSize: 20,
                     fontWeight: FontWeight.normal),
               ),
-            )));
+            ),
+          ),
+          cancel: GestureDetector(
+              onTap: () {
+                Get.back();
+              },
+              child: Text(
+                "الغاء",
+                style: GoogleFonts.cairo(
+                  textStyle: const TextStyle(
+                      color: Colors.grey,
+                      fontSize: 20,
+                      fontWeight: FontWeight.normal),
+                ),
+              )));
+    }
   }
 
   void editCartItem(int index) {

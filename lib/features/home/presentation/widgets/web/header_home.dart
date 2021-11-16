@@ -5,7 +5,7 @@ import 'package:thepos/features/home/presentation/controllers/home_controller.da
 import 'package:thepos/features/home/presentation/widgets/web/search_widget.dart';
 
 class HeaderHomeWidget extends StatelessWidget {
-  const HeaderHomeWidget({
+  HeaderHomeWidget({
     Key? key,
     required this.controller,
   }) : super(key: key);
@@ -20,7 +20,11 @@ class HeaderHomeWidget extends StatelessWidget {
         backgroundColor: Colors.white,
         elevation: 0.2,
         title: SearchBar(
-            isSearching: controller.searching.value, controller: controller),
+          isSearching: controller.searching.value,
+          controller: controller,
+          isBarcode: controller.barcoding.value,
+          isAutoFous: controller.barcoding.value,
+        ),
         leading: InkWell(
           onTap: () {
             controller.showHidCart();
@@ -45,9 +49,15 @@ class HeaderHomeWidget extends StatelessWidget {
                 ),
               ]
             : [
-                SvgPicture.asset(
-                  "assets/svg/barcode.svg",
-                  width: 30,
+                InkWell(
+                  child: SvgPicture.asset(
+                    "assets/svg/barcode.svg",
+                    width: 30,
+                  ),
+                  onTap: () {
+                    controller.modalBottomSheetMenu4();
+                    //controller.scanBarcodeNormal();
+                  },
                 ),
                 // Icon(
                 //   Icons.qr_code,
@@ -64,7 +74,6 @@ class HeaderHomeWidget extends StatelessWidget {
                       "assets/svg/search.svg",
                       width: 20,
                     )),
-
                 SizedBox(
                   width: 5,
                 ),
@@ -76,9 +85,15 @@ class HeaderHomeWidget extends StatelessWidget {
 
 class SearchBar extends StatelessWidget {
   final bool isSearching;
+  final bool isBarcode;
+  final bool isAutoFous;
   final HomeController controller;
 
-  SearchBar({required this.isSearching, required this.controller});
+  SearchBar(
+      {required this.isSearching,
+      required this.controller,
+      required this.isBarcode,
+      required this.isAutoFous});
 
   @override
   Widget build(BuildContext context) {
@@ -86,20 +101,28 @@ class SearchBar extends StatelessWidget {
       alignment: Alignment.center,
       children: [
         AnimateExpansion(
-          animate: !isSearching,
+          animate: !isBarcode,
+          // animate: !isSearching||!isBarcode,
           axisAlignment: 1.0,
-          child: Text("المبيعات",
-              style: GoogleFonts.cairo(
-                textStyle: TextStyle(
-                    color: Colors.black,
-                    fontSize: 20,
-                    fontWeight: FontWeight.w400),
-              )),
+          child: Text(
+            "المبيعات",
+            style: GoogleFonts.cairo(
+              textStyle: const TextStyle(
+                  color: Colors.black,
+                  fontSize: 20,
+                  fontWeight: FontWeight.w400),
+            ),
+          ),
         ),
         AnimateExpansion(
           animate: isSearching,
           axisAlignment: -1.0,
           child: Search(controller),
+        ),
+        AnimateExpansion(
+          animate: isBarcode,
+          axisAlignment: -1.0,
+          child: Barcode(controller, isAutoFous),
         ),
       ],
     );

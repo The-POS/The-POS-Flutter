@@ -133,7 +133,7 @@ class _CartViewState extends State<CartView> {
                     ),
                     GestureDetector(
                       onTap: () {
-                        cartsController.clearCarts();
+                        // cartsController.clearCarts();
                         setState(() {});
                       },
                       child: SvgPicture.asset(
