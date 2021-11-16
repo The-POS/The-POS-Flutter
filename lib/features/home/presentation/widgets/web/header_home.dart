@@ -4,6 +4,8 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:thepos/features/home/presentation/controllers/home_controller.dart';
 import 'package:thepos/features/home/presentation/widgets/web/search_widget.dart';
 
+import '../barcode_widget.dart';
+
 class HeaderHomeWidget extends StatelessWidget {
   HeaderHomeWidget({
     Key? key,
