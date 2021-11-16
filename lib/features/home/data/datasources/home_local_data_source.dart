@@ -33,7 +33,7 @@ class HomeLocalDataSource {
   }
 
   Future<bool> _isCacheExpired() async {
-    final int cachedProductTime = PreferenceUtils.getCacheTime();
+    final int cachedProductTime = await PreferenceUtils.getCacheTime();
     if (cachedProductTime == null) {
       return false;
     }
