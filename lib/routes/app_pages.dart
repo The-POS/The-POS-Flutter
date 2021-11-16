@@ -1,24 +1,9 @@
-// ignore_for_file: always_specify_types
+import 'package:flutter/foundation.dart' show kIsWeb;
+import 'package:flutter/widgets.dart';
+import 'package:get/get_navigation/src/routes/get_route.dart';
+import 'package:thepos/routes/mobile_app_pages.dart';
+import 'package:thepos/routes/web_app_pages.dart';
 
-import 'package:get/get.dart';
-// import 'package:thepos/features/home/presentation/views/home_binding.dart';
-import 'package:thepos/features/home/presentation/views/home_view.dart';
-import 'package:thepos/features/splash/presentation/views/splash_view.dart';
+final String initial = kIsWeb ? WebRoutes.SPLASH : MobileRoutes.HOME;
 
-part 'app_routes.dart';
-
-// ignore: avoid_classes_with_only_static_members
-class AppPages {
-  static const INITIAL = Routes.SPLASH;
-
-  static final routes = [
-    GetPage(
-      name: Routes.SPLASH,
-      page: () => SplashView(),
-    ),
-    GetPage(
-      name: Routes.HOME,
-      page: () => HomeView(),
-    ),
-  ];
-}
+final List<GetPage<Widget>> routes = kIsWeb ? webRoutes : mobileRoutes;

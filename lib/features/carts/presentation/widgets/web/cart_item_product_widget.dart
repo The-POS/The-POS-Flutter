@@ -5,7 +5,7 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:modal_side_sheet/modal_side_sheet.dart';
 import 'package:thepos/features/carts/data/models/cart_item.dart';
 import 'package:thepos/features/carts/presentation/controllers/carts_controller.dart';
-import 'package:thepos/features/carts/presentation/views/edit_cart.dart';
+import 'package:thepos/features/carts/presentation/views/web/edit_cart.dart';
 
 class CartItemProductWidget extends StatelessWidget {
   final CartItem item;

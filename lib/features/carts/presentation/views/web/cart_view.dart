@@ -4,8 +4,8 @@ import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:thepos/features/carts/presentation/controllers/carts_controller.dart';
-import 'package:thepos/features/carts/presentation/widgets/cart_item_product_widget.dart';
-import 'package:thepos/features/carts/presentation/widgets/cart_item_widget.dart';
+import 'package:thepos/features/carts/presentation/widgets/web/cart_item_product_widget.dart';
+import 'package:thepos/features/carts/presentation/widgets/web/cart_item_widget.dart';
 
 class CartView extends StatefulWidget {
   const CartView({Key? key}) : super(key: key);

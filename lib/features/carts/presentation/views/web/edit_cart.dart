@@ -4,8 +4,7 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:thepos/core/init_app.dart';
 import 'package:thepos/features/carts/data/models/cart_item.dart';
 import 'package:thepos/features/carts/presentation/controllers/carts_controller.dart';
-import 'package:thepos/features/carts/presentation/views/cart_view.dart';
-import 'package:thepos/features/carts/presentation/widgets/KeyPad.dart';
+import 'package:thepos/features/carts/presentation/widgets/common/key_pad.dart';
 
 class EditCartWidget extends StatefulWidget {
   const EditCartWidget({Key? key, required this.item}) : super(key: key);
@@ -290,14 +289,13 @@ class _EditCartWidgetState extends State<EditCartWidget> {
           Padding(
             padding: const EdgeInsets.symmetric(horizontal: 10),
             child: KeyPad(
-              isPinLogin: false,
               onChange: (t) {
                 setState(() {});
               },
               onSubmit: (t) {
                 setState(() {});
               },
-              pinController: pinController,
+              textEditingController: pinController,
             ),
           ),
           const SizedBox(

@@ -21,20 +21,17 @@ import 'config.dart';
 late Box<Product> productsBox;
 final faker = Faker.instance;
 
-void init() async {
+Future<void> init() async {
   await Hive.initFlutter();
+  setupGetIt();
   Hive.registerAdapter(ProductAdapter());
   productsBox = await Hive.openBox<Product>('productsBox');
-  setupGetIt();
   await PreferenceUtils.init();
-
-  // Get.create(()=>HomeController());
 }
 
 final getIt = GetIt.instance;
-
 Future<void> setupGetIt() async {
-  //dataSorces
+//   //dataSorces
   getIt.registerSingleton<HomeLocalDataSource>(HomeLocalDataSource());
   getIt.registerSingleton<HomeRemoteDataSource>(HomeRemoteDataSource());
   getIt.registerSingleton<HomeFakerDataSource>(HomeFakerDataSource());

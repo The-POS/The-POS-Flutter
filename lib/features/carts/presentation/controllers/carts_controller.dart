@@ -5,10 +5,11 @@ import 'dart:ui';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:get/get.dart';
-import 'package:thepos/core/init_app.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:thepos/core/init_app.dart';
 import 'package:thepos/features/carts/data/models/cart.dart';
 import 'package:thepos/features/carts/data/models/cart_item.dart';
+import 'package:thepos/features/carts/presentation/views/mobile/edit_cart_item_view.dart';
 import 'package:thepos/features/home/data/models/product.dart';
 import 'package:thepos/features/invoice/data/data_sources/store_invoice.dart';
 import 'package:thepos/features/invoice/helper/cart_invoice_mapper.dart';
@@ -83,7 +84,7 @@ class CartsController extends GetxController {
 
   Future deleteItem(CartItem product) async {
     listCarts.value[selectedCart.value].cartItems.removeWhere(
-            (elementProduct) => elementProduct.product.sku == product.product.sku);
+        (elementProduct) => elementProduct.product.sku == product.product.sku);
 
     update();
   }
@@ -104,57 +105,92 @@ class CartsController extends GetxController {
         isPayLoading.value = false;
       }
     }
+  }
 
-    Future clearCarts() async {
-      await Get.defaultDialog(
-          title: "حذف ؟ ",
-          titleStyle: GoogleFonts.cairo(
-            textStyle: const TextStyle(
-                color: Colors.black, fontSize: 15, fontWeight: FontWeight.bold),
-          ),
-          content: Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: Text(
-              "هل انت متأكد من حذف جميع العناصر في السلة  -  ${listCarts.value[selectedCart.value].keyCart}",
-              textAlign: TextAlign.center,
-              style: GoogleFonts.cairo(
-                textStyle: const TextStyle(
-                    color: Colors.black,
-                    fontSize: 20,
-                    fontWeight: FontWeight.bold),
-              ),
+  Future clearCarts() async {
+    await Get.defaultDialog(
+        title: "حذف ؟ ",
+        titleStyle: GoogleFonts.cairo(
+          textStyle: const TextStyle(
+              color: Colors.black, fontSize: 15, fontWeight: FontWeight.bold),
+        ),
+        content: Padding(
+          padding: const EdgeInsets.all(8.0),
+          child: Text(
+            "هل انت متأكد من حذف جميع العناصر في السلة  -  ${listCarts.value[selectedCart.value].keyCart}",
+            textAlign: TextAlign.center,
+            style: GoogleFonts.cairo(
+              textStyle: const TextStyle(
+                  color: Colors.black,
+                  fontSize: 20,
+                  fontWeight: FontWeight.bold),
             ),
           ),
-          confirm: GestureDetector(
+        ),
+        confirm: GestureDetector(
+          onTap: () {
+            final Cart tmpCart = listCarts[selectedCart.value];
+            tmpCart.cartItems.clear();
+            listCarts[selectedCart.value] = tmpCart;
+            Get.back();
+            update();
+          },
+          child: Text(
+            "متابعة",
+            style: GoogleFonts.cairo(
+              textStyle: const TextStyle(
+                  color: Colors.red,
+                  fontSize: 20,
+                  fontWeight: FontWeight.normal),
+            ),
+          ),
+        ),
+        cancel: GestureDetector(
             onTap: () {
-              listCarts.value[selectedCart.value].cartItems.clear();
               Get.back();
-
-              update();
             },
             child: Text(
-              "متابعة",
+              "الغاء",
               style: GoogleFonts.cairo(
                 textStyle: const TextStyle(
-                    color: Colors.red,
+                    color: Colors.grey,
                     fontSize: 20,
                     fontWeight: FontWeight.normal),
               ),
-            ),
-          ),
-          cancel: GestureDetector(
-              onTap: () {
-                Get.back();
-              },
-              child: Text(
-                "الغاء",
-                style: GoogleFonts.cairo(
-                  textStyle: const TextStyle(
-                      color: Colors.grey,
-                      fontSize: 20,
-                      fontWeight: FontWeight.normal),
-                ),
-              )));
-    }
+            )));
+  }
+
+  void editCartItem(int index) {
+    final CartItem cartItem = listCarts[selectedCart.value].cartItems[index];
+    Get.bottomSheet(
+      SizedBox(
+        height: 900,
+        child: EditCartItemView(
+          quantity: cartItem.quantity,
+          productImage: faker.image.loremPicsum.image(),
+          productName: cartItem.product.name,
+          productBarCode: cartItem.product.sku,
+          productPrice: cartItem.product.price,
+          updatePrice: (double price) async {
+            cartItem.product.price = price;
+            final tempCart = listCarts[selectedCart.value];
+            tempCart.cartItems[index] = cartItem;
+            listCarts[selectedCart.value] = tempCart;
+            update();
+            Get.back();
+          },
+          updateQuantity: (int quantity) async {
+            cartItem.quantity = quantity;
+            final tempCart = listCarts[selectedCart.value];
+            tempCart.cartItems[index] = cartItem;
+            listCarts[selectedCart.value] = tempCart;
+            update();
+            Get.back();
+          },
+        ),
+      ),
+      isDismissible: true,
+      isScrollControlled: true,
+    );
   }
 }
