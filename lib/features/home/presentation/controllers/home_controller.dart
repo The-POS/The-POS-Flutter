@@ -9,7 +9,7 @@ import 'package:thepos/core/init_app.dart';
 import 'package:thepos/features/home/data/models/category.dart';
 import 'package:thepos/features/home/data/models/product.dart';
 import 'package:thepos/features/home/data/repositories/home_repository.dart';
-import 'package:thepos/features/home/presentation/widgets/popup_choice_barcode.dart';
+import 'package:thepos/features/home/presentation/widgets/common/popup_choice_barcode.dart';
 
 class HomeController extends GetxController {
   var listHomeProduct = <Product>[].obs;
@@ -146,13 +146,12 @@ class HomeController extends GetxController {
         ),
         builder: (builder) {
           return const PopupChoiceBarcode();
-        })
-      .then((value) {
-        if(value != null && value ==1){
-          scanQR();
-        }else if(value != null && value ==2){
-          scanBarcodeNormal();
-        }
-      });
+        }).then((value) {
+      if (value != null && value == 1) {
+        scanQR();
+      } else if (value != null && value == 2) {
+        scanBarcodeNormal();
+      }
+    });
   }
 }

@@ -30,6 +30,9 @@ class HomeView extends StatelessWidget {
               onSearchTextChanged: (String value) {
                 homeController.onSearch(value);
               },
+              onBarCodeButtonPressed: () {
+                homeController.modalBottomSheetMenu4();
+              },
             ),
             _buildBody(),
           ],

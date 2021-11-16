@@ -3,10 +3,14 @@ import 'package:flutter_svg/svg.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 class HomeSilverAppBar extends SliverAppBar {
-  const HomeSilverAppBar({Key? key, required this.onSearchTextChanged})
-      : super(key: key);
+  const HomeSilverAppBar({
+    Key? key,
+    required this.onSearchTextChanged,
+    required this.onBarCodeButtonPressed,
+  }) : super(key: key);
 
   final Function(String keyword) onSearchTextChanged;
+  final VoidCallback onBarCodeButtonPressed;
 
   @override
   double? get expandedHeight => 150;
@@ -21,7 +25,8 @@ class HomeSilverAppBar extends SliverAppBar {
   bool get centerTitle => true;
 
   @override
-  Widget? get leading => _buildElevatedButton('assets/svg/menu.svg', null);
+  Widget? get leading =>
+      _buildElevatedButton('assets/svg/menu.svg', null, null);
 
   @override
   Widget? get title => Text(
@@ -37,7 +42,7 @@ class HomeSilverAppBar extends SliverAppBar {
 
   @override
   List<Widget>? get actions =>
-      <Widget>[_buildElevatedButton('assets/svg/user.svg', null)];
+      <Widget>[_buildElevatedButton('assets/svg/user.svg', null, null)];
 
   @override
   PreferredSizeWidget? get bottom => AppBar(
@@ -48,7 +53,8 @@ class HomeSilverAppBar extends SliverAppBar {
             Row(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: <Widget>[
-                _buildElevatedButton('assets/svg/barcode.svg', 24),
+                _buildElevatedButton(
+                    'assets/svg/barcode.svg', 24, onBarCodeButtonPressed),
                 Expanded(
                   child: Container(
                     height: 45,
@@ -81,9 +87,10 @@ class HomeSilverAppBar extends SliverAppBar {
         ),
       );
 
-  ElevatedButton _buildElevatedButton(String assets, double? size) {
+  ElevatedButton _buildElevatedButton(
+      String assets, double? size, VoidCallback? onBarCodeButtonPressed) {
     return ElevatedButton(
-      onPressed: () {},
+      onPressed: onBarCodeButtonPressed ?? () {},
       style: ElevatedButton.styleFrom(
         primary: Colors.transparent,
         shadowColor: Colors.transparent,
