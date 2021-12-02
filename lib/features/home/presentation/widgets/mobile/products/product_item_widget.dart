@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:thepos/features/home/data/models/product.dart';
 
 class ProductItemWidget extends StatelessWidget {
   const ProductItemWidget({
@@ -7,13 +8,14 @@ class ProductItemWidget extends StatelessWidget {
     required this.productImage,
     required this.productName,
     required this.productPrice,
-    this.productSalePrice,
+    this.productSalePrice,required this.product,
   }) : super(key: key);
 
   final String productImage;
   final String productName;
   final double productPrice;
   final double? productSalePrice;
+  final Product product;
 
   @override
   Widget build(BuildContext context) {
@@ -35,7 +37,26 @@ class ProductItemWidget extends StatelessWidget {
               height: 100,
             ),
           ),
+        
+        if(!product.available!)
+          Container(
+            width: double.infinity,
+            color: Colors.red,
+            padding: const EdgeInsets.symmetric(vertical: 5.0),
+            child: Text(
+              "نفذ من المخزون",
+              textAlign: TextAlign.center,
+              style: GoogleFonts.cairo(
+                textStyle: const TextStyle(
+                  color: Colors.white,
+                  fontSize: 8,
+                  fontWeight: FontWeight.normal,
+                ),
+              ),
+            ),
+          ),
           const Divider(
+            height: 1,
             thickness: 1.5,
           ),
           Padding(
@@ -55,34 +76,35 @@ class ProductItemWidget extends StatelessWidget {
                 const Spacer(),
                 Column(
                   children: [
-                    if(productSalePrice != null && productSalePrice! > 0)
-                    Row(
-                      // crossAxisAlignment: CrossAxisAlignment.center,
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: <Widget>[
-                        Text( productPrice.toStringAsFixed(2),
-                          style: GoogleFonts.cairo(
-                            textStyle: const TextStyle(
-                              color: Colors.red,
-                              decoration: TextDecoration.lineThrough,
-                              fontSize: 13,
-                              fontWeight: FontWeight.bold,
+                    if (productSalePrice != null && productSalePrice! > 0)
+                      Row(
+                        // crossAxisAlignment: CrossAxisAlignment.center,
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: <Widget>[
+                          Text(
+                            productPrice.toStringAsFixed(2),
+                            style: GoogleFonts.cairo(
+                              textStyle: const TextStyle(
+                                color: Colors.red,
+                                decoration: TextDecoration.lineThrough,
+                                fontSize: 13,
+                                fontWeight: FontWeight.bold,
+                              ),
                             ),
                           ),
-                        ),
-                        Text(
-                          'ريال',
-                          style: GoogleFonts.cairo(
-                            textStyle: const TextStyle(
-                              decoration: TextDecoration.lineThrough,
-                              color: Colors.red,
-                              fontSize: 9,
-                              fontWeight: FontWeight.normal,
+                          Text(
+                            'ريال',
+                            style: GoogleFonts.cairo(
+                              textStyle: const TextStyle(
+                                decoration: TextDecoration.lineThrough,
+                                color: Colors.red,
+                                fontSize: 9,
+                                fontWeight: FontWeight.normal,
+                              ),
                             ),
-                          ),
-                        )
-                      ],
-                    ),
+                          )
+                        ],
+                      ),
                     Row(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: <Widget>[

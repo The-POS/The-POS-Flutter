@@ -27,8 +27,26 @@ class ProductWidget extends StatelessWidget {
               fit: BoxFit.contain,
             ),
           ),
-          Divider(
-            color: const Color(0xffDADADA),
+           if(!product.available!)
+          Container(
+            width: double.infinity,
+            color: Colors.red,
+            padding: const EdgeInsets.symmetric(vertical: 5.0),
+            child: Text(
+              "نفذ من المخزون",
+              textAlign: TextAlign.center,
+              style: GoogleFonts.cairo(
+                textStyle: const TextStyle(
+                  color: Colors.white,
+                  fontSize: 8,
+                  fontWeight: FontWeight.normal,
+                ),
+              ),
+            ),
+          ),
+          const Divider(
+            height: 1,
+            thickness: 1.5,
           ),
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,

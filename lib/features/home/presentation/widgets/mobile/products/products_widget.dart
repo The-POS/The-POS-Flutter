@@ -34,6 +34,7 @@ class ProductsWidget extends StatelessWidget {
                   productImage: faker.image.loremPicsum.image(),
                   productPrice: product.price,
                   productSalePrice: product.salePrice,
+                  product: product,
                 ),
               ),
             )
