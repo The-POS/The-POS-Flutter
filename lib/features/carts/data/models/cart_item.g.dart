@@ -17,7 +17,7 @@ class CartItemAdapter extends TypeAdapter<CartItem> {
       for (int i = 0; i < numOfFields; i++) reader.readByte(): reader.read(),
     };
     return CartItem(
-      id: fields[0] as String,
+      id: fields[0] as String?,
       product: fields[1] as Product,
       quantity: fields[2] as int,
     );
