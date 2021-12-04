@@ -28,16 +28,18 @@ class LoginUseCase {
           'password': password,
         }),
       );
-      return response;
+      if (response.statusCode == 200) {
+        return response;
+      } else {
+        return Future.error(LoginUseCaseErrors.invalidData);
+      }
     } catch (error) {
       return Future.error(LoginUseCaseErrors.connectivity);
     }
   }
 }
 
-enum LoginUseCaseErrors {
-  connectivity,
-}
+enum LoginUseCaseErrors { connectivity, invalidData }
 
 void main() {
   LoginUseCaseSUT _makeSUT() {
@@ -84,5 +86,18 @@ void main() {
     );
 
     expect(error, LoginUseCaseErrors.connectivity);
+  });
+
+  test('login delivers invalidData error on non 200 HTTP Response', () async {
+    final LoginUseCaseSUT sut = _makeSUT();
+    final List<int> samples = <int>[199, 201, 300, 400, 500];
+    for (final int statusCode in samples) {
+      sut.client.completeWithResponse(
+          MockClientStub.createResponse(statusCode, 'response'));
+      final dynamic error = await tryFunction(
+        () => sut.loginUseCase.login('salahnahed', '123'),
+      );
+      expect(error, LoginUseCaseErrors.invalidData);
+    }
   });
 }
