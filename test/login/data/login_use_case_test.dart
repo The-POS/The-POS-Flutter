@@ -5,7 +5,7 @@ import 'package:thepos/features/login/data/login_service.dart';
 import 'helpers/shared_test_helper.dart';
 
 void main() {
-  test('login deliver results to the output on success case', () async {
+  test('login deliver the result to the output on success case', () async {
     final LoginResult loginResult = LoginResult(
       token: 'token',
       user: 'user',
