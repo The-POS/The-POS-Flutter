@@ -1,7 +1,9 @@
 import 'package:flutter_test/flutter_test.dart';
 import 'package:thepos/features/login/data/login_service/api_login/api_login_errors.dart';
-import 'package:thepos/features/login/data/login_service/login_result.dart';
 import 'package:thepos/features/login/data/login_service/login_service.dart';
+import 'package:thepos/features/login/data/login_use_case/login_use_case.dart';
+import 'package:thepos/features/login/data/login_use_case/login_use_case_output.dart';
+import 'package:thepos/features/login/data/models/login_result.dart';
 
 import 'helpers/shared_test_helper.dart';
 
@@ -67,29 +69,5 @@ class LoginServiceOutputSpy extends LoginServiceOutput {
   @override
   void onLoginFail(Object error) {
     receivedError = error;
-  }
-}
-
-abstract class LoginServiceOutput {
-  void onLoginSuccess(LoginResult result);
-  void onLoginFail(Object error);
-}
-
-class LoginUseCase {
-  LoginUseCase({
-    required this.loginService,
-    required this.output,
-  });
-
-  final LoginService loginService;
-  final LoginServiceOutput output;
-
-  Future<void> login(String username, String password) async {
-    try {
-      final LoginResult result = await loginService.login(username, password);
-      output.onLoginSuccess(result);
-    } catch (error) {
-      output.onLoginFail(error);
-    }
   }
 }
