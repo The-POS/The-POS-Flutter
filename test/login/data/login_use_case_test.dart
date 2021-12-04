@@ -1,7 +1,7 @@
 import 'package:flutter_test/flutter_test.dart';
-import 'package:thepos/features/login/data/api_login/api_login_errors.dart';
-import 'package:thepos/features/login/data/login_result.dart';
-import 'package:thepos/features/login/data/login_service.dart';
+import 'package:thepos/features/login/data/login_service/api_login/api_login_errors.dart';
+import 'package:thepos/features/login/data/login_service/login_result.dart';
+import 'package:thepos/features/login/data/login_service/login_service.dart';
 
 import 'helpers/shared_test_helper.dart';
 
