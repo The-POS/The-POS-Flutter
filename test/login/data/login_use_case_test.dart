@@ -27,8 +27,8 @@ void main() {
   });
 
   test('login deliver the error to the output on failed case', () async {
-    final LoginServiceStub loginService =
-        LoginServiceStub(error: ApiLoginErrors.invalidData);
+    const ApiLoginErrors error = ApiLoginErrors.invalidData;
+    final LoginServiceStub loginService = LoginServiceStub(error: error);
 
     final LoginServiceOutputSpy output = LoginServiceOutputSpy();
 
@@ -37,6 +37,7 @@ void main() {
       output: output,
     );
     await useCase.login('salahnahed', '123');
+    expect(output.receivedError, error);
   });
 }
 
@@ -56,15 +57,22 @@ class LoginServiceStub extends LoginService {
 
 class LoginServiceOutputSpy extends LoginServiceOutput {
   LoginResult? receivedLoginResult;
+  Object? receivedError;
 
   @override
   void onLoginSuccess(LoginResult result) {
     receivedLoginResult = result;
   }
+
+  @override
+  void onLoginFail(Object error) {
+    receivedError = error;
+  }
 }
 
 abstract class LoginServiceOutput {
   void onLoginSuccess(LoginResult result);
+  void onLoginFail(Object error);
 }
 
 class LoginUseCase {
@@ -77,7 +85,11 @@ class LoginUseCase {
   final LoginServiceOutput output;
 
   Future<void> login(String username, String password) async {
-    final LoginResult result = await loginService.login(username, password);
-    output.onLoginSuccess(result);
+    try {
+      final LoginResult result = await loginService.login(username, password);
+      output.onLoginSuccess(result);
+    } catch (error) {
+      output.onLoginFail(error);
+    }
   }
 }
