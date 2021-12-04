@@ -5,8 +5,8 @@ import 'package:http/http.dart' as http;
 import 'login_result.dart';
 import 'login_use_case_errors.dart';
 
-class LoginUseCase {
-  LoginUseCase(this._client, this._url);
+class RemoteLoginApi {
+  RemoteLoginApi(this._client, this._url);
 
   final http.Client _client;
   final Uri _url;
