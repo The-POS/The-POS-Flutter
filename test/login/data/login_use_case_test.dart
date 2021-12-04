@@ -1,4 +1,5 @@
 import 'package:flutter_test/flutter_test.dart';
+import 'package:thepos/features/login/data/api_login/api_login_errors.dart';
 import 'package:thepos/features/login/data/login_result.dart';
 import 'package:thepos/features/login/data/login_service.dart';
 
@@ -12,7 +13,7 @@ void main() {
       expire: 0,
       displayName: 'displayName',
     );
-    final LoginServiceStub loginService = LoginServiceStub(loginResult);
+    final LoginServiceStub loginService = LoginServiceStub(result: loginResult);
 
     final LoginServiceOutputSpy output = LoginServiceOutputSpy();
 
@@ -24,16 +25,32 @@ void main() {
 
     expectLoginResult(output.receivedLoginResult, loginResult);
   });
+
+  test('login deliver the error to the output on failed case', () async {
+    final LoginServiceStub loginService =
+        LoginServiceStub(error: ApiLoginErrors.invalidData);
+
+    final LoginServiceOutputSpy output = LoginServiceOutputSpy();
+
+    final LoginUseCase useCase = LoginUseCase(
+      loginService: loginService,
+      output: output,
+    );
+    await useCase.login('salahnahed', '123');
+  });
 }
 
 class LoginServiceStub extends LoginService {
-  LoginServiceStub(this.result);
+  LoginServiceStub({this.result, this.error});
 
-  final LoginResult result;
+  final LoginResult? result;
+  final Object? error;
 
   @override
   Future<LoginResult> login(String username, String password) {
-    return Future<LoginResult>.value(result);
+    return error != null
+        ? Future<LoginResult>.error(error!)
+        : Future<LoginResult>.value(result);
   }
 }
 

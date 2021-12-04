@@ -7,17 +7,17 @@ import 'package:thepos/features/login/data/login_result.dart';
 
 import '../../../helpers/mock_client_stub.dart';
 import '../../../invoice/helpers/shared_test_helper.dart';
-import '../helpers/login_use_case_sut.dart';
+import '../helpers/api_login_service_sut.dart';
 import '../helpers/shared_test_helper.dart';
 
 void main() {
-  LoginUseCaseSUT _makeSUT() {
+  ApiLoginServiceSUT _makeSUT() {
     final MockClientStub client = MockClientStub();
     final ApiLoginService sut = ApiLoginService(
       client,
       Uri.http('domain', 'path'),
     );
-    return LoginUseCaseSUT(client, sut);
+    return ApiLoginServiceSUT(client, sut);
   }
 
   tearDown(() {
@@ -30,7 +30,7 @@ void main() {
   });
 
   test('login post the correct data to the login end point', () async {
-    final LoginUseCaseSUT sut = _makeSUT();
+    final ApiLoginServiceSUT sut = _makeSUT();
 
     const String username = 'salahnahed';
     const String password = '123';
@@ -48,7 +48,7 @@ void main() {
   test('login delivers error on the client error', () async {
     await expectLoginToCompleteWithError(
       sut: _makeSUT(),
-      when: (LoginUseCaseSUT sut) {
+      when: (ApiLoginServiceSUT sut) {
         sut.client.completeWith(anyException);
       },
       expectedError: ApiLoginErrors.connectivity,
@@ -60,7 +60,7 @@ void main() {
     for (final int statusCode in samples) {
       await expectLoginToCompleteWithError(
         sut: _makeSUT(),
-        when: (LoginUseCaseSUT sut) {
+        when: (ApiLoginServiceSUT sut) {
           sut.client.completeWithResponse(
               MockClientStub.createResponse(statusCode, 'response'));
         },
@@ -72,7 +72,7 @@ void main() {
   test('login delivers invalidCredential error on 401 HTTP Response', () async {
     await expectLoginToCompleteWithError(
       sut: _makeSUT(),
-      when: (LoginUseCaseSUT sut) {
+      when: (ApiLoginServiceSUT sut) {
         sut.client.completeWithResponse(
             MockClientStub.createResponse(401, 'response'));
       },
@@ -85,7 +85,7 @@ void main() {
       () async {
     await expectLoginToCompleteWithError(
       sut: _makeSUT(),
-      when: (LoginUseCaseSUT sut) {
+      when: (ApiLoginServiceSUT sut) {
         sut.client.completeWithResponse(
             MockClientStub.createResponse(200, 'invalid json'));
       },
@@ -109,7 +109,7 @@ void main() {
     await expectLoginToCompleteWithResult(
       sut: _makeSUT(),
       expectedResult: expectedResult,
-      when: (LoginUseCaseSUT sut) {
+      when: (ApiLoginServiceSUT sut) {
         const String response =
             '{"token": "$anyToken","user": "$user","expire": $expire,"display_name": "$displayName"}';
         sut.client
