@@ -30,6 +30,8 @@ class LoginUseCase {
       );
       if (response.statusCode == 200) {
         return response;
+      } else if (response.statusCode == 401) {
+        return Future.error(LoginUseCaseErrors.invalidCredential);
       } else {
         return Future.error(LoginUseCaseErrors.invalidData);
       }
@@ -39,7 +41,7 @@ class LoginUseCase {
   }
 }
 
-enum LoginUseCaseErrors { connectivity, invalidData }
+enum LoginUseCaseErrors { connectivity, invalidData, invalidCredential }
 
 void main() {
   LoginUseCaseSUT _makeSUT() {
@@ -99,5 +101,15 @@ void main() {
       );
       expect(error, LoginUseCaseErrors.invalidData);
     }
+  });
+
+  test('login delivers invalidCredential error on 401 HTTP Response', () async {
+    final LoginUseCaseSUT sut = _makeSUT();
+    sut.client
+        .completeWithResponse(MockClientStub.createResponse(401, 'response'));
+    final dynamic error = await tryFunction(
+      () => sut.loginUseCase.login('salahnahed', '123'),
+    );
+    expect(error, LoginUseCaseErrors.invalidCredential);
   });
 }
