@@ -1,4 +1,4 @@
-import 'package:thepos/features/login/data/login_api/remote_login_api.dart';
+import 'package:thepos/features/login/data/remote_login/remote_login_api.dart';
 
 import '../../../helpers/mock_client_stub.dart';
 

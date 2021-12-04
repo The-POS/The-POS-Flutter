@@ -1,14 +1,14 @@
 import 'dart:convert';
 
 import 'package:flutter_test/flutter_test.dart';
-import 'package:thepos/features/login/data/login_api/login_result.dart';
-import 'package:thepos/features/login/data/login_api/login_use_case_errors.dart';
-import 'package:thepos/features/login/data/login_api/remote_login_api.dart';
+import 'package:thepos/features/login/data/login_result.dart';
+import 'package:thepos/features/login/data/remote_login/login_api_errors.dart';
+import 'package:thepos/features/login/data/remote_login/remote_login_api.dart';
 
-import '../../helpers/mock_client_stub.dart';
-import '../../invoice/helpers/shared_test_helper.dart';
-import 'helpers/login_use_case_sut.dart';
-import 'helpers/shared_test_helper.dart';
+import '../../../helpers/mock_client_stub.dart';
+import '../../../invoice/helpers/shared_test_helper.dart';
+import '../helpers/login_use_case_sut.dart';
+import '../helpers/shared_test_helper.dart';
 
 void main() {
   LoginUseCaseSUT _makeSUT() {
@@ -51,7 +51,7 @@ void main() {
       when: (LoginUseCaseSUT sut) {
         sut.client.completeWith(anyException);
       },
-      expectedError: LoginUseCaseErrors.connectivity,
+      expectedError: LoginApiErrors.connectivity,
     );
   });
 
@@ -64,7 +64,7 @@ void main() {
           sut.client.completeWithResponse(
               MockClientStub.createResponse(statusCode, 'response'));
         },
-        expectedError: LoginUseCaseErrors.invalidData,
+        expectedError: LoginApiErrors.invalidData,
       );
     }
   });
@@ -76,7 +76,7 @@ void main() {
         sut.client.completeWithResponse(
             MockClientStub.createResponse(401, 'response'));
       },
-      expectedError: LoginUseCaseErrors.invalidCredential,
+      expectedError: LoginApiErrors.invalidCredential,
     );
   });
 
@@ -89,7 +89,7 @@ void main() {
         sut.client.completeWithResponse(
             MockClientStub.createResponse(200, 'invalid json'));
       },
-      expectedError: LoginUseCaseErrors.invalidData,
+      expectedError: LoginApiErrors.invalidData,
     );
   });
 
