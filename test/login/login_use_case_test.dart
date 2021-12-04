@@ -151,6 +151,18 @@ void main() {
     expect(error, LoginUseCaseErrors.invalidCredential);
   });
 
+  test(
+      'login delivers invalidData error on 200 HTTP Response with invalid json',
+      () async {
+    final LoginUseCaseSUT sut = _makeSUT();
+    sut.client.completeWithResponse(
+        MockClientStub.createResponse(200, 'invalid json'));
+    final dynamic error = await tryFunction(
+      () => sut.loginUseCase.login('salahnahed', '123'),
+    );
+    expect(error, LoginUseCaseErrors.invalidData);
+  });
+
   test('login delivers login result 200 HTTP Response', () async {
     final LoginUseCaseSUT sut = _makeSUT();
 
