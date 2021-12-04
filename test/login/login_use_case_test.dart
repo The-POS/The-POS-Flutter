@@ -6,6 +6,13 @@ import 'package:http/http.dart' as http;
 import '../helpers/mock_client_stub.dart';
 import '../invoice/helpers/shared_test_helper.dart';
 
+class LoginUseCaseSUT {
+  LoginUseCaseSUT(this.client, this.loginUseCase);
+
+  final MockClientStub client;
+  final LoginUseCase loginUseCase;
+}
+
 class LoginUseCase {
   LoginUseCase(this._client, this._url);
 
@@ -13,26 +20,33 @@ class LoginUseCase {
   final Uri _url;
 
   Future login(String username, String password) async {
-    await _client.post(
-      _url,
-      body: json.encode(<String, String>{
-        'username': username,
-        'password': password,
-      }),
-    );
-
-    return Future.value('');
+    try {
+      final http.Response response = await _client.post(
+        _url,
+        body: json.encode(<String, String>{
+          'username': username,
+          'password': password,
+        }),
+      );
+      return response;
+    } catch (error) {
+      return Future.error(LoginUseCaseErrors.connectivity);
+    }
   }
 }
 
+enum LoginUseCaseErrors {
+  connectivity,
+}
+
 void main() {
-  LoginUseCase _makeSUT() {
+  LoginUseCaseSUT _makeSUT() {
     final MockClientStub client = MockClientStub();
     final LoginUseCase sut = LoginUseCase(
       client,
       Uri.http('domain', 'path'),
     );
-    return sut;
+    return LoginUseCaseSUT(client, sut);
   }
 
   tearDown(() {
@@ -45,12 +59,12 @@ void main() {
   });
 
   test('login post the correct data to the login end point', () async {
-    final LoginUseCase sut = _makeSUT();
+    final LoginUseCaseSUT sut = _makeSUT();
 
     const String username = 'salahnahed';
     const String password = '123';
 
-    await tryFunction(() => sut.login(username, password));
+    await tryFunction(() => sut.loginUseCase.login(username, password));
 
     expect(
         MockClientStub.requests.first.body,
@@ -58,5 +72,17 @@ void main() {
           'username': username,
           'password': password,
         }));
+  });
+
+  test('login delivers error on the client error', () async {
+    final LoginUseCaseSUT sut = _makeSUT();
+
+    sut.client.completeWith(anyException);
+
+    final dynamic error = await tryFunction(
+      () => sut.loginUseCase.login('salahnahed', '123'),
+    );
+
+    expect(error, LoginUseCaseErrors.connectivity);
   });
 }
