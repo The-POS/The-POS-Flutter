@@ -1,10 +1,10 @@
-import 'package:thepos/features/login/data/remote_login/remote_login_api.dart';
+import 'package:thepos/features/login/data/api_login/api_login_service.dart';
 
 import '../../../helpers/mock_client_stub.dart';
 
 class LoginUseCaseSUT {
-  LoginUseCaseSUT(this.client, this.loginUseCase);
+  LoginUseCaseSUT(this.client, this.apiLoginService);
 
   final MockClientStub client;
-  final RemoteLoginApi loginUseCase;
+  final ApiLoginService apiLoginService;
 }

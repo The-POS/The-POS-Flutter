@@ -1,6 +1,6 @@
 import 'package:flutter_test/flutter_test.dart';
+import 'package:thepos/features/login/data/api_login/api_login_errors.dart';
 import 'package:thepos/features/login/data/login_result.dart';
-import 'package:thepos/features/login/data/remote_login/login_api_errors.dart';
 
 import '../../../invoice/helpers/shared_test_helper.dart';
 import 'login_use_case_sut.dart';
@@ -11,17 +11,17 @@ Future<void> expectLoginToCompleteWithResult(
     required Function(LoginUseCaseSUT sut) when}) async {
   when(sut);
   final LoginResult actualResult =
-      await sut.loginUseCase.login('salahnahed', '123');
+      await sut.apiLoginService.login('salahnahed', '123');
   expectLoginResult(actualResult, expectedResult);
 }
 
 Future<void> expectLoginToCompleteWithError(
     {required LoginUseCaseSUT sut,
-    required LoginApiErrors expectedError,
+    required ApiLoginErrors expectedError,
     required Function(LoginUseCaseSUT sut) when}) async {
   when(sut);
   final dynamic actualError = await tryFunction(
-    () => sut.loginUseCase.login('salahnahed', '123'),
+    () => sut.apiLoginService.login('salahnahed', '123'),
   );
   expect(actualError, expectedError);
 }

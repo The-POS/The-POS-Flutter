@@ -1,9 +1,9 @@
 import 'dart:convert';
 
 import 'package:flutter_test/flutter_test.dart';
+import 'package:thepos/features/login/data/api_login/api_login_errors.dart';
+import 'package:thepos/features/login/data/api_login/api_login_service.dart';
 import 'package:thepos/features/login/data/login_result.dart';
-import 'package:thepos/features/login/data/remote_login/login_api_errors.dart';
-import 'package:thepos/features/login/data/remote_login/remote_login_api.dart';
 
 import '../../../helpers/mock_client_stub.dart';
 import '../../../invoice/helpers/shared_test_helper.dart';
@@ -13,7 +13,7 @@ import '../helpers/shared_test_helper.dart';
 void main() {
   LoginUseCaseSUT _makeSUT() {
     final MockClientStub client = MockClientStub();
-    final RemoteLoginApi sut = RemoteLoginApi(
+    final ApiLoginService sut = ApiLoginService(
       client,
       Uri.http('domain', 'path'),
     );
@@ -35,7 +35,7 @@ void main() {
     const String username = 'salahnahed';
     const String password = '123';
 
-    await tryFunction(() => sut.loginUseCase.login(username, password));
+    await tryFunction(() => sut.apiLoginService.login(username, password));
 
     expect(
         MockClientStub.requests.first.body,
@@ -51,7 +51,7 @@ void main() {
       when: (LoginUseCaseSUT sut) {
         sut.client.completeWith(anyException);
       },
-      expectedError: LoginApiErrors.connectivity,
+      expectedError: ApiLoginErrors.connectivity,
     );
   });
 
@@ -64,7 +64,7 @@ void main() {
           sut.client.completeWithResponse(
               MockClientStub.createResponse(statusCode, 'response'));
         },
-        expectedError: LoginApiErrors.invalidData,
+        expectedError: ApiLoginErrors.invalidData,
       );
     }
   });
@@ -76,7 +76,7 @@ void main() {
         sut.client.completeWithResponse(
             MockClientStub.createResponse(401, 'response'));
       },
-      expectedError: LoginApiErrors.invalidCredential,
+      expectedError: ApiLoginErrors.invalidCredential,
     );
   });
 
@@ -89,7 +89,7 @@ void main() {
         sut.client.completeWithResponse(
             MockClientStub.createResponse(200, 'invalid json'));
       },
-      expectedError: LoginApiErrors.invalidData,
+      expectedError: ApiLoginErrors.invalidData,
     );
   });
 

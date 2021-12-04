@@ -2,12 +2,12 @@ import 'dart:convert';
 
 import 'package:http/http.dart' as http;
 
-import '../login.dart';
 import '../login_result.dart';
-import 'login_api_errors.dart';
+import '../login_service.dart';
+import 'api_login_errors.dart';
 
-class RemoteLoginApi extends Login {
-  RemoteLoginApi(this._client, this._url);
+class ApiLoginService extends LoginService {
+  ApiLoginService(this._client, this._url);
 
   final http.Client _client;
   final Uri _url;
@@ -25,12 +25,12 @@ class RemoteLoginApi extends Login {
       if (response.statusCode == 200) {
         return _tryParse(response.body);
       } else if (response.statusCode == 401) {
-        return Future<LoginResult>.error(LoginApiErrors.invalidCredential);
+        return Future<LoginResult>.error(ApiLoginErrors.invalidCredential);
       } else {
-        return Future<LoginResult>.error(LoginApiErrors.invalidData);
+        return Future<LoginResult>.error(ApiLoginErrors.invalidData);
       }
     } catch (error) {
-      return Future<LoginResult>.error(LoginApiErrors.connectivity);
+      return Future<LoginResult>.error(ApiLoginErrors.connectivity);
     }
   }
 
@@ -38,7 +38,7 @@ class RemoteLoginApi extends Login {
     try {
       return Future<LoginResult>.value(LoginResult.fromJson(jsonDecode(body)));
     } catch (error) {
-      return Future<LoginResult>.error(LoginApiErrors.invalidData);
+      return Future<LoginResult>.error(ApiLoginErrors.invalidData);
     }
   }
 }

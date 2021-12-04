@@ -1,5 +1,5 @@
 import 'login_result.dart';
 
-abstract class Login {
+abstract class LoginService {
   Future<LoginResult> login(String username, String password);
 }
