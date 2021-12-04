@@ -22,13 +22,16 @@ class ProductAdapter extends TypeAdapter<Product> {
       price: fields[2] as double,
       taxRate: fields[3] as double?,
       taxedPrice: fields[4] as double?,
+      salePrice: fields[5] as double?,
+      taxedSalePrice: fields[6] as double?,
+      available: fields[7] as bool?,
     );
   }
 
   @override
   void write(BinaryWriter writer, Product obj) {
     writer
-      ..writeByte(5)
+      ..writeByte(8)
       ..writeByte(0)
       ..write(obj.sku)
       ..writeByte(1)
@@ -38,7 +41,13 @@ class ProductAdapter extends TypeAdapter<Product> {
       ..writeByte(3)
       ..write(obj.taxRate)
       ..writeByte(4)
-      ..write(obj.taxedPrice);
+      ..write(obj.taxedPrice)
+      ..writeByte(5)
+      ..write(obj.salePrice)
+      ..writeByte(6)
+      ..write(obj.taxedSalePrice)
+      ..writeByte(7)
+      ..write(obj.available);
   }
 
   @override

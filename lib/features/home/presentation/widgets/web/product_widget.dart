@@ -27,33 +27,92 @@ class ProductWidget extends StatelessWidget {
               fit: BoxFit.contain,
             ),
           ),
-
-          Divider(color: const Color(0xffDADADA),),
+           if(!product.available!)
+          Container(
+            width: double.infinity,
+            color: Colors.red,
+            padding: const EdgeInsets.symmetric(vertical: 5.0),
+            child: Text(
+              "نفذ من المخزون",
+              textAlign: TextAlign.center,
+              style: GoogleFonts.cairo(
+                textStyle: const TextStyle(
+                  color: Colors.white,
+                  fontSize: 8,
+                  fontWeight: FontWeight.normal,
+                ),
+              ),
+            ),
+          ),
+          const Divider(
+            height: 1,
+            thickness: 1.5,
+          ),
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              Text(
-                "ريال",
-                maxLines: 1,
-                style: GoogleFonts.cairo(
-                  textStyle: const TextStyle(
-                      color: Colors.black,
-                      fontSize: 15,
-                      fontWeight: FontWeight.w300),
-                ),
-              ),
-              const SizedBox(
-                width: 5,
-              ),
-              Text(
-                product.price.toString(),
-                maxLines: 1,
-                style: GoogleFonts.cairo(
-                  textStyle: const TextStyle(
-                      color: Colors.black,
-                      fontSize: 20,
-                      fontWeight: FontWeight.w400),
-                ),
+              Column(
+                children: [
+                  if (product.salePrice != null && product.salePrice! > 0)
+                    Row(
+                      children: [
+                        Text(
+                          "ريال",
+                          maxLines: 1,
+                          style: GoogleFonts.cairo(
+                            textStyle: const TextStyle(
+                                color: Colors.black,
+                                decoration: TextDecoration.lineThrough,
+                                fontSize: 10,
+                                fontWeight: FontWeight.w300),
+                          ),
+                        ),
+                        const SizedBox(
+                          width: 5,
+                        ),
+                        Text(
+                          product.price.toString(),
+                          maxLines: 1,
+                          style: GoogleFonts.cairo(
+                            textStyle: const TextStyle(
+                                color: Colors.black,
+                                decoration: TextDecoration.lineThrough,
+                                fontSize: 15,
+                                fontWeight: FontWeight.w400),
+                          ),
+                        ),
+                      ],
+                    ),
+                  Row(
+                    children: [
+                      Text(
+                        "ريال",
+                        maxLines: 1,
+                        style: GoogleFonts.cairo(
+                          textStyle: const TextStyle(
+                              color: Colors.black,
+                              fontSize: 15,
+                              fontWeight: FontWeight.w300),
+                        ),
+                      ),
+                      const SizedBox(
+                        width: 5,
+                      ),
+                      Text(
+                        product.salePrice != null && product.salePrice! > 0
+                            ? '${product.salePrice?.toStringAsFixed(2)}'
+                            : product.price.toStringAsFixed(2),
+                        maxLines: 1,
+                        style: GoogleFonts.cairo(
+                          textStyle: const TextStyle(
+                              color: Colors.black,
+                              fontSize: 20,
+                              fontWeight: FontWeight.w400),
+                        ),
+                      ),
+                    ],
+                  ),
+                ],
               ),
               const SizedBox(
                 width: 10,

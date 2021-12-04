@@ -11,6 +11,9 @@ class Product {
     this.groupId,
     this.taxRate,
     this.taxedPrice,
+    this.salePrice,
+    this.taxedSalePrice,
+    this.available,
   });
   @HiveField(0)
   String sku;
@@ -24,13 +27,27 @@ class Product {
   double? taxedPrice;
   int? groupId;
 
+  @HiveField(5)
+  double? salePrice;
+  @HiveField(6)
+  double? taxedSalePrice;
+
+  @HiveField(7)
+  bool? available;
+
   factory Product.fromJson(Map<String, dynamic> json) => Product(
         sku: json['sku'],
         name: json["name"],
         groupId: json["groupId"] == null ? 0 : json["groupId"],
         price: json["price"] == null ? 0 : json["price"].toDouble(),
+        salePrice:
+            json["sale_price"] == null ? 0 : json["sale_price"].toDouble(),
+        available: json["available"] == null ? true : json["available"],
         taxRate: json["tax_rate"]?.toDouble(),
         taxedPrice: json["taxed_price"]?.toDouble(),
+        taxedSalePrice: json["taxed_sale_price"] == null
+            ? 0
+            : json["taxed_sale_price"]?.toDouble(),
       );
 
   Map<String, dynamic> toJson() => {
@@ -39,5 +56,8 @@ class Product {
         "price": price,
         "tax_rate": taxRate,
         "taxed_price": taxedPrice,
+        "sale_price": salePrice,
+        "available": available,
+        "taxed_sale_price": taxedSalePrice,
       };
 }
