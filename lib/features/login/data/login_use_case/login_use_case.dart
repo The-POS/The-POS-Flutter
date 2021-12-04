@@ -9,7 +9,7 @@ class LoginUseCase {
   });
 
   final LoginService loginService;
-  final LoginServiceOutput output;
+  final LoginUseCaseOutput output;
 
   Future<void> login(String username, String password) async {
     try {

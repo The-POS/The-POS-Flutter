@@ -7,6 +7,6 @@ class LoginUseCaseSUT {
       {required this.service, required this.output, required this.useCase});
 
   final LoginService service;
-  final LoginServiceOutput output;
+  final LoginUseCaseOutput output;
   final LoginUseCase useCase;
 }
