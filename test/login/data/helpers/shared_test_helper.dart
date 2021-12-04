@@ -3,7 +3,7 @@ import 'package:thepos/features/login/data/login_service/api_login/api_login_err
 import 'package:thepos/features/login/data/models/login_result.dart';
 
 import '../../../invoice/helpers/shared_test_helper.dart';
-import 'api_login_service_sut.dart';
+import '../api_login/helpers/api_login_service_sut.dart';
 
 Future<void> expectLoginToCompleteWithResult(
     {required ApiLoginServiceSUT sut,

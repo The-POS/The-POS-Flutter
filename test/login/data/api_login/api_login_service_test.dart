@@ -7,8 +7,8 @@ import 'package:thepos/features/login/data/models/login_result.dart';
 
 import '../../../helpers/mock_client_stub.dart';
 import '../../../invoice/helpers/shared_test_helper.dart';
-import '../helpers/api_login_service_sut.dart';
 import '../helpers/shared_test_helper.dart';
+import 'helpers/api_login_service_sut.dart';
 
 void main() {
   ApiLoginServiceSUT _makeSUT() {
