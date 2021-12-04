@@ -26,9 +26,9 @@ Future<void> expectLoginToCompleteWithError(
   expect(actualError, expectedError);
 }
 
-void expectLoginResult(LoginResult result, LoginResult otherResult) {
-  expect(result.token, otherResult.token);
-  expect(result.user, otherResult.user);
-  expect(result.expire, otherResult.expire);
-  expect(result.displayName, otherResult.displayName);
+void expectLoginResult(LoginResult? result, LoginResult otherResult) {
+  expect(result?.token, otherResult.token);
+  expect(result?.user, otherResult.user);
+  expect(result?.expire, otherResult.expire);
+  expect(result?.displayName, otherResult.displayName);
 }
