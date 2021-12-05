@@ -1,7 +1,5 @@
 import 'package:get/get.dart';
-import 'package:thepos/features/home/controllers/home_controller.dart';
-import 'package:thepos/features/home/presentation/views/home_view.dart';
-import 'package:thepos/routes/app_pages.dart';
+import 'package:thepos/routes/web_app_pages.dart';
 
 class SplashController extends GetxController {
   @override
@@ -13,8 +11,7 @@ class SplashController extends GetxController {
 
   gotoHome() async {
     await Future.delayed(const Duration(seconds: 2), () {
-      // Get.to(HomeView());
-      Get.offAllNamed(Routes.HOME);
+      Get.offAllNamed(WebRoutes.HOME);
     });
   }
 }
