@@ -12,21 +12,15 @@ class HomeController extends GetxController {
   var loadingHome = false.obs;
   var showHideCarts = false.obs;
   var searching = false.obs;
-
+  Category? selectedCategory;
+  List<Category> listCategory = []; //TODO get values from repository
   @override
   void onReady() {
     super.onReady();
-
-    getProduct();
+    getProductsCategories();
+    //getProduct();
   }
 
-  Category? selectedCategory;
-  List<Category> listCategory = [
-    Category(id: "1", name: "الطيور"),
-    Category(id: "2", name: "القطط"),
-    Category(id: "3", name: "الكلاب"),
-    Category(id: "4", name: "الكل")
-  ]; //TODO get values from repository
   onSearch(String value) {
     newListHomeProduct.value = listHomeProduct.value
         .where(
@@ -49,15 +43,29 @@ class HomeController extends GetxController {
   }
 
   Future getProductsByGroupId() async {
-    if (selectedCategory != null) {
-      return;
-    }
     try {
-      listHomeProduct.value = await getIt<HomeRepository>()
-          .getProductsByGroupId(int.parse(selectedCategory!.id));
+      await getIt<HomeRepository>()
+          .getProductsByGroupId(int.parse(selectedCategory!.id.toString()))
+          .then((value) {
+        newListHomeProduct.value.clear();
+        newListHomeProduct.value.addAll(value);
+        update();
+      });
+
       update();
     } catch (e) {
       print("error getProduct $e");
+    }
+    loadingHome.value = false;
+  }
+
+  Future getProductsCategories() async {
+    try {
+      listCategory = await getIt<HomeRepository>().getProductsCategories();
+
+      update();
+    } catch (e) {
+      print("error getProductsCategories $e");
     }
     loadingHome.value = false;
   }

@@ -3,6 +3,7 @@ import 'package:thepos/core/config.dart';
 import 'package:thepos/features/home/data/datasources/home_faker_data_source.dart';
 import 'package:thepos/features/home/data/datasources/home_local_data_source.dart';
 import 'package:thepos/features/home/data/datasources/home_remote_data_source.dart';
+import 'package:thepos/features/home/data/models/category.dart';
 import 'package:thepos/features/home/data/models/product.dart';
 
 class HomeRepository {
@@ -35,6 +36,16 @@ class HomeRepository {
       return localDataSource.getProductsByGroupId(groupId);
     } else {
       return remoteDataSource.getProductsByGroupId(groupId);
+    }
+  }
+
+  Future<List<Category>> getProductsCategories() async {
+    var connectivityResult = await (Connectivity().checkConnectivity());
+
+    if (connectivityResult == ConnectivityResult.none) {
+      return localDataSource.getProductsCategories();
+    } else {
+      return remoteDataSource.getProductsCategories();
     }
   }
 }

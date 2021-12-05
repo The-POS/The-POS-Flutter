@@ -8,16 +8,19 @@ import 'package:thepos/features/home/controllers/home_controller.dart';
 import 'package:thepos/features/home/data/datasources/home_faker_data_source.dart';
 import 'package:thepos/features/home/data/datasources/home_local_data_source.dart';
 import 'package:thepos/features/home/data/datasources/home_remote_data_source.dart';
+import 'package:thepos/features/home/data/models/category.dart';
 import 'package:thepos/features/home/data/models/product.dart';
 import 'package:thepos/features/home/data/repositories/home_repository.dart';
 
 late Box<Product> productsBox;
+late Box<Category> categoriesBox;
 final faker = Faker.instance;
 
 void init() async {
   await Hive.initFlutter();
   Hive.registerAdapter(ProductAdapter());
   productsBox = await Hive.openBox<Product>('productsBox');
+  categoriesBox = await Hive.openBox<Category>('categoriesBox');
   setupGetIt();
 
   // Get.create(()=>HomeController());
