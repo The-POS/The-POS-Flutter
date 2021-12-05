@@ -26,11 +26,8 @@ class HomeRemoteDataSource extends GetConnect {
     final response = await get(
       '$apiUrl2/product-categories',
     );
-    print(jsonEncode(response.body));
     return List<Category>.from(
-      response.body["data"].map(
-        (d) => Category.fromJson(d),
-      ),
+      response.body["data"].map((d) => Category.fromJson(d)),
     );
   }
 }
