@@ -1,3 +1,5 @@
+import 'package:thepos/features/login/data/login_service/login_errors.dart';
+
 import '../login_service/login_service.dart';
 import '../models/login_result.dart';
 import 'login_use_case_output.dart';
@@ -15,7 +17,7 @@ class LoginUseCase {
     try {
       final LoginResult result = await loginService.login(username, password);
       output.onLoginSuccess(result);
-    } catch (error) {
+    } on LoginErrors catch (error) {
       output.onLoginFail(error);
     }
   }

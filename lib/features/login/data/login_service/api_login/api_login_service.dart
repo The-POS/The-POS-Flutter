@@ -1,10 +1,10 @@
 import 'dart:convert';
 
 import 'package:http/http.dart' as http;
+import 'package:thepos/features/login/data/login_service/login_errors.dart';
 
 import '../../models/login_result.dart';
 import '../login_service.dart';
-import 'api_login_errors.dart';
 
 class ApiLoginService extends LoginService {
   ApiLoginService(this._client, this._url);
@@ -25,12 +25,12 @@ class ApiLoginService extends LoginService {
       if (response.statusCode == 200) {
         return _tryParse(response.body);
       } else if (response.statusCode == 401) {
-        return Future<LoginResult>.error(ApiLoginErrors.invalidCredential);
+        return Future<LoginResult>.error(LoginErrors.invalidCredential);
       } else {
-        return Future<LoginResult>.error(ApiLoginErrors.invalidData);
+        return Future<LoginResult>.error(LoginErrors.invalidData);
       }
     } catch (error) {
-      return Future<LoginResult>.error(ApiLoginErrors.connectivity);
+      return Future<LoginResult>.error(LoginErrors.connectivity);
     }
   }
 
@@ -38,7 +38,7 @@ class ApiLoginService extends LoginService {
     try {
       return Future<LoginResult>.value(LoginResult.fromJson(jsonDecode(body)));
     } catch (error) {
-      return Future<LoginResult>.error(ApiLoginErrors.invalidData);
+      return Future<LoginResult>.error(LoginErrors.invalidData);
     }
   }
 }

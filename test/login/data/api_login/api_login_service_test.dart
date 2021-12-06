@@ -1,8 +1,8 @@
 import 'dart:convert';
 
 import 'package:flutter_test/flutter_test.dart';
-import 'package:thepos/features/login/data/login_service/api_login/api_login_errors.dart';
 import 'package:thepos/features/login/data/login_service/api_login/api_login_service.dart';
+import 'package:thepos/features/login/data/login_service/login_errors.dart';
 import 'package:thepos/features/login/data/models/login_result.dart';
 
 import '../../../helpers/mock_client_stub.dart';
@@ -51,7 +51,7 @@ void main() {
       when: (ApiLoginServiceSUT sut) {
         sut.client.completeWith(anyException);
       },
-      expectedError: ApiLoginErrors.connectivity,
+      expectedError: LoginErrors.connectivity,
     );
   });
 
@@ -64,7 +64,7 @@ void main() {
           sut.client.completeWithResponse(
               MockClientStub.createResponse(statusCode, 'response'));
         },
-        expectedError: ApiLoginErrors.invalidData,
+        expectedError: LoginErrors.invalidData,
       );
     }
   });
@@ -76,7 +76,7 @@ void main() {
         sut.client.completeWithResponse(
             MockClientStub.createResponse(401, 'response'));
       },
-      expectedError: ApiLoginErrors.invalidCredential,
+      expectedError: LoginErrors.invalidCredential,
     );
   });
 
@@ -89,7 +89,7 @@ void main() {
         sut.client.completeWithResponse(
             MockClientStub.createResponse(200, 'invalid json'));
       },
-      expectedError: ApiLoginErrors.invalidData,
+      expectedError: LoginErrors.invalidData,
     );
   });
 

@@ -1,5 +1,5 @@
 import 'package:flutter_test/flutter_test.dart';
-import 'package:thepos/features/login/data/login_service/api_login/api_login_errors.dart';
+import 'package:thepos/features/login/data/login_service/login_errors.dart';
 import 'package:thepos/features/login/data/models/login_result.dart';
 
 import '../../../invoice/helpers/shared_test_helper.dart';
@@ -17,7 +17,7 @@ Future<void> expectLoginToCompleteWithResult(
 
 Future<void> expectLoginToCompleteWithError(
     {required ApiLoginServiceSUT sut,
-    required ApiLoginErrors expectedError,
+    required LoginErrors expectedError,
     required Function(ApiLoginServiceSUT sut) when}) async {
   when(sut);
   final dynamic actualError = await tryFunction(

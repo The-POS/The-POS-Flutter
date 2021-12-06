@@ -1,5 +1,5 @@
 import 'package:flutter_test/flutter_test.dart';
-import 'package:thepos/features/login/data/login_service/api_login/api_login_errors.dart';
+import 'package:thepos/features/login/data/login_service/login_errors.dart';
 import 'package:thepos/features/login/data/login_use_case/login_use_case.dart';
 import 'package:thepos/features/login/data/models/login_result.dart';
 
@@ -44,7 +44,7 @@ void main() {
   });
 
   test('login deliver the error to the output on failed case', () async {
-    const ApiLoginErrors error = ApiLoginErrors.invalidData;
+    const LoginErrors error = LoginErrors.invalidData;
 
     final LoginUseCaseSUT sut = makeSUT(error: error);
 
