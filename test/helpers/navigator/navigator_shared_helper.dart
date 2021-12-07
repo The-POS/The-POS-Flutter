@@ -25,6 +25,6 @@ void expectRoute(Route actual, Route matcher) {
     actual.type,
     matcher.type,
     reason: 'actual route type ${actual.type} does not'
-        ' equal matcher route  type ${matcher.type}',
+        ' equal matcher route type ${matcher.type}',
   );
 }
