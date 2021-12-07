@@ -1,17 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:get/get.dart';
-
-abstract class NavigatorFactory {
-  void offAndToNamed(String routeName);
-}
-
-class AppNavigatorFactory extends NavigatorFactory {
-  @override
-  void offAndToNamed(String routeName) {
-    Get.offAndToNamed(routeName);
-  }
-}
+import 'package:thepos/core/navigator/app_navigator_factory.dart';
 
 GetMaterialApp testableMaterialApp = GetMaterialApp(
   getPages: testRoutes,
