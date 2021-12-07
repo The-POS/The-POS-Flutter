@@ -11,14 +11,13 @@ Future<void> main() async {
     final NavigatorFactorySpy navigatorFactory = NavigatorFactorySpy();
     final LoginRouter sut = LoginRouter(navigatorFactory);
 
-    sut.onLoginSuccess(
-      LoginResult(
-        token: 'token',
-        user: 'user',
-        expire: 0,
-        displayName: 'displayName',
-      ),
+    final LoginResult anyLoginResult = LoginResult(
+      token: 'token',
+      user: 'user',
+      expire: 0,
+      displayName: 'displayName',
     );
+    sut.onLoginSuccess(anyLoginResult);
 
     final Route expectedRoute =
         Route(type: NavigationType.offAndToNamed, name: MobileRoutes.HOME);
