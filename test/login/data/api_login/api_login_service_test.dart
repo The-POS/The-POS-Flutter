@@ -94,13 +94,13 @@ void main() {
   });
 
   test('login delivers login result 200 HTTP Response', () async {
-    const String anyToken = 'token';
-    const String user = 'alaadiaa';
-    const int expire = 1640366209;
-    const String displayName = 'Alaa Alsalehi';
+    const String token = 'token';
+    const String user = 'user';
+    const int expire = 0;
+    const String displayName = 'displayName';
 
     final LoginResult expectedResult = LoginResult(
-      token: anyToken,
+      token: token,
       user: user,
       expire: expire,
       displayName: displayName,
@@ -111,7 +111,7 @@ void main() {
       expectedResult: expectedResult,
       when: (ApiLoginServiceSUT sut) {
         const String response =
-            '{"token": "$anyToken","user": "$user","expire": $expire,"display_name": "$displayName"}';
+            '{"token": "$token","user": "$user","expire": $expire,"display_name": "$displayName"}';
         sut.client
             .completeWithResponse(MockClientStub.createResponse(200, response));
       },

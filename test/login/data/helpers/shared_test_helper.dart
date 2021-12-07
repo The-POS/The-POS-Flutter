@@ -23,12 +23,37 @@ Future<void> expectLoginToCompleteWithError(
   final dynamic actualError = await tryFunction(
     () => sut.apiLoginService.login('salahnahed', '123'),
   );
-  expect(actualError, expectedError);
+  expect(
+    actualError,
+    expectedError,
+    reason: 'actual error $actualError does not'
+        ' equal matcher error $expectedError',
+  );
 }
 
-void expectLoginResult(LoginResult? result, LoginResult? otherResult) {
-  expect(result?.token, otherResult?.token);
-  expect(result?.user, otherResult?.user);
-  expect(result?.expire, otherResult?.expire);
-  expect(result?.displayName, otherResult?.displayName);
+void expectLoginResult(LoginResult? actual, LoginResult? matcher) {
+  expect(
+    actual?.token,
+    matcher?.token,
+    reason: 'actual login result token ${actual?.token} does not'
+        ' equal matcher login result token ${matcher?.token}',
+  );
+  expect(
+    actual?.user,
+    matcher?.user,
+    reason: 'actual login result user ${actual?.user} does not'
+        ' equal matcher login result user ${matcher?.user}',
+  );
+  expect(
+    actual?.expire,
+    matcher?.expire,
+    reason: 'actual login result expire ${actual?.expire} does not'
+        ' equal matcher login result expire ${matcher?.expire}',
+  );
+  expect(
+    actual?.displayName,
+    matcher?.displayName,
+    reason: 'actual login result displayName ${actual?.displayName} does not'
+        ' equal matcher login result displayName ${matcher?.displayName}',
+  );
 }
