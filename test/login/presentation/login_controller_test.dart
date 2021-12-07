@@ -31,11 +31,16 @@ class LoginController extends GetxController implements LoginUseCaseOutput {
 }
 
 void main() {
-  test('loading rx property should be true when login method called', () {
+  LoginController _makeSUT() {
     final LoginController sut = LoginController();
     Get.put(sut);
 
     expect(sut.loading.value, false, reason: 'precondition failed');
+    return sut;
+  }
+
+  test('loading rx property should be true when login method called', () {
+    final LoginController sut = _makeSUT();
 
     sut.login();
 
@@ -43,10 +48,7 @@ void main() {
   });
 
   test('loading rx property should be false on delete controller', () async {
-    final LoginController sut = LoginController();
-    Get.put(sut);
-
-    expect(sut.loading.value, false, reason: 'precondition failed');
+    final LoginController sut = _makeSUT();
 
     sut.loading.value = true;
 
@@ -57,10 +59,7 @@ void main() {
 
   test('loading rx property should be false on onLoginSuccess called',
       () async {
-    final LoginController sut = LoginController();
-    Get.put(sut);
-
-    expect(sut.loading.value, false, reason: 'precondition failed');
+    final LoginController sut = _makeSUT();
 
     sut.login();
     sut.onLoginSuccess(anyLoginResult);
@@ -69,10 +68,7 @@ void main() {
   });
 
   test('loading rx property should be false on onLoginFail called', () async {
-    final LoginController sut = LoginController();
-    Get.put(sut);
-
-    expect(sut.loading.value, false, reason: 'precondition failed');
+    final LoginController sut = _makeSUT();
 
     sut.login();
     sut.onLoginFail(anyLoginError);
