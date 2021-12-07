@@ -20,7 +20,9 @@ class LoginController extends GetxController implements LoginUseCaseOutput {
   }
 
   @override
-  void onLoginFail(LoginErrors error) {}
+  void onLoginFail(LoginErrors error) {
+    loading.value = false;
+  }
 
   @override
   void onLoginSuccess(LoginResult result) {
@@ -62,6 +64,18 @@ void main() {
 
     sut.login();
     sut.onLoginSuccess(anyLoginResult);
+
+    expect(sut.loading.value, false);
+  });
+
+  test('loading rx property should be false on onLoginFail called', () async {
+    final LoginController sut = LoginController();
+    Get.put(sut);
+
+    expect(sut.loading.value, false, reason: 'precondition failed');
+
+    sut.login();
+    sut.onLoginFail(anyLoginError);
 
     expect(sut.loading.value, false);
   });
