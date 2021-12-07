@@ -60,6 +60,7 @@ void main() {
 
     expect(sut.loading.value, false, reason: 'precondition failed');
 
+    sut.login();
     sut.onLoginSuccess(anyLoginResult);
 
     expect(sut.loading.value, false);
