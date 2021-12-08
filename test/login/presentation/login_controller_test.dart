@@ -34,10 +34,18 @@ void main() {
   LoginController _makeSUT() {
     final LoginController sut = LoginController();
     Get.put(sut);
-
-    expect(sut.loading.value, false, reason: 'precondition failed');
     return sut;
   }
+
+  tearDown(() async {
+    await Get.delete<LoginController>();
+  });
+
+  test('loading rx property should be false on init', () {
+    final LoginController sut = _makeSUT();
+
+    expect(sut.loading.value, false);
+  });
 
   test('loading rx property should be true when login method called', () {
     final LoginController sut = _makeSUT();
