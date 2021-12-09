@@ -1,34 +1,8 @@
 import 'package:flutter_test/flutter_test.dart';
 import 'package:get/get.dart';
-import 'package:thepos/features/login/data/login_service/login_errors.dart';
-import 'package:thepos/features/login/data/login_use_case/login_use_case_output.dart';
-import 'package:thepos/features/login/data/models/login_result.dart';
+import 'package:thepos/features/login/presentation/controller/login_controller.dart';
 
 import 'helpers/shared_helpers.dart';
-
-class LoginController extends GetxController implements LoginUseCaseOutput {
-  RxBool loading = RxBool(false);
-
-  void login() {
-    loading.value = true;
-  }
-
-  @override
-  void onClose() {
-    loading.value = false;
-    super.onClose();
-  }
-
-  @override
-  void onLoginFail(LoginErrors error) {
-    loading.value = false;
-  }
-
-  @override
-  void onLoginSuccess(LoginResult result) {
-    loading.value = false;
-  }
-}
 
 void main() {
   LoginController _makeSUT() {
