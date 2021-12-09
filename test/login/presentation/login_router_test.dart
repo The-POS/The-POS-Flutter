@@ -7,7 +7,7 @@ import '../../helpers/navigator/navigator_factory_spy.dart';
 import '../../helpers/navigator/navigator_shared_helper.dart';
 import 'helpers/shared_helpers.dart';
 
-Future<void> main() async {
+void main() {
   test('router should offAndToNamed to the home route on success login', () {
     final NavigatorFactorySpy navigatorFactory = NavigatorFactorySpy();
     final LoginRouter sut = LoginRouter(navigatorFactory);
