@@ -8,6 +8,10 @@ class LoginView extends StatelessWidget {
 
   final LoginController controller = Get.find<LoginController>();
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
+  final TextEditingController usernameTextEditingController =
+      TextEditingController();
+  final TextEditingController passwordTextEditingController =
+      TextEditingController();
 
   @override
   Widget build(BuildContext context) {
@@ -28,6 +32,7 @@ class LoginView extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
             TextFormField(
+              controller: usernameTextEditingController,
               textInputAction: TextInputAction.next,
               keyboardType: TextInputType.name,
               decoration: const InputDecoration(labelText: 'Username'),
@@ -35,6 +40,7 @@ class LoginView extends StatelessWidget {
             ),
             const SizedBox(height: 12),
             TextFormField(
+              controller: passwordTextEditingController,
               textInputAction: TextInputAction.done,
               obscureText: true,
               enableSuggestions: false,
@@ -62,7 +68,12 @@ class LoginView extends StatelessWidget {
   ElevatedButton _buildElevatedButton(BuildContext context) {
     return ElevatedButton(
       onPressed: () {
-        controller.login('name', 'password');
+        if (_formKey.currentState?.validate() == true) {
+          controller.login(
+            usernameTextEditingController.text,
+            passwordTextEditingController.text,
+          );
+        }
       },
       style: ElevatedButton.styleFrom(
         primary: Theme.of(context).primaryColor,
