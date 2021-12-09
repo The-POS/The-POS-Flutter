@@ -24,7 +24,7 @@ void main() {
   test('loading rx property should be true when login method called', () {
     final LoginController sut = _makeSUT();
 
-    sut.login();
+    sut.login('salahnahed', '123');
 
     expect(sut.loading.value, true);
   });
@@ -43,7 +43,7 @@ void main() {
       () async {
     final LoginController sut = _makeSUT();
 
-    sut.login();
+    sut.login('salahnahed', '123');
     sut.onLoginSuccess(anyLoginResult);
 
     expect(sut.loading.value, false);
@@ -52,7 +52,7 @@ void main() {
   test('loading rx property should be false on onLoginFail called', () async {
     final LoginController sut = _makeSUT();
 
-    sut.login();
+    sut.login('salahnahed', '123');
     sut.onLoginFail(anyLoginError);
 
     expect(sut.loading.value, false);

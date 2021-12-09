@@ -7,7 +7,7 @@ import '../../data/models/login_result.dart';
 class LoginController extends GetxController implements LoginUseCaseOutput {
   RxBool loading = RxBool(false);
 
-  void login() {
+  void login(String name, String password) {
     loading.value = true;
   }
 
