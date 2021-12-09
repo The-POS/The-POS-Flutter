@@ -1,7 +1,7 @@
 import 'package:shared_preferences/shared_preferences.dart';
 
-import 'login_use_case/login_use_case_output.dart';
-import 'models/login_result.dart';
+import '../features/login/data/login_use_case/login_use_case_output.dart';
+import '../features/login/data/models/login_result.dart';
 
 class AuthManager extends LoginUseCaseOutput {
   AuthManager(this.sharedPreferences);

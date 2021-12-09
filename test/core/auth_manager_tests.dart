@@ -1,6 +1,6 @@
 import 'package:flutter_test/flutter_test.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:thepos/features/login/data/auth_manager.dart';
+import 'package:thepos/core/auth_manager.dart';
 import 'package:thepos/features/login/data/models/login_result.dart';
 
 void main() {
