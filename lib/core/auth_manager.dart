@@ -15,3 +15,8 @@ class AuthManager extends LoginUseCaseOutput {
     sharedPreferences.setString(PREF_USER_TOKEN, result.token);
   }
 }
+
+extension AuthInformation on AuthManager {
+  String? get token => sharedPreferences.getString(AuthManager.PREF_USER_TOKEN);
+  bool get isAuthenticated => token != null;
+}
