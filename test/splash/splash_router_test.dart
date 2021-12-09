@@ -1,23 +1,9 @@
 import 'package:flutter_test/flutter_test.dart';
-import 'package:thepos/core/navigator/navigator_factory.dart';
+import 'package:thepos/features/splash/presentation/splash_router.dart';
 import 'package:thepos/routes/mobile_app_pages.dart';
 
 import '../helpers/navigator/navigator_factory_spy.dart';
 import '../helpers/navigator/navigator_shared_helper.dart';
-
-class SplashRouter {
-  SplashRouter({required this.navigatorFactory, required this.isAuthenticated});
-
-  final NavigatorFactory navigatorFactory;
-  final bool isAuthenticated;
-  void navigateToNextScreen() {
-    if (isAuthenticated) {
-      navigatorFactory.offAndToNamed(MobileRoutes.HOME);
-    } else {
-      navigatorFactory.offAndToNamed(MobileRoutes.LOGIN);
-    }
-  }
-}
 
 void main() {
   test(
