@@ -48,26 +48,30 @@ class LoginView extends StatelessWidget {
   }
 
   Widget _buildLoginElevatedButton(BuildContext context) {
-    return ElevatedButton(
-      onPressed: controller.login,
-      style: ElevatedButton.styleFrom(
-        primary: Theme.of(context).primaryColor,
-      ),
-      child: SizedBox(
-        height: 50,
-        child: Center(
-          child: Text(
-            'Login',
-            style: GoogleFonts.cairo(
-              textStyle: const TextStyle(
-                color: Colors.white,
-                fontSize: 16,
-                fontWeight: FontWeight.bold,
+    return Obx(
+      () => controller.loading.value
+          ? const CircularProgressIndicator()
+          : ElevatedButton(
+              onPressed: controller.login,
+              style: ElevatedButton.styleFrom(
+                primary: Theme.of(context).primaryColor,
+              ),
+              child: SizedBox(
+                height: 50,
+                child: Center(
+                  child: Text(
+                    'Login',
+                    style: GoogleFonts.cairo(
+                      textStyle: const TextStyle(
+                        color: Colors.white,
+                        fontSize: 16,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                  ),
+                ),
               ),
             ),
-          ),
-        ),
-      ),
     );
   }
 }
