@@ -14,7 +14,7 @@ final List<GetPage<Widget>> mobileRoutes = <GetPage<Widget>>[
   ),
   GetPage<LoginView>(
     name: MobileRoutes.LOGIN,
-    page: () => const LoginView(),
+    page: () => LoginView(),
   ),
   GetPage<HomeView>(
     name: MobileRoutes.HOME,

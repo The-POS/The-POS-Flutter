@@ -9,7 +9,7 @@ const String WEB_INITIAL = WebRoutes.HOME;
 final List<GetPage<Widget>> webRoutes = <GetPage<Widget>>[
   GetPage<LoginView>(
     name: WebRoutes.LOGIN,
-    page: () => const LoginView(),
+    page: () => LoginView(),
   ),
   GetPage<SplashView>(
     name: WebRoutes.SPLASH,

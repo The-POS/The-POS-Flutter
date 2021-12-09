@@ -19,6 +19,7 @@ import 'package:thepos/features/invoice/data/data_sources/api_invoice/remote_sto
 import 'package:thepos/features/invoice/data/data_sources/local_store_invoice.dart';
 import 'package:thepos/features/invoice/data/data_sources/store_invoice.dart';
 import 'package:thepos/features/invoice/data/repositories/invoice_repository.dart';
+import 'package:thepos/features/login/presentation/controller/login_controller.dart';
 import 'package:thepos/features/splash/presentation/controllers/splash_controller.dart';
 import 'package:thepos/features/splash/presentation/splash_router.dart';
 
@@ -30,6 +31,7 @@ final AppNavigatorFactory navigatorFactory = AppNavigatorFactory();
 Future<void> init() async {
   await Hive.initFlutter();
   await createSplashController();
+  createLoginController();
   setupGetIt();
   Hive.registerAdapter(ProductAdapter());
   productsBox = await Hive.openBox<Product>('productsBox');
@@ -46,6 +48,11 @@ Future<void> createSplashController() async {
   final SplashController splashController =
       SplashController(splashRouter.navigateToNextScreen);
   Get.put(splashController);
+}
+
+void createLoginController() {
+  final LoginController loginController = LoginController();
+  Get.put(loginController);
 }
 
 final getIt = GetIt.instance;
