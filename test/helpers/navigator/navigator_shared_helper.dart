@@ -16,15 +16,21 @@ void expectRoutes(List<Route> actual, List<Route> matcher) {
 
 void expectRoute(Route actual, Route matcher) {
   expect(
+    actual.type,
+    matcher.type,
+    reason: 'actual route type ${actual.type} does not'
+        ' equal matcher route type ${matcher.type}',
+  );
+  expect(
     actual.name,
     matcher.name,
     reason: 'actual route name ${actual.name} does not'
         ' equal matcher route name ${matcher.name}',
   );
   expect(
-    actual.type,
-    matcher.type,
-    reason: 'actual route type ${actual.type} does not'
-        ' equal matcher route type ${matcher.type}',
+    actual.details,
+    matcher.details,
+    reason: 'actual route details ${actual.details} does not'
+        ' equal matcher route details ${matcher.details}',
   );
 }
