@@ -28,7 +28,7 @@ class LoginController extends GetxController implements LoginUseCaseOutput {
   }
 
   String? validateInput(String? value) {
-    if (value == null) {
+    if (value == null || value.isEmpty) {
       return 'Please enter some text';
     }
     return null;

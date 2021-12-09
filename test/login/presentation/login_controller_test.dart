@@ -74,4 +74,12 @@ void main() {
 
     expect(validationResult, 'Please enter some text');
   });
+
+  test('validateInput should return a message when input is empty', () async {
+    final LoginController sut = _makeSUT();
+
+    final String? validationResult = sut.validateInput('');
+
+    expect(validationResult, 'Please enter some text');
+  });
 }
