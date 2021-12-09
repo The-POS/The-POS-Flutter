@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_barcode_scanner/flutter_barcode_scanner.dart';
 import 'package:get/get.dart';
+import 'package:permission_handler/permission_handler.dart';
 import 'package:thepos/core/init_app.dart';
 import 'package:thepos/features/home/data/models/category.dart';
 import 'package:thepos/features/home/data/models/product.dart';
@@ -148,10 +149,25 @@ class HomeController extends GetxController {
           return const PopupChoiceBarcode();
         }).then((value) {
       if (value != null && value == 1) {
-        scanQR();
+        _checkCameraPermission(callback: () {
+          scanQR();
+        });
       } else if (value != null && value == 2) {
-        scanBarcodeNormal();
+        _checkCameraPermission(callback: () {
+          scanBarcodeNormal();
+        });
       }
     });
   }
+
+  void _checkCameraPermission({required Function() callback}) async {
+    var status = await Permission.camera.request();
+    if (status.isGranted) {
+      callback();
+    } else {
+      final isOpend = await openAppSettings();
+      print("no permission for camera $isOpend");
+    }
+  }
+
 }
