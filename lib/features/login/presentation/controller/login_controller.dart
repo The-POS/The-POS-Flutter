@@ -26,4 +26,8 @@ class LoginController extends GetxController implements LoginUseCaseOutput {
   void onLoginFail(LoginErrors error) {
     loading.value = false;
   }
+
+  String? validateInput(String? value) {
+    return null;
+  }
 }

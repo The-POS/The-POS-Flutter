@@ -7,6 +7,7 @@ class LoginView extends StatelessWidget {
   LoginView({Key? key}) : super(key: key);
 
   final LoginController controller = Get.find<LoginController>();
+  final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
 
   @override
   Widget build(BuildContext context) {
@@ -20,24 +21,27 @@ class LoginView extends StatelessWidget {
 
   Form _buildForm(BuildContext context) {
     return Form(
+      key: _formKey,
       child: Padding(
         padding: const EdgeInsets.all(24.0),
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
-            const TextField(
+            TextFormField(
               textInputAction: TextInputAction.next,
               keyboardType: TextInputType.name,
-              decoration: InputDecoration(labelText: 'Username'),
+              decoration: const InputDecoration(labelText: 'Username'),
+              validator: controller.validateInput,
             ),
             const SizedBox(height: 12),
-            const TextField(
+            TextFormField(
               textInputAction: TextInputAction.done,
               obscureText: true,
               enableSuggestions: false,
               autocorrect: false,
               keyboardType: TextInputType.visiblePassword,
-              decoration: InputDecoration(labelText: 'Password'),
+              decoration: const InputDecoration(labelText: 'Password'),
+              validator: controller.validateInput,
             ),
             const SizedBox(height: 12),
             _buildLoginElevatedButton(context)
@@ -52,7 +56,9 @@ class LoginView extends StatelessWidget {
       () => controller.loading.value
           ? const CircularProgressIndicator()
           : ElevatedButton(
-              onPressed: controller.login,
+              onPressed: () {
+                controller.login('name', 'password');
+              },
               style: ElevatedButton.styleFrom(
                 primary: Theme.of(context).primaryColor,
               ),

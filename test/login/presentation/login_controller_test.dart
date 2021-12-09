@@ -57,4 +57,13 @@ void main() {
 
     expect(sut.loading.value, false);
   });
+
+  test('validateInput should return null when input is not null or empty',
+      () async {
+    final LoginController sut = _makeSUT();
+
+    final String? validationResult = sut.validateInput('any input');
+
+    expect(validationResult, null);
+  });
 }
