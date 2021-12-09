@@ -12,6 +12,7 @@ class SplashRouter {
   final bool isAuthenticated;
   void navigateToNextScreen() {
     if (isAuthenticated) {
+      navigatorFactory.offAndToNamed(MobileRoutes.HOME);
     } else {
       navigatorFactory.offAndToNamed(MobileRoutes.LOGIN);
     }
@@ -33,6 +34,23 @@ void main() {
 
     final Route expectedRoute =
         Route(type: NavigationType.offAndToNamed, name: MobileRoutes.LOGIN);
+
+    expectRoutes(navigatorFactory.capturedRoutes, <Route>[expectedRoute]);
+  });
+  test(
+      'navigateToNextScreen should navigate to home view when isAuthenticated true',
+      () {
+    const bool isAuthenticated = true;
+    final NavigatorFactorySpy navigatorFactory = NavigatorFactorySpy();
+    final SplashRouter sut = SplashRouter(
+      navigatorFactory: navigatorFactory,
+      isAuthenticated: isAuthenticated,
+    );
+
+    sut.navigateToNextScreen();
+
+    final Route expectedRoute =
+        Route(type: NavigationType.offAndToNamed, name: MobileRoutes.HOME);
 
     expectRoutes(navigatorFactory.capturedRoutes, <Route>[expectedRoute]);
   });
