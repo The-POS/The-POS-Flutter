@@ -13,7 +13,7 @@ final List<GetPage<Widget>> webRoutes = <GetPage<Widget>>[
   ),
   GetPage<SplashView>(
     name: WebRoutes.SPLASH,
-    page: () => const SplashView(),
+    page: () => SplashView(),
   ),
   GetPage<HomeView>(
     name: WebRoutes.HOME,

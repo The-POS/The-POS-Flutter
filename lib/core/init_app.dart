@@ -2,9 +2,13 @@
 
 import 'package:connectivity/connectivity.dart';
 import 'package:faker_dart/faker_dart.dart';
+import 'package:get/get.dart';
 import 'package:get_it/get_it.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 import 'package:http/http.dart' as http;
+import 'package:shared_preferences/shared_preferences.dart';
+import 'package:thepos/core/auth_manager.dart';
+import 'package:thepos/core/navigator/app_navigator_factory.dart';
 import 'package:thepos/core/preferences_utils.dart';
 import 'package:thepos/features/home/data/datasources/home_faker_data_source.dart';
 import 'package:thepos/features/home/data/datasources/home_local_data_source.dart';
@@ -15,18 +19,33 @@ import 'package:thepos/features/invoice/data/data_sources/api_invoice/remote_sto
 import 'package:thepos/features/invoice/data/data_sources/local_store_invoice.dart';
 import 'package:thepos/features/invoice/data/data_sources/store_invoice.dart';
 import 'package:thepos/features/invoice/data/repositories/invoice_repository.dart';
+import 'package:thepos/features/splash/presentation/controllers/splash_controller.dart';
+import 'package:thepos/features/splash/presentation/splash_router.dart';
 
 import 'config.dart';
 
 late Box<Product> productsBox;
 final faker = Faker.instance;
-
+final AppNavigatorFactory navigatorFactory = AppNavigatorFactory();
 Future<void> init() async {
   await Hive.initFlutter();
+  await createSplashController();
   setupGetIt();
   Hive.registerAdapter(ProductAdapter());
   productsBox = await Hive.openBox<Product>('productsBox');
   await PreferenceUtils.init();
+}
+
+Future<void> createSplashController() async {
+  final SharedPreferences sharedPreferences =
+      await SharedPreferences.getInstance();
+  final AuthManager authManager = AuthManager(sharedPreferences);
+  final SplashRouter splashRouter = SplashRouter(
+      navigatorFactory: navigatorFactory,
+      isAuthenticated: authManager.isAuthenticated);
+  final SplashController splashController =
+      SplashController(splashRouter.navigateToNextScreen);
+  Get.put(splashController);
 }
 
 final getIt = GetIt.instance;
