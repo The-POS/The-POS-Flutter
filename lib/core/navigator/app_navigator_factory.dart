@@ -7,4 +7,14 @@ class AppNavigatorFactory extends NavigatorFactory {
   void offAndToNamed(String routeName) {
     Get.offAndToNamed(routeName);
   }
+
+  @override
+  void snackbar(String title, String message,
+      {Duration animationDuration = const Duration(seconds: 1)}) {
+    Get.snackbar(
+      title,
+      message,
+      animationDuration: animationDuration,
+    );
+  }
 }
