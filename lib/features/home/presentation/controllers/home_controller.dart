@@ -14,26 +14,27 @@ import 'package:thepos/features/home/presentation/widgets/common/popup_choice_ba
 class HomeController extends GetxController {
   var listHomeProduct = <Product>[].obs;
   var newListHomeProduct = <Product>[].obs;
+  var listCategory = <Category>[].obs;
   var searching = false.obs;
   var barcoding = false.obs;
 
   RxBool loadingHome = false.obs;
   RxBool showHideCarts = false.obs;
+@override
+  void onInit() {
 
+  super.onInit();
+}
   @override
   void onReady() {
     super.onReady();
+    getProductsCategories();
 
-    selectedCategory = listCategory.first;
     getProduct();
   }
 
   Category? selectedCategory;
-  List<Category> listCategory = [
-    Category(id: "1", name: "الطيور"),
-    Category(id: "2", name: "القطط"),
-    Category(id: "3", name: "الكلاب"),
-  ]; //TODO get values from repository
+  //TODO get values from repository
   onSearch(String value) {
     newListHomeProduct.value = listHomeProduct.value
         .where(
@@ -70,13 +71,27 @@ class HomeController extends GetxController {
     }
     try {
       listHomeProduct.value = await getIt<HomeRepository>()
-          .getProductsByGroupId(int.parse(selectedCategory!.id));
+          .getProductsByGroupId(int.parse(selectedCategory!.id.toString()));
+      newListHomeProduct.clear();
       newListHomeProduct = listHomeProduct.value.obs;
       update();
     } catch (e) {
       print("error getProduct $e");
     }
     loadingHome.value = false;
+  }
+
+  Future getProductsCategories() async {
+    loadingHome.value = true;
+    update();
+
+    try {
+      listCategory.value = await getIt<HomeRepository>().getProductsCategories();
+    } catch (e) {
+      print("error getProductsCategories $e");
+    }
+    loadingHome.value = false;
+    update();
   }
 
   Future changeCategory(Category cat) async {

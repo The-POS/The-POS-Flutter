@@ -13,10 +13,12 @@ class HomeView extends StatelessWidget {
   HomeView({Key? key}) : super(key: key);
 
   final CartsController cartsController = Get.put(CartsController());
-  final HomeController homeController = Get.put(HomeController());
+  HomeController homeController = Get.put(HomeController());
 
   @override
   Widget build(BuildContext context) {
+    homeController = Get.find<HomeController>();
+
     return Obx(
       () => Scaffold(
         floatingActionButton: CartFloatingActionButton(
