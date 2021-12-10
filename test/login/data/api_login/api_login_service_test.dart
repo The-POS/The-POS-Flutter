@@ -45,6 +45,15 @@ void main() {
         }));
   });
 
+  test('login add the correct header to the login end point', () async {
+    final ApiLoginServiceSUT sut = _makeSUT();
+
+    await tryFunction(() => sut.apiLoginService.login('salahnahed', '123'));
+
+    expect(MockClientStub.requests.first.headers,
+        <String, String>{'Content-Type': 'application/json; charset=utf-8'});
+  });
+
   test('login delivers error on the client error', () async {
     await expectLoginToCompleteWithError(
       sut: _makeSUT(),

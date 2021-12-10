@@ -21,6 +21,9 @@ class ApiLoginService extends LoginService {
           'username': username,
           'password': password,
         }),
+        headers: <String, String>{
+          'Content-Type': 'application/json; charset=utf-8'
+        },
       );
       if (response.statusCode == 200) {
         return _tryParse(response.body);
