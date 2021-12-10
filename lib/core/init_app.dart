@@ -36,19 +36,19 @@ Future<void> init() async {
   await Hive.initFlutter();
   final SharedPreferences sharedPreferences =
       await SharedPreferences.getInstance();
-  await createSplashController(sharedPreferences);
+  final AuthManager authManager = AuthManager(sharedPreferences);
+
+  await createSplashController(authManager.isAuthenticated);
   await createLoginController(sharedPreferences);
-  setupGetIt();
+  setupGetIt(authManager.token);
   Hive.registerAdapter(ProductAdapter());
   productsBox = await Hive.openBox<Product>('productsBox');
   await PreferenceUtils.init();
 }
 
-Future<void> createSplashController(SharedPreferences sharedPreferences) async {
-  final AuthManager authManager = AuthManager(sharedPreferences);
+Future<void> createSplashController(bool isAuthenticated) async {
   final SplashRouter splashRouter = SplashRouter(
-      navigatorFactory: navigatorFactory,
-      isAuthenticated: authManager.isAuthenticated);
+      navigatorFactory: navigatorFactory, isAuthenticated: isAuthenticated);
   final SplashController splashController =
       SplashController(splashRouter.navigateToNextScreen);
   Get.put(splashController);
@@ -56,7 +56,6 @@ Future<void> createSplashController(SharedPreferences sharedPreferences) async {
 
 Future<void> createLoginController(SharedPreferences sharedPreferences) async {
   final Uri loginUri = Uri.https(domain, '$mainUrl/api/v2/login');
-  print('loginUri $loginUri');
   final LoginService loginService = ApiLoginService(http.Client(), loginUri);
   final LoginController loginController = LoginController();
   final LoginUseCaseFactory factory = LoginUseCaseFactory();
@@ -70,10 +69,11 @@ Future<void> createLoginController(SharedPreferences sharedPreferences) async {
 }
 
 final getIt = GetIt.instance;
-Future<void> setupGetIt() async {
+Future<void> setupGetIt(String? token) async {
 //   //dataSorces
   getIt.registerSingleton<HomeLocalDataSource>(HomeLocalDataSource());
-  getIt.registerSingleton<HomeRemoteDataSource>(HomeRemoteDataSource());
+  getIt.registerSingleton<HomeRemoteDataSource>(
+      HomeRemoteDataSource(token: token));
   getIt.registerSingleton<HomeFakerDataSource>(HomeFakerDataSource());
 
 //Repositorise
