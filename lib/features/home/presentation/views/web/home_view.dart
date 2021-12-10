@@ -46,7 +46,7 @@ class HomeView extends GetView<HomeController> {
                             SingleChildScrollView(
                               child: Row(
                                 mainAxisAlignment: MainAxisAlignment.end,
-                                children: cont.listCategory.map((category) {
+                                children: cont.listCategory.value.map((category) {
                                   return GestureDetector(
                                       onTap: () {
                                         cont.changeCategory(category);

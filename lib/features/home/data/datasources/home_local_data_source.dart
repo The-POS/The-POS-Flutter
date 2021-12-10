@@ -1,5 +1,6 @@
 import 'package:thepos/core/config.dart';
 import 'package:thepos/core/init_app.dart';
+import 'package:thepos/features/home/data/models/category.dart';
 import 'package:thepos/core/preferences_utils.dart';
 import 'package:thepos/features/home/data/models/product.dart';
 import 'package:thepos/features/products/product_cache_policy.dart';
@@ -30,6 +31,10 @@ class HomeLocalDataSource {
           .where((Product product) => product.groupId == groupId)
           .toList();
     }
+  }
+
+  Future<List<Category>> getProductsCategories() async {
+    return categoriesBox.values.toList();
   }
 
   Future<bool> _isCacheExpired() async {

@@ -2,9 +2,11 @@
 
 import 'package:get/get.dart';
 import 'package:thepos/core/config.dart';
+import 'package:thepos/features/home/data/models/category.dart';
 import 'package:thepos/features/home/data/models/product.dart';
 
 class HomeRemoteDataSource extends GetConnect {
+  
   HomeRemoteDataSource({this.token});
 
   final String? token;
@@ -22,5 +24,14 @@ class HomeRemoteDataSource extends GetConnect {
 
     return List<Product>.from(
         response.body["data"].map((d) => Product.fromJson(d)));
+  }
+
+  Future<List<Category>> getProductsCategories() async {
+    final response = await get(
+      '$apiUrl2/product-categories',
+    );
+    return List<Category>.from(
+      response.body["data"].map((d) => Category.fromJson(d)),
+    );
   }
 }

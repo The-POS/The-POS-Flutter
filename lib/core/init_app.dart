@@ -14,6 +14,7 @@ import 'package:thepos/core/preferences_utils.dart';
 import 'package:thepos/features/home/data/datasources/home_faker_data_source.dart';
 import 'package:thepos/features/home/data/datasources/home_local_data_source.dart';
 import 'package:thepos/features/home/data/datasources/home_remote_data_source.dart';
+import 'package:thepos/features/home/data/models/category.dart';
 import 'package:thepos/features/home/data/models/product.dart';
 import 'package:thepos/features/home/data/repositories/home_repository.dart';
 import 'package:thepos/features/invoice/data/data_sources/api_invoice/remote_store_invoice.dart';
@@ -31,6 +32,7 @@ import 'package:thepos/features/splash/presentation/splash_router.dart';
 import 'config.dart';
 
 late Box<Product> productsBox;
+late Box<Category> categoriesBox;
 final faker = Faker.instance;
 final AppNavigatorFactory navigatorFactory = AppNavigatorFactory();
 Future<void> init() async {
@@ -44,6 +46,9 @@ Future<void> init() async {
   setupGetIt(authManager.token);
   Hive.registerAdapter(ProductAdapter());
   productsBox = await Hive.openBox<Product>('productsBox');
+  categoriesBox = await Hive.openBox<Category>('categoriesBox');
+  setupGetIt();
+  // Get.create(()=>HomeController());
   await PreferenceUtils.init();
 }
 
