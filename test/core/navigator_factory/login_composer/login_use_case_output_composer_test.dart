@@ -6,6 +6,7 @@ import 'package:thepos/features/login/data/models/login_result.dart';
 
 import '../../../login/data/helpers/shared_test_helper.dart';
 import '../../../login/presentation/helpers/shared_helpers.dart';
+import 'login_use_case_output_spy.dart';
 
 void main() {
   test('compose multiple outputs should delegate success message', () {
@@ -29,6 +30,7 @@ void main() {
       expectLoginResult(element, loginResult);
     }
   });
+
   test('compose multiple outputs should delegate failed message', () {
     final LoginUseCaseOutputSpy output1 = LoginUseCaseOutputSpy();
     final LoginUseCaseOutputSpy output2 = LoginUseCaseOutputSpy();
@@ -50,18 +52,4 @@ void main() {
       expect(element, loginError);
     }
   });
-}
-
-class LoginUseCaseOutputSpy extends LoginUseCaseOutput {
-  List<LoginResult> loginSuccessCalls = <LoginResult>[];
-  List<LoginErrors> loginFailedCalls = <LoginErrors>[];
-  @override
-  void onLoginSuccess(LoginResult result) {
-    loginSuccessCalls.add(result);
-  }
-
-  @override
-  void onLoginFail(LoginErrors error) {
-    loginFailedCalls.add(error);
-  }
 }
