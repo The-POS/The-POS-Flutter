@@ -22,11 +22,12 @@ void main() {
         await SharedPreferences.getInstance();
 
     final LoginService loginService = DummyLoginService();
-
+    final LoginController loginController = LoginController();
     final NavigatorFactory navigatorFactory = NavigatorFactorySpy();
 
     final LoginUseCaseFactory sut = LoginUseCaseFactory();
     final LoginUseCase useCase = sut.makeUseCase(
+      loginController: loginController,
       loginService: loginService,
       sharedPreferences: sharedPreferences,
       navigatorFactory: navigatorFactory,
