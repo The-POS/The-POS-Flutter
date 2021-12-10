@@ -34,21 +34,23 @@ import 'config.dart';
 late Box<Product> productsBox;
 late Box<Category> categoriesBox;
 final faker = Faker.instance;
+final getIt = GetIt.instance;
+
 final AppNavigatorFactory navigatorFactory = AppNavigatorFactory();
 Future<void> init() async {
   await Hive.initFlutter();
   final SharedPreferences sharedPreferences =
       await SharedPreferences.getInstance();
   final AuthManager authManager = AuthManager(sharedPreferences);
+  final Box<String> invoicesBox = await Hive.openBox('invoicesBox');
+
   await createSplashController(authManager.isAuthenticated);
   await createLoginController(sharedPreferences);
   createHomeRepository(sharedPreferences);
-  setupGetIt(authManager.token);
+  createInvoiceRepository(sharedPreferences, invoicesBox);
   Hive.registerAdapter(ProductAdapter());
   productsBox = await Hive.openBox<Product>('productsBox');
   categoriesBox = await Hive.openBox<Category>('categoriesBox');
-  setupGetIt();
-  // Get.create(()=>HomeController());
   await PreferenceUtils.init();
 }
 
@@ -95,20 +97,22 @@ void createHomeRepository(SharedPreferences sharedPreferences) {
   );
 }
 
-final getIt = GetIt.instance;
-Future<void> setupGetIt(String? token) async {
-  final Uri uri = Uri.https(domain, '$mainUrl/api/v2/sales-invoices');
+void createInvoiceRepository(
+    SharedPreferences sharedPreferences, Box<String> invoicesBox) {
+  getIt.registerLazySingleton<InvoiceRepository>(() {
+    final Uri uri = Uri.https(domain, '$mainUrl/api/v2/sales-invoices');
+    final AuthManager authManager = AuthManager(sharedPreferences);
 
-  final Box<String> hiveBox = await Hive.openBox('invoicesBox');
+    final StoreInvoice remote =
+        RemoteStoreInvoice(http.Client(), uri, authManager.token);
+    final StoreInvoice local = LocalStoreInvoice(hiveBox: invoicesBox);
 
-  final StoreInvoice remote = RemoteStoreInvoice(http.Client(), uri, token);
-  final StoreInvoice local = LocalStoreInvoice(hiveBox: hiveBox);
-
-  getIt.registerSingleton<StoreInvoice>(InvoiceRepository(
-    checkInternetConnectivity: checkInternetConnectivity,
-    remote: remote,
-    local: local,
-  ));
+    return InvoiceRepository(
+      checkInternetConnectivity: checkInternetConnectivity,
+      remote: remote,
+      local: local,
+    );
+  });
 }
 
 Future<bool> checkInternetConnectivity() async {
