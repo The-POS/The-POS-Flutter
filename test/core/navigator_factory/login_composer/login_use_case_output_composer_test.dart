@@ -1,4 +1,5 @@
 import 'package:flutter_test/flutter_test.dart';
+import 'package:thepos/features/login/data/login_service/login_errors.dart';
 import 'package:thepos/features/login/data/login_use_case/login_use_case_output.dart';
 import 'package:thepos/features/login/data/models/login_result.dart';
 
@@ -13,6 +14,13 @@ class LoginUseCaseOutputComposer extends LoginUseCaseOutput {
   void onLoginSuccess(LoginResult result) {
     for (final LoginUseCaseOutput output in outputs) {
       output.onLoginSuccess(result);
+    }
+  }
+
+  @override
+  void onLoginFail(LoginErrors error) {
+    for (final LoginUseCaseOutput output in outputs) {
+      output.onLoginFail(error);
     }
   }
 }
@@ -39,12 +47,39 @@ void main() {
       expectLoginResult(element, loginResult);
     }
   });
+  test('compose multiple outputs should delegate failed message', () {
+    final LoginUseCaseOutputSpy output1 = LoginUseCaseOutputSpy();
+    final LoginUseCaseOutputSpy output2 = LoginUseCaseOutputSpy();
+    final LoginUseCaseOutputComposer sut =
+        LoginUseCaseOutputComposer(<LoginUseCaseOutput>[
+      output1,
+      output2,
+    ]);
+
+    final LoginErrors loginError = anyLoginError;
+    sut.onLoginFail(loginError);
+
+    expect(output1.loginFailedCalls.length, 1);
+    for (final LoginErrors element in output1.loginFailedCalls) {
+      expect(element, loginError);
+    }
+    expect(output2.loginFailedCalls.length, 1);
+    for (final LoginErrors element in output2.loginFailedCalls) {
+      expect(element, loginError);
+    }
+  });
 }
 
 class LoginUseCaseOutputSpy extends LoginUseCaseOutput {
   List<LoginResult> loginSuccessCalls = <LoginResult>[];
+  List<LoginErrors> loginFailedCalls = <LoginErrors>[];
   @override
   void onLoginSuccess(LoginResult result) {
     loginSuccessCalls.add(result);
+  }
+
+  @override
+  void onLoginFail(LoginErrors error) {
+    loginFailedCalls.add(error);
   }
 }
