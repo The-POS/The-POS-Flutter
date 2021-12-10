@@ -13,7 +13,7 @@ void main() {
   RemoteStoreInvoiceSUT _makeSUT({String? token}) {
     final MockClientStub client = MockClientStub();
     final RemoteStoreInvoice sut =
-        RemoteStoreInvoice(client, Uri.http('domain', 'path'));
+        RemoteStoreInvoice(client, Uri.http('domain', 'path'), token);
     return RemoteStoreInvoiceSUT(client, sut);
   }
 
@@ -42,6 +42,19 @@ void main() {
 
     expect(MockClientStub.requests.first.headers,
         <String, String>{'Content-Type': 'application/json; charset=utf-8'});
+  });
+
+  test('store add the correct header to the end point when token is available',
+      () async {
+    const String token = 'token';
+    final RemoteStoreInvoiceSUT sut = _makeSUT(token: token);
+
+    await await tryFunction(() => sut.remoteStoreInvoice.store(anyInvoice));
+
+    expect(MockClientStub.requests.first.headers, <String, String>{
+      'Content-Type': 'application/json; charset=utf-8',
+      'Authorization': 'Bearer $token',
+    });
   });
 
   test('store delivers error on the client error', () async {

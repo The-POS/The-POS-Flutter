@@ -86,7 +86,7 @@ Future<void> setupGetIt(String? token) async {
 
   final Box<String> hiveBox = await Hive.openBox('invoicesBox');
 
-  final StoreInvoice remote = RemoteStoreInvoice(http.Client(), uri);
+  final StoreInvoice remote = RemoteStoreInvoice(http.Client(), uri, token);
   final StoreInvoice local = LocalStoreInvoice(hiveBox: hiveBox);
 
   getIt.registerSingleton<StoreInvoice>(InvoiceRepository(
