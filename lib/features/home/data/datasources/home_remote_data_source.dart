@@ -6,7 +6,6 @@ import 'package:thepos/features/home/data/models/category.dart';
 import 'package:thepos/features/home/data/models/product.dart';
 
 class HomeRemoteDataSource extends GetConnect {
-  
   HomeRemoteDataSource({this.token});
 
   final String? token;
@@ -27,8 +26,11 @@ class HomeRemoteDataSource extends GetConnect {
   }
 
   Future<List<Category>> getProductsCategories() async {
+    final Map<String, String>? headers =
+        token == null ? null : {'Authorization': 'Bearer $token'};
     final response = await get(
-      '$apiUrl2/product-categories',
+      '$apiUrl/product-categories',
+      headers: headers,
     );
     return List<Category>.from(
       response.body["data"].map((d) => Category.fromJson(d)),
