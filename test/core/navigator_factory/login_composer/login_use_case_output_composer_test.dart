@@ -6,7 +6,7 @@ import 'package:thepos/features/login/data/models/login_result.dart';
 
 import '../../../login/data/helpers/shared_test_helper.dart';
 import '../../../login/presentation/helpers/shared_helpers.dart';
-import 'login_use_case_output_spy.dart';
+import 'helpers/login_use_case_output_spy.dart';
 
 void main() {
   test('compose multiple outputs should delegate success message', () {
