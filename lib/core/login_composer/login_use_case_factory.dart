@@ -1,5 +1,3 @@
-import 'package:shared_preferences/shared_preferences.dart';
-import 'package:thepos/core/navigator/navigator_factory.dart';
 import 'package:thepos/features/login/data/login_service/login_service.dart';
 import 'package:thepos/features/login/data/login_use_case/login_use_case.dart';
 import 'package:thepos/features/login/data/login_use_case/login_use_case_output.dart';
@@ -11,18 +9,16 @@ import 'login_use_case_output_composer.dart';
 
 class LoginUseCaseFactory {
   LoginUseCase makeUseCase(
-      {required SharedPreferences sharedPreferences,
+      {required AuthManager authManager,
       required LoginController loginController,
-      required NavigatorFactory navigatorFactory,
+      required LoginRouter loginRouter,
       required LoginService loginService}) {
-    final AuthManager authManager = AuthManager(sharedPreferences);
-    final LoginRouter router = LoginRouter(navigatorFactory);
     final LoginUseCase useCase = LoginUseCase(
       loginService: loginService,
       output: LoginUseCaseOutputComposer(<LoginUseCaseOutput>[
         loginController,
         authManager,
-        router,
+        loginRouter,
       ]),
     );
     return useCase;

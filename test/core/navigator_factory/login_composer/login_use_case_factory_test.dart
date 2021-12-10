@@ -3,7 +3,6 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'package:thepos/core/auth_manager.dart';
 import 'package:thepos/core/login_composer/login_use_case_factory.dart';
 import 'package:thepos/core/login_composer/login_use_case_output_composer.dart';
-import 'package:thepos/core/navigator/navigator_factory.dart';
 import 'package:thepos/features/login/data/login_service/login_service.dart';
 import 'package:thepos/features/login/data/login_use_case/login_use_case.dart';
 import 'package:thepos/features/login/data/login_use_case/login_use_case_output.dart';
@@ -23,14 +22,15 @@ void main() {
 
     final LoginService loginService = DummyLoginService();
     final LoginController loginController = LoginController();
-    final NavigatorFactory navigatorFactory = NavigatorFactorySpy();
+    final LoginRouter loginRouter = LoginRouter(NavigatorFactorySpy());
+    final AuthManager authManager = AuthManager(sharedPreferences);
 
     final LoginUseCaseFactory sut = LoginUseCaseFactory();
     final LoginUseCase useCase = sut.makeUseCase(
+      authManager: authManager,
+      loginRouter: loginRouter,
       loginController: loginController,
       loginService: loginService,
-      sharedPreferences: sharedPreferences,
-      navigatorFactory: navigatorFactory,
     );
 
     final LoginUseCaseOutput output = useCase.output;

@@ -24,6 +24,7 @@ import 'package:thepos/features/login/data/login_service/api_login/api_login_ser
 import 'package:thepos/features/login/data/login_service/login_service.dart';
 import 'package:thepos/features/login/data/login_use_case/login_use_case.dart';
 import 'package:thepos/features/login/presentation/controller/login_controller.dart';
+import 'package:thepos/features/login/presentation/login_router.dart';
 import 'package:thepos/features/splash/presentation/controllers/splash_controller.dart';
 import 'package:thepos/features/splash/presentation/splash_router.dart';
 
@@ -57,12 +58,14 @@ Future<void> createSplashController(bool isAuthenticated) async {
 Future<void> createLoginController(SharedPreferences sharedPreferences) async {
   final Uri loginUri = Uri.https(domain, '$mainUrl/api/v2/login');
   final LoginService loginService = ApiLoginService(http.Client(), loginUri);
+  final AuthManager authManager = AuthManager(sharedPreferences);
+  final LoginRouter loginRouter = LoginRouter(navigatorFactory);
   final LoginController loginController = LoginController();
   final LoginUseCaseFactory factory = LoginUseCaseFactory();
   final LoginUseCase loginUseCase = factory.makeUseCase(
+      authManager: authManager,
       loginController: loginController,
-      sharedPreferences: sharedPreferences,
-      navigatorFactory: navigatorFactory,
+      loginRouter: loginRouter,
       loginService: loginService);
   loginController.loginService = loginUseCase.login;
   Get.lazyPut<LoginController>(() => loginController);
