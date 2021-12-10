@@ -55,8 +55,8 @@ Future<void> createSplashController(SharedPreferences sharedPreferences) async {
 }
 
 Future<void> createLoginController(SharedPreferences sharedPreferences) async {
-  final Uri loginUri =
-      Uri.https(domain, 'mocks/thepos/thepos:v2/8473374/api/v2/login');
+  final Uri loginUri = Uri.https(domain, '$mainUrl/api/v2/login');
+  print('loginUri $loginUri');
   final LoginService loginService = ApiLoginService(http.Client(), loginUri);
   final LoginController loginController = LoginController();
   final LoginUseCaseFactory factory = LoginUseCaseFactory();
@@ -82,7 +82,7 @@ Future<void> setupGetIt() async {
       remoteDataSource: getIt(),
       fakerDataSource: getIt()));
 
-  final Uri uri = Uri.https(domain, '$mainUrl/api/v1/sales-invoices');
+  final Uri uri = Uri.https(domain, '$mainUrl/api/v2/sales-invoices');
 
   final Box<String> hiveBox = await Hive.openBox('invoicesBox');
 
