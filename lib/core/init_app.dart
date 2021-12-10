@@ -38,9 +38,9 @@ Future<void> init() async {
   final SharedPreferences sharedPreferences =
       await SharedPreferences.getInstance();
   final AuthManager authManager = AuthManager(sharedPreferences);
-
   await createSplashController(authManager.isAuthenticated);
   await createLoginController(sharedPreferences);
+  createHomeRepository(sharedPreferences);
   setupGetIt(authManager.token);
   Hive.registerAdapter(ProductAdapter());
   productsBox = await Hive.openBox<Product>('productsBox');
@@ -71,20 +71,27 @@ Future<void> createLoginController(SharedPreferences sharedPreferences) async {
   Get.lazyPut<LoginController>(() => loginController);
 }
 
+void createHomeRepository(SharedPreferences sharedPreferences) {
+  getIt.registerLazySingleton<HomeRepository>(
+    () {
+      final HomeLocalDataSource localDataSource = HomeLocalDataSource();
+
+      final AuthManager authManager = AuthManager(sharedPreferences);
+      final HomeRemoteDataSource remoteDataSource =
+          HomeRemoteDataSource(token: authManager.token);
+
+      final HomeFakerDataSource fakerDataSource = HomeFakerDataSource();
+
+      return HomeRepository(
+          localDataSource: localDataSource,
+          remoteDataSource: remoteDataSource,
+          fakerDataSource: fakerDataSource);
+    },
+  );
+}
+
 final getIt = GetIt.instance;
 Future<void> setupGetIt(String? token) async {
-//   //dataSorces
-  getIt.registerSingleton<HomeLocalDataSource>(HomeLocalDataSource());
-  getIt.registerSingleton<HomeRemoteDataSource>(
-      HomeRemoteDataSource(token: token));
-  getIt.registerSingleton<HomeFakerDataSource>(HomeFakerDataSource());
-
-//Repositorise
-  getIt.registerSingleton<HomeRepository>(HomeRepository(
-      localDataSource: getIt(),
-      remoteDataSource: getIt(),
-      fakerDataSource: getIt()));
-
   final Uri uri = Uri.https(domain, '$mainUrl/api/v2/sales-invoices');
 
   final Box<String> hiveBox = await Hive.openBox('invoicesBox');
