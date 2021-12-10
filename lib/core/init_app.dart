@@ -1,5 +1,3 @@
-// ignore_for_file: avoid_void_async
-
 import 'package:connectivity/connectivity.dart';
 import 'package:faker_dart/faker_dart.dart';
 import 'package:get/get.dart';
@@ -33,8 +31,8 @@ import 'config.dart';
 
 late Box<Product> productsBox;
 late Box<Category> categoriesBox;
-final faker = Faker.instance;
-final getIt = GetIt.instance;
+final Faker faker = Faker.instance;
+final GetIt getIt = GetIt.instance;
 
 final AppNavigatorFactory navigatorFactory = AppNavigatorFactory();
 Future<void> init() async {
@@ -44,17 +42,17 @@ Future<void> init() async {
   final AuthManager authManager = AuthManager(sharedPreferences);
   final Box<String> invoicesBox = await Hive.openBox('invoicesBox');
 
-  await createSplashController(authManager.isAuthenticated);
-  await createLoginController(sharedPreferences);
-  createHomeRepository(sharedPreferences);
-  createInvoiceRepository(sharedPreferences, invoicesBox);
+  createSplashController(authManager.isAuthenticated);
+  createLoginController(authManager);
+  createHomeRepository(authManager);
+  createInvoiceRepository(authManager, invoicesBox);
   Hive.registerAdapter(ProductAdapter());
   productsBox = await Hive.openBox<Product>('productsBox');
   categoriesBox = await Hive.openBox<Category>('categoriesBox');
   await PreferenceUtils.init();
 }
 
-Future<void> createSplashController(bool isAuthenticated) async {
+void createSplashController(bool isAuthenticated) {
   final SplashRouter splashRouter = SplashRouter(
       navigatorFactory: navigatorFactory, isAuthenticated: isAuthenticated);
   final SplashController splashController =
@@ -62,10 +60,9 @@ Future<void> createSplashController(bool isAuthenticated) async {
   Get.put(splashController);
 }
 
-Future<void> createLoginController(SharedPreferences sharedPreferences) async {
+void createLoginController(AuthManager authManager) {
   final Uri loginUri = Uri.https(domain, '$mainUrl/api/v2/login');
   final LoginService loginService = ApiLoginService(http.Client(), loginUri);
-  final AuthManager authManager = AuthManager(sharedPreferences);
   final LoginRouter loginRouter = LoginRouter(navigatorFactory);
   final LoginController loginController = LoginController();
   final LoginUseCaseFactory factory = LoginUseCaseFactory();
@@ -78,12 +75,11 @@ Future<void> createLoginController(SharedPreferences sharedPreferences) async {
   Get.lazyPut<LoginController>(() => loginController);
 }
 
-void createHomeRepository(SharedPreferences sharedPreferences) {
+void createHomeRepository(AuthManager authManager) {
   getIt.registerLazySingleton<HomeRepository>(
     () {
       final HomeLocalDataSource localDataSource = HomeLocalDataSource();
 
-      final AuthManager authManager = AuthManager(sharedPreferences);
       final HomeRemoteDataSource remoteDataSource =
           HomeRemoteDataSource(token: authManager.token);
 
@@ -97,11 +93,9 @@ void createHomeRepository(SharedPreferences sharedPreferences) {
   );
 }
 
-void createInvoiceRepository(
-    SharedPreferences sharedPreferences, Box<String> invoicesBox) {
+void createInvoiceRepository(AuthManager authManager, Box<String> invoicesBox) {
   getIt.registerLazySingleton<InvoiceRepository>(() {
     final Uri uri = Uri.https(domain, '$mainUrl/api/v2/sales-invoices');
-    final AuthManager authManager = AuthManager(sharedPreferences);
 
     final StoreInvoice remote =
         RemoteStoreInvoice(http.Client(), uri, authManager.token);
