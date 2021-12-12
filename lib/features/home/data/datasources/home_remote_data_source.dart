@@ -1,16 +1,19 @@
 // ignore_for_file: always_specify_types
 
-import 'dart:convert';
-
 import 'package:get/get.dart';
 import 'package:thepos/core/config.dart';
 import 'package:thepos/features/home/data/models/category.dart';
 import 'package:thepos/features/home/data/models/product.dart';
 
 class HomeRemoteDataSource extends GetConnect {
-  Future<List<Product>> getProducts() async {
-    final response = await get('$apiUrl/products');
+  HomeRemoteDataSource({this.token});
 
+  final String? token;
+
+  Future<List<Product>> getProducts() async {
+    final Map<String, String>? headers =
+        token == null ? null : {'Authorization': 'Bearer $token'};
+    final response = await get('$apiUrl/products', headers: headers);
     return List<Product>.from(
         response.body["data"].map((d) => Product.fromJson(d)));
   }
@@ -23,8 +26,11 @@ class HomeRemoteDataSource extends GetConnect {
   }
 
   Future<List<Category>> getProductsCategories() async {
+    final Map<String, String>? headers =
+        token == null ? null : {'Authorization': 'Bearer $token'};
     final response = await get(
-      '$apiUrl2/product-categories',
+      '$apiUrl/product-categories',
+      headers: headers,
     );
     return List<Category>.from(
       response.body["data"].map((d) => Category.fromJson(d)),

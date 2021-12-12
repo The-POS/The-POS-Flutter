@@ -1,17 +1,15 @@
-
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
-import 'package:thepos/features/splash/presentation/controllers/splash_controller.dart';
 
-class SplashView extends GetView<SplashController> {
-  const SplashView({Key? key}) : super(key: key);
+import '../controllers/splash_controller.dart';
+
+class SplashView extends StatelessWidget {
+  SplashView({Key? key}) : super(key: key);
+
+  final SplashController controller = Get.find<SplashController>();
 
   @override
   Widget build(BuildContext context) {
-    final controller = Get.put(SplashController());
-    return Container(
-      color: Colors.blue,
-    );
+    return Container(color: Colors.blue);
   }
 }

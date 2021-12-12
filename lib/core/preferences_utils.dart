@@ -30,7 +30,7 @@ class PreferenceUtils {
   }
 
   static Future<bool> _setString(String key, String value) async {
-    var prefs = await _instance;
+    final prefs = await _instance;
     return prefs.setString(key, value);
   }
 
