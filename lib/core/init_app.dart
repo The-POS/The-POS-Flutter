@@ -9,6 +9,10 @@ import 'package:thepos/core/auth_manager.dart';
 import 'package:thepos/core/login_composer/login_use_case_factory.dart';
 import 'package:thepos/core/navigator/app_navigator_factory.dart';
 import 'package:thepos/core/preferences_utils.dart';
+import 'package:thepos/features/carts/data/datasources/customer_remote_data_source.dart';
+import 'package:thepos/features/carts/data/datasources/local_store_customer.dart';
+import 'package:thepos/features/carts/data/datasources/store_customer.dart';
+import 'package:thepos/features/carts/data/repositories/customer_repository.dart';
 import 'package:thepos/features/home/data/datasources/home_faker_data_source.dart';
 import 'package:thepos/features/home/data/datasources/home_local_data_source.dart';
 import 'package:thepos/features/home/data/datasources/home_remote_data_source.dart';
@@ -41,11 +45,13 @@ Future<void> init() async {
       await SharedPreferences.getInstance();
   final AuthManager authManager = AuthManager(sharedPreferences);
   final Box<String> invoicesBox = await Hive.openBox('invoicesBox');
-
+  final Box<String> hiveBoxCustomer = await Hive.openBox('customerBox');
   createSplashController(authManager.isAuthenticated);
   createLoginController(authManager);
   createHomeRepository(authManager);
   createInvoiceRepository(authManager, invoicesBox);
+  createCustomerRepository(authManager ,hiveBoxCustomer);
+
   Hive.registerAdapter(ProductAdapter());
   productsBox = await Hive.openBox<Product>('productsBox');
   categoriesBox = await Hive.openBox<Category>('categoriesBox');
@@ -107,6 +113,18 @@ void createInvoiceRepository(AuthManager authManager, Box<String> invoicesBox) {
       local: local,
     );
   });
+}
+Future<void> createCustomerRepository(authManager ,hiveBoxCustomer) async {
+  final Uri uriCustomer = Uri.https(domain,'$mainUrl/api/v2/customers/');
+
+  final CustomerRemoteDataSource remoteCustomer = CustomerRemoteDataSource(http.Client(), uriCustomer,authManager);
+  final StoreCustomer localCustomer = LocalStoreCustomer(hiveBox: hiveBoxCustomer);
+
+  getIt.registerSingleton<StoreCustomer>(CustomerRepository(
+    checkInternetConnectivity: checkInternetConnectivity,
+    remote: remoteCustomer,
+    local: localCustomer,
+  ));
 }
 
 Future<bool> checkInternetConnectivity() async {
