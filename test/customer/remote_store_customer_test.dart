@@ -1,13 +1,14 @@
 import 'dart:convert';
 
 import 'package:flutter_test/flutter_test.dart';
-import 'package:thepos/features/carts/data/datasources/customer_remote_data_source.dart';
-import 'package:thepos/features/carts/data/datasources/remote_store_cutomer_error.dart';
-import 'package:thepos/features/carts/data/models/customer.dart';
+import 'package:thepos/features/customer/data/models/customer.dart';
+import 'package:thepos/features/customer/data/serives/data_sources/api_customer/customer_remote_data_source.dart';
+import 'package:thepos/features/customer/data/serives/data_sources/api_customer/remote_store_cutomer_error.dart';
 
 import '../helpers/mock_client_stub.dart';
+import '../invoice/helpers/shared_test_helper.dart';
 import 'helper/remote_store_customer_sut.dart';
-import 'helper/shared_test_helper.dart';
+import 'helper/customer_test_helper.dart';
 
 void main() {
   RemoteStoreCustomerSUT _makeSUT({String? token}) {
@@ -64,7 +65,7 @@ void main() {
             .completeWithResponse(MockClientStub.createResponse(409, 'response'));
         final dynamic error =
         await tryFunction(() => sut.remoteStoreCustomer.store(anyCustomer));
-        expect(error, RemoteStoreCustomerErrors.aleadyExistCustomer);
+        expect(error, RemoteStoreCustomerErrors.alreadyExistCustomer);
       });
 
   test('store delivers not found error on 404 HTTP Response', () async {

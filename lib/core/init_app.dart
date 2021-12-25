@@ -9,10 +9,12 @@ import 'package:thepos/core/auth_manager.dart';
 import 'package:thepos/core/login_composer/login_use_case_factory.dart';
 import 'package:thepos/core/navigator/app_navigator_factory.dart';
 import 'package:thepos/core/preferences_utils.dart';
-import 'package:thepos/features/carts/data/datasources/customer_remote_data_source.dart';
-import 'package:thepos/features/carts/data/datasources/local_store_customer.dart';
-import 'package:thepos/features/carts/data/datasources/store_customer.dart';
-import 'package:thepos/features/carts/data/repositories/customer_repository.dart';
+import 'package:thepos/features/customer/data/models/customer.dart';
+import 'package:thepos/features/customer/data/repositories/customer_repository.dart';
+import 'package:thepos/features/customer/data/serives/data_sources/api_customer/customer_remote_data_source.dart';
+import 'package:thepos/features/customer/data/serives/data_sources/local_store_customer.dart';
+import 'package:thepos/features/customer/data/serives/data_sources/remote_customer.dart';
+import 'package:thepos/features/customer/presentation/controllers/customer_controller.dart';
 import 'package:thepos/features/home/data/datasources/home_faker_data_source.dart';
 import 'package:thepos/features/home/data/datasources/home_local_data_source.dart';
 import 'package:thepos/features/home/data/datasources/home_remote_data_source.dart';
@@ -37,6 +39,7 @@ late Box<Product> productsBox;
 late Box<Category> categoriesBox;
 final Faker faker = Faker.instance;
 final GetIt getIt = GetIt.instance;
+late Box<Customer> customersBox;
 
 final AppNavigatorFactory navigatorFactory = AppNavigatorFactory();
 Future<void> init() async {
@@ -45,12 +48,13 @@ Future<void> init() async {
       await SharedPreferences.getInstance();
   final AuthManager authManager = AuthManager(sharedPreferences);
   final Box<String> invoicesBox = await Hive.openBox('invoicesBox');
-  final Box<String> hiveBoxCustomer = await Hive.openBox('customerBox');
   createSplashController(authManager.isAuthenticated);
   createLoginController(authManager);
   createHomeRepository(authManager);
   createInvoiceRepository(authManager, invoicesBox);
-  createCustomerRepository(authManager ,hiveBoxCustomer);
+  Hive.registerAdapter(CustomerAdapter());
+  customersBox = await Hive.openBox<Customer>('customerBox');
+  createCustomerRepository(authManager ,customersBox);
 
   Hive.registerAdapter(ProductAdapter());
   productsBox = await Hive.openBox<Product>('productsBox');
@@ -114,17 +118,23 @@ void createInvoiceRepository(AuthManager authManager, Box<String> invoicesBox) {
     );
   });
 }
-Future<void> createCustomerRepository(authManager ,hiveBoxCustomer) async {
+
+void createCustomerRepository(AuthManager authManager, Box<Customer> hiveBoxCustomer) {
   final Uri uriCustomer = Uri.https(domain,'$mainUrl/api/v2/customers/');
+  final CustomerController customerController = CustomerController();
 
-  final CustomerRemoteDataSource remoteCustomer = CustomerRemoteDataSource(http.Client(), uriCustomer,authManager);
-  final StoreCustomer localCustomer = LocalStoreCustomer(hiveBox: hiveBoxCustomer);
+  final CustomerRemoteDataSource remoteCustomer = CustomerRemoteDataSource(http.Client(),
+      uriCustomer,authManager.token);
+  final LocalStoreCustomer localCustomer = LocalStoreCustomer(hiveBox: hiveBoxCustomer);
 
-  getIt.registerSingleton<StoreCustomer>(CustomerRepository(
+  getIt.registerSingleton<RemoteCustomer>(CustomerRepository(
     checkInternetConnectivity: checkInternetConnectivity,
     remote: remoteCustomer,
     local: localCustomer,
   ));
+
+  Get.lazyPut<CustomerController>(() => customerController);
+
 }
 
 Future<bool> checkInternetConnectivity() async {

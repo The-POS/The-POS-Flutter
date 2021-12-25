@@ -1,13 +1,13 @@
-class forbidenOperation {
+class ForbiddenOperation {
   String code;
   String message;
 
-  forbidenOperation({
+  ForbiddenOperation({
     required this.code,
     required this.message,
   });
 
-  factory forbidenOperation.fromJson(Map<String, dynamic> json) => forbidenOperation(
+  factory ForbiddenOperation.fromJson(Map<String, dynamic> json) => ForbiddenOperation(
     code: json['code'],
     message: json["message"],
   );

@@ -1,7 +1,7 @@
 enum RemoteStoreCustomerErrors {
   connectivity,
   notFound,
-  aleadyExistCustomer,
-  forbidenOperation,
+  alreadyExistCustomer,
+  ForbiddenOperation,
   invalidData,
 }
