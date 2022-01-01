@@ -49,6 +49,8 @@ dependencies:
   flutter_slidable: ^0.6.0
   flutter_barcode_scanner: ^2.0.0
   permission_handler: ^8.3.0
+  equatable: ^2.0.3
+  dropdown_search: ^2.0.1
 
 dev_dependencies:
   flutter_test:

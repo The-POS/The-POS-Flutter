@@ -1,7 +1,7 @@
-import 'package:thepos/features/carts/data/datasources/store_customer.dart';
-import 'package:thepos/features/carts/data/models/customer.dart';
+import 'package:thepos/features/customer/data/models/customer.dart';
+import 'package:thepos/features/customer/data/serives/data_sources/remote_customer.dart';
 
-class StoreCustomerStub extends StoreCustomer {
+class StoreCustomerStub extends RemoteCustomer {
   StoreCustomerStub({this.result, this.error});
 
   final Customer? result;
@@ -14,4 +14,11 @@ class StoreCustomerStub extends StoreCustomer {
     }
     return Future<Customer>.value(result);
   }
+
+  @override
+  Future<List<Customer>> load() {
+    // TODO: implement load
+    throw UnimplementedError();
+  }
+
 }

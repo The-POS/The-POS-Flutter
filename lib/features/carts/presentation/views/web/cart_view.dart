@@ -1,12 +1,15 @@
 // ignore: prefer_const_constructors
+import 'package:dropdown_search/dropdown_search.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:thepos/features/carts/data/models/customer.dart';
+import 'package:thepos/features/customer/data/models/customer.dart';
 import 'package:thepos/features/carts/presentation/controllers/carts_controller.dart';
 import 'package:thepos/features/carts/presentation/widgets/web/cart_item_product_widget.dart';
 import 'package:thepos/features/carts/presentation/widgets/web/cart_item_widget.dart';
+import 'package:thepos/features/customer/presentation/controllers/customer_controller.dart';
+import 'package:thepos/features/customer/presentation/widgets/model/item_dropdown_list.dart';
 
 class CartView extends StatefulWidget {
   const CartView({Key? key}) : super(key: key);
@@ -17,7 +20,7 @@ class CartView extends StatefulWidget {
 
 class _CartViewState extends State<CartView> {
   var cartsController = Get.find<CartsController>();
-
+  final CustomerController customerController = Get.put(CustomerController());
   @override
   Widget build(BuildContext context) {
     return Padding(
@@ -63,45 +66,45 @@ class _CartViewState extends State<CartView> {
                       ),
                       // color: const Color(0xff178F49) ,
                       borderRadius: BorderRadius.circular(5.0)),
-                  child: DropdownButtonHideUnderline(
-                    child: DropdownButton<Customer>(
-                      key: cartsController.dropdownKey,
-                      value: cartsController
-                          .listCustomer[cartsController.selectedCustomer.value],
-                      icon: const Icon(
+                    child: DropdownSearch<DropListItem>(
+                      //mode of dropdown
+                      mode: Mode.MENU,
+                      //to show search box
+                      showSearchBox: true,
+                      isFilteredOnline: true,
+                      onFind: (String? value) => customerController.onSearch(value!),
+                      showSelectedItems: true,
+                      dropDownButton: const Icon(
                         Icons.account_circle_outlined,
                         color: Color(0xffF79624),
                         size: 30,
                       ),
-                      isExpanded: true,
-                      items: List.generate(
-                          cartsController.listCustomer.length +1,
-                              (index) => index < cartsController.listCustomer.length
-                              ? DropdownMenuItem(
-                              value: cartsController.listCustomer[index],
-                              child: Text(cartsController
-                                  .listCustomer[index].mobile_no))
-                              : DropdownMenuItem(
-                            child: TextButton(
-                              child: Text('...إضافة جديد',style: GoogleFonts.cairo(
-                                textStyle: const TextStyle(
-                                    color: const Color(0xff178F49),
-                                    fontSize: 15,
-                                    fontWeight: FontWeight.bold),
-                              ),),
-                              onPressed: () {
-                                cartsController.showDialogAddCustomer();
-                              },
-                            ),
-                          )),
-                      onChanged: (Customer? customer) {
-                        if (customer != null)
-                          cartsController.selectedCustomer.value =
-                              cartsController.listCustomer.indexOf(customer);
+                      //list of dropdown items
+                      onChanged: (DropListItem? customer) {
+                        if (customer != null) {
+                          if (customer.isFooter())
+                            customerController.showDialogAddCustomer();
+                          else
+                            customerController.selectedCustomer.value = customer;
+                        }
                       },
+                      //show selected item
+                      selectedItem: customerController.selectedCustomer.value,
+                      hint: "... اختر العميل",
+                      dropdownSearchDecoration: const InputDecoration(
+                          border: InputBorder.none,
+                          disabledBorder: InputBorder.none,
+                          enabledBorder: InputBorder.none,
+                          contentPadding: EdgeInsets.zero),
+                      compareFn: (item, selectedItem) {
+                        return item != null &&
+                            selectedItem != null &&
+                            (item == selectedItem);
+                      },
+                      popupItemBuilder: _customPopupItemBuilder,
+                      dropdownBuilder: _customDropDown,
                     ),
                   ),
-                ),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
@@ -244,6 +247,46 @@ class _CartViewState extends State<CartView> {
             ),
           ),
         ),
+      ),
+    );
+  }
+
+  Widget _customDropDown(BuildContext context, DropListItem? item) {
+    if (item == null || item.isFooter()) {
+      return Container(
+        child: Text(
+          "... اختر العميل",
+          style: GoogleFonts.cairo(
+            textStyle: const TextStyle(
+              color: Color(0xff3e4040),
+              fontSize: 15,
+              fontWeight: FontWeight.w600,
+            ),
+          ),
+        ),
+      );
+    }
+    return Container(
+      child: Text(item.getCustomer()!.mobile_no),
+    );
+  }
+
+  Widget _customPopupItemBuilder(BuildContext context, DropListItem? item, bool isSelected) {
+    return Container(
+      margin: EdgeInsets.symmetric(horizontal: 8),
+      child: item!.isFooter()
+          ? Text(
+        '...إضافة جديد',
+        style: GoogleFonts.cairo(
+          textStyle: const TextStyle(
+              color: const Color(0xff178F49),
+              fontSize: 15,
+              fontWeight: FontWeight.bold),
+        ),
+      )
+          : ListTile(
+        selected: isSelected,
+        title: Text(item.getCustomer()!.mobile_no),
       ),
     );
   }
