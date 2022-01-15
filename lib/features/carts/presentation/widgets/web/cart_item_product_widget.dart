@@ -66,7 +66,7 @@ class CartItemProductWidget extends StatelessWidget {
               text: TextSpan(
             children: [
               TextSpan(
-                text: "${item.quantity * item.product.price}",
+                text: "${item.quantity * item.getPrice!}",
                 style: GoogleFonts.cairo(
                   textStyle: TextStyle(
                       color: Color(0xff178F49),

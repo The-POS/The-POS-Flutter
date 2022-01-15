@@ -15,26 +15,27 @@ import 'package:thepos/features/carts/data/models/cart_item.dart';
 import 'package:thepos/features/customer/data/models/customer.dart';
 import 'package:thepos/features/carts/presentation/views/mobile/edit_cart_item_view.dart';
 import 'package:thepos/features/customer/data/serives/data_sources/remote_customer.dart';
+import 'package:thepos/features/customer/presentation/widgets/model/item_dropdown_list.dart';
 import 'package:thepos/features/home/data/models/product.dart';
 import 'package:thepos/features/invoice/data/data_sources/store_invoice.dart';
+import 'package:thepos/features/invoice/data/repositories/invoice_repository.dart';
 import 'package:thepos/features/invoice/helper/cart_invoice_mapper.dart';
 
 class CartsController extends GetxController {
   RxList<Cart> listCarts = <Cart>[
-    Cart(keyCart: "1", cartItems: []),
-    Cart(keyCart: "2", cartItems: []),
-    Cart(keyCart: "3", cartItems: []),
-    Cart(keyCart: "4", cartItems: []),
-    Cart(keyCart: "5", cartItems: []),
-    Cart(keyCart: "6", cartItems: []),
-    Cart(keyCart: "7", cartItems: []),
-    Cart(keyCart: "8", cartItems: []),
-    Cart(keyCart: "9", cartItems: []),
+    Cart(keyCart: "1", cartItems: [],customer: null),
+    Cart(keyCart: "2", cartItems: [],customer: null),
+    Cart(keyCart: "3", cartItems: [],customer: null),
+    Cart(keyCart: "4", cartItems: [],customer: null),
+    Cart(keyCart: "5", cartItems: [],customer: null),
+    Cart(keyCart: "6", cartItems: [],customer: null),
+    Cart(keyCart: "7", cartItems: [],customer: null),
+    Cart(keyCart: "8", cartItems: [],customer: null),
+    Cart(keyCart: "9", cartItems: [],customer: null),
   ].obs;
 
   var selectedCart = 0.obs;
   var isPayLoading = false.obs;
-
 
   double get invoiceTotal {
     final Cart selectedCard = listCarts.value[selectedCart.value];
@@ -42,7 +43,7 @@ class CartsController extends GetxController {
       return 0.0;
     }
     return selectedCard.cartItems
-        .map((e) => e.product.price * e.quantity)
+        .map((e) => e.getPrice! * e.quantity)
         .reduce((value, element) => value + element);
   }
 
@@ -80,7 +81,7 @@ class CartsController extends GetxController {
     listCarts.value[selectedCart.value].cartItems.forEach((elementProduct) {
       if (elementProduct.product.sku == product.product.sku) {
         elementProduct.quantity = product.quantity;
-        elementProduct.product.price = product.product.price;
+        elementProduct.sellingPrice = product.sellingPrice;
       }
     });
     update();
@@ -95,20 +96,32 @@ class CartsController extends GetxController {
 
   Future<void> pay() async {
     final cart = listCarts.value[selectedCart.value];
+
     final invoice = CartInvoiceMapper.createInvoiceFrom(cart: cart);
     isPayLoading.value = true;
     if (invoice != null) {
-      final StoreInvoice invoiceRepository = getIt<StoreInvoice>();
+      final StoreInvoice invoiceRepository = getIt<InvoiceRepository>();
       try {
         await invoiceRepository.store(invoice);
         Get.snackbar("تم", "تم إصدار الفاتورة",
             backgroundColor: const Color(0xff178F49).withOpacity(0.5),
             snackPosition: SnackPosition.BOTTOM);
+        clearDataOfCart();
         isPayLoading.value = false;
       } catch (error) {
         isPayLoading.value = false;
       }
     }
+  }
+
+  void clearDataOfCart (){
+    final Cart tmpCart = listCarts[selectedCart.value];
+    tmpCart.cartItems.clear();
+    tmpCart.customer = null;
+
+    listCarts[selectedCart.value] = tmpCart;
+    update();
+
   }
 
   Future clearCarts() async {
@@ -133,9 +146,7 @@ class CartsController extends GetxController {
         ),
         confirm: GestureDetector(
           onTap: () {
-            final Cart tmpCart = listCarts[selectedCart.value];
-            tmpCart.cartItems.clear();
-            listCarts[selectedCart.value] = tmpCart;
+            clearDataOfCart();
             Get.back();
             update();
           },
@@ -174,9 +185,9 @@ class CartsController extends GetxController {
           productImage: faker.image.loremPicsum.image(),
           productName: cartItem.product.name,
           productBarCode: cartItem.product.sku,
-          productPrice: cartItem.product.price,
+          productPrice: cartItem.getPrice!,
           updatePrice: (double price) async {
-            cartItem.product.price = price;
+            cartItem.sellingPrice = price;
             final tempCart = listCarts[selectedCart.value];
             tempCart.cartItems[index] = cartItem;
             listCarts[selectedCart.value] = tempCart;
@@ -197,5 +208,10 @@ class CartsController extends GetxController {
       isScrollControlled: true,
     );
   }
-
+  void setSelectedCustomer (DropListItem customer){
+    if(customer!=null && customer.getCustomer()!=null){
+      listCarts.value[selectedCart.value].customer=customer.getCustomer();
+    }
+    update();
+  }
 }

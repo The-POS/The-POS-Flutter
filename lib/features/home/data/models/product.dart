@@ -63,7 +63,8 @@ class Product {
         "price": price,
         "tax_rate": taxRate,
         "taxed_price": taxedPrice,
-        "product_category": category,
+        if (category !=null)
+          "product_category": category!.toJson(),
         "sale_price": salePrice,
         "available": available,
         "taxed_sale_price": taxedSalePrice,
