@@ -70,11 +70,12 @@ class CartView extends StatelessWidget {
                   if (customer.isFooter())
                     customerController.showDialogAddCustomer();
                   else
-                    customerController.selectedCustomer.value = customer;
+                    cartsController.setSelectedCustomer(customer);
                 }
               },
               //show selected item
-              selectedItem: customerController.selectedCustomer.value,
+              selectedItem: cartsController.listCarts[cartsController.selectedCart.value].customer,
+
               hint: "... اختر العميل",
               dropdownSearchDecoration: const InputDecoration(
                   border: InputBorder.none,

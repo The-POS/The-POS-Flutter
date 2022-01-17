@@ -41,10 +41,6 @@ class Customer extends Equatable implements DropListItem {
   @override
   List<Object?> get props => [name, mobile_no, email, ID];
 
-  @override
-  String toString() {
-    return '$mobile_no';
-  }
 
   @override
   bool isFooter() {

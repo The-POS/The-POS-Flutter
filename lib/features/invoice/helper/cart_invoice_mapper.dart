@@ -9,10 +9,13 @@ mixin CartInvoiceMapper {
     if (cart.cartItems.isNotEmpty) {
       final Invoice invoice = Invoice(
           clientId: int.parse(cart.keyCart),
+          customer: cart.customer,
           items: cart.cartItems
               .map<InvoiceItem>((CartItem cartItem) => InvoiceItem(
                     product: cartItem.product,
                     quantity: cartItem.quantity,
+                    sellingPrice: cartItem.sellingPrice,
+                    taxedSellingPrice: cartItem.taxedSellingPrice
                   ))
               .toList());
       return invoice;

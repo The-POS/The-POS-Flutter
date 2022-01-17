@@ -20,6 +20,7 @@ class CartItemAdapter extends TypeAdapter<CartItem> {
       id: fields[0] as String?,
       product: fields[1] as Product,
       quantity: fields[2] as int,
+      sellingPrice: fields[3] as double ,
     );
   }
 
@@ -32,7 +33,10 @@ class CartItemAdapter extends TypeAdapter<CartItem> {
       ..writeByte(1)
       ..write(obj.product)
       ..writeByte(2)
-      ..write(obj.quantity);
+      ..write(obj.quantity)
+      ..writeByte(3)
+      ..write(obj.sellingPrice);
+
   }
 
   @override

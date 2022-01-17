@@ -10,7 +10,6 @@ import 'package:thepos/features/customer/presentation/widgets/common/add_custome
 
 class CustomerController extends GetxController {
   RxList<Customer> listCustomer = <Customer>[].obs;
-  Rx<DropListItem?> selectedCustomer = null.obs;
   var isCustomerLoading = false.obs;
   var errorValidateMessage = "".obs;
   var searching = false.obs;
@@ -95,4 +94,5 @@ class CustomerController extends GetxController {
     listCustomerSearch.add(footer(checkIsFooter: true));
     return listCustomerSearch;
   }
+
 }

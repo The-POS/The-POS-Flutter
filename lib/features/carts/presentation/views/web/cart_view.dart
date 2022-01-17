@@ -84,12 +84,13 @@ class _CartViewState extends State<CartView> {
                         if (customer != null) {
                           if (customer.isFooter())
                             customerController.showDialogAddCustomer();
-                          else
-                            customerController.selectedCustomer.value = customer;
+                          else{
+                            cartsController.setSelectedCustomer(customer);
+                          }
                         }
                       },
                       //show selected item
-                      selectedItem: customerController.selectedCustomer.value,
+                      selectedItem: cartsController.listCarts[cartsController.selectedCart.value].customer,
                       hint: "... اختر العميل",
                       dropdownSearchDecoration: const InputDecoration(
                           border: InputBorder.none,

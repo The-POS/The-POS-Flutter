@@ -10,6 +10,8 @@ final Product anyProduct =
 
 const int anyQuantity = 2;
 
+const double sellingPrice = 2.0;
+
 final Cart emptyCart = Cart(
   keyCart: '1',
   cartItems: <CartItem>[],
@@ -17,7 +19,8 @@ final Cart emptyCart = Cart(
 
 final Cart anyCart = Cart(
   keyCart: '1',
-  cartItems: <CartItem>[CartItem(product: anyProduct, quantity: anyQuantity)],
+  cartItems: <CartItem>[CartItem(product: anyProduct, quantity: anyQuantity,
+      sellingPrice: sellingPrice)],
 );
 
 final InvoiceItem anyInvoiceItem =

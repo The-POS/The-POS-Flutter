@@ -31,7 +31,7 @@ class _EditCartWidgetState extends State<EditCartWidget> {
   bool isPriceSelected = false;
   refreshView() {
     if (isPriceSelected == true) {
-      pinController.text = widget.item.product.price.toString();
+      pinController.text = widget.item.getPrice.toString();
     } else {
       pinController.text = widget.item.quantity.toString();
     }
@@ -99,7 +99,7 @@ class _EditCartWidgetState extends State<EditCartWidget> {
                           ),
                         ),
                         TextSpan(
-                          text: "${widget.item.product.price} ريال",
+                          text: "${widget.item.getPrice} ريال",
                           style: GoogleFonts.cairo(
                             textStyle: const TextStyle(
                                 color: Colors.black,
@@ -166,7 +166,7 @@ class _EditCartWidgetState extends State<EditCartWidget> {
                                   width: 10,
                                 ),
                                 Text(
-                                  "${widget.item.product.price}",
+                                  "${widget.item.getPrice}",
                                   textAlign: TextAlign.center,
                                   style: GoogleFonts.cairo(
                                     textStyle: const TextStyle(
@@ -309,7 +309,7 @@ class _EditCartWidgetState extends State<EditCartWidget> {
                   child: InkWell(
                       onTap: () {
                         if (isPriceSelected == true) {
-                          widget.item.product.price =
+                          widget.item.sellingPrice =
                               double.parse(pinController.text);
                         } else {
                           widget.item.quantity = int.parse(pinController.text);
@@ -343,6 +343,7 @@ class _EditCartWidgetState extends State<EditCartWidget> {
                   child: InkWell(
                     onTap: () {
                       if (isPriceSelected == true) {
+                        // todo price
                         widget.item.product.price =
                             double.parse(pinController.text);
                       } else {

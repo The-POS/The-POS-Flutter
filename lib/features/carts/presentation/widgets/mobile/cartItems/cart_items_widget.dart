@@ -22,7 +22,7 @@ class CartItemsWidget extends StatelessWidget {
         itemBuilder: (BuildContext context, int index) => CartItemWidget(
           quantity: cart.cartItems[index].quantity,
           productName: cart.cartItems[index].product.name,
-          productPrice: cart.cartItems[index].product.price,
+          productPrice: cart.cartItems[index].getPrice!,
           isFirstItem: index == 0,
           isLastItem: index == cart.cartItems.length - 1,
           onTap: () => onTapCartItem(index),
